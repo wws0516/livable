@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * author：Yesanqiu
- * Date：2019/07/03
+ * @author：Yesanqiu
+ * @Date：2019/07/03
  *
  */
 
