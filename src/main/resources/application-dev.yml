@@ -1,0 +1,61 @@
+# ip:port
+serverIp: 127.0.0.1:8080
+
+spring:
+  application:
+    name: demo
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  datasource:
+    name: sanqiu
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+    # druid
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    filters: stat
+    maxActive: 20
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/db.changelog-master.xml
+  messages:
+    encoding: UTF-8
+    basename: i18n/abt_messages
+    use-code-as-default-message: true
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+#    mode: HTML
+#    encoding: UTF-8
+#    cache: false
+#    servlet:
+#      content-type: text/html
+
+sever:
+  servlet:
+    session:
+      timeout: 2592000
+
+mybatis:
+  basepackage: com.qiu.demo.mapper
+  mapper-locations: ["classpath*:mapper/**/*.xml"]
+  type-aliases-package: com.qiu.demo.entity
+  mappers: com.qiu.demo.base.mapper.BaseMapper
+  identity: MYSQL
+
+logging:
+  level:
+    com.chuangshu.tucheng.mapper: DEBUG
