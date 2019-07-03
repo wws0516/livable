@@ -3,6 +3,7 @@ package com.chuangshu.livable.entity;
 import javax.persistence.*;
 import lombok.Data;
 
+
 @Data
 public class Hourse {
     /**

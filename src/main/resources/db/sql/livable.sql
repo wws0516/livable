@@ -85,8 +85,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 DROP TABLE IF EXISTS `looking`;
 CREATE TABLE `looking`  (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `hourse_id` int(11) NOT NULL COMMENT '房源ID',
-  PRIMARY KEY (`user_id`, `hourse_id`) USING BTREE
+  `house_id` int(11) NOT NULL COMMENT '房源ID',
+  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -97,8 +97,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 DROP TABLE IF EXISTS `looked`;
 CREATE TABLE `looked`  (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `hourse_id` int(11) NOT NULL COMMENT '房源ID',
-  PRIMARY KEY (`user_id`, `hourse_id`) USING BTREE
+  `house_id` int(11) NOT NULL COMMENT '房源ID',
+  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -124,10 +124,10 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Table structure for landlord_hourse_relation
 -- ----------------------------
 DROP TABLE IF EXISTS `landlord_hourse_relation`;
-CREATE TABLE `landlord_hourse_relation`  (
+CREATE TABLE `landlord_house_relation`  (
   `user_id` int(11) NOT NULL COMMENT '房东ID',
-  `hourse_id` int(11) NOT NULL COMMENT '房子ID',
-  PRIMARY KEY (`user_id`, `hourse_id`) USING BTREE
+  `house_id` int(11) NOT NULL COMMENT '房子ID',
+  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -135,8 +135,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 -- Table structure for hourse
 -- ----------------------------
-DROP TABLE IF EXISTS `hourse`;
-CREATE TABLE `hourse`  (
+DROP TABLE IF EXISTS `house`;
+CREATE TABLE `house`  (
   `house_id` int(11) NOT NULL COMMENT '房子ID',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
   `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '地区',
@@ -161,5 +161,7 @@ CREATE TABLE `hourse`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+
 
 

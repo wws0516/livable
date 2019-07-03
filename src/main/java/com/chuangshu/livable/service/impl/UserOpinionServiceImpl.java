@@ -4,6 +4,8 @@ import com.chuangshu.livable.base.service.impl.BaseServiceImpl;
 import com.chuangshu.livable.entity.UserOpinion;
 import com.chuangshu.livable.mapper.UserOpinionMapper;
 import com.chuangshu.livable.service.UserOpinionService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserOpinionServiceImpl extends BaseServiceImpl<UserOpinionMapper, UserOpinion> implements UserOpinionService {
 }
