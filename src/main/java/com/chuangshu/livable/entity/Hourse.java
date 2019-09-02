@@ -1,6 +1,8 @@
 package com.chuangshu.livable.entity;
 
 import javax.persistence.*;
+
+import com.chuangshu.livable.dto.InsertHourseDto;
 import lombok.Data;
 
 
