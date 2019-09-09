@@ -38,6 +38,5 @@
         <table tableName="user"/>
         <table tableName="user_opinion"/>
 
-
     </context>
 </generatorConfiguration>

@@ -3,6 +3,7 @@ package com.chuangshu.livable.entity;
 import javax.persistence.*;
 
 import com.chuangshu.livable.dto.InsertUserDto;
+import com.chuangshu.livable.dto.UpdateUserDto;
 import lombok.Data;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,6 +56,12 @@ public class User implements UserDetails {
         this.gender = insertUserDto.getGender();
         this.email = insertUserDto.getEmail();
         this.password = insertUserDto.getPassword();
+    }
+
+    public User(UpdateUserDto updateUserDto){
+        this.name = updateUserDto.getName();
+        this.gender = updateUserDto.getGender();
+        this.email = updateUserDto.getEmail();
     }
 
     @Override

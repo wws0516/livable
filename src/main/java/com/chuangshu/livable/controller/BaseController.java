@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,7 @@ public class BaseController {
     /**
      * 当需要身份认证时，跳转到这里
      */
-    @RequestMapping("/requireAuthentication")
+    @PostMapping("/requireAuthentication")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public ResultDTO requireAuthentication(HttpServletRequest request, HttpServletResponse response){
         SavedRequest savedRequest = requestCache.getRequest(request, response);
