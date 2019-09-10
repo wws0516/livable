@@ -5,21 +5,14 @@ import lombok.Data;
 
 @Data
 public class Looked {
-    /**
-     * 用户ID
-     */
     @Id
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "looked_id")
+    private Integer lookedId;
 
-    /**
-     * 房源ID
-     */
-    @Id
-    @Column(name = "hourse_id")
-    private Integer hourseId;
+    @Column(name = "looking_id")
+    private Integer lookingId;
 
-    public static final String USER_ID = "userId";
+    public static final String LOOKED_ID = "lookedId";
 
-    public static final String HOURSE_ID = "hourseId";
+    public static final String LOOKING_ID = "lookingId";
 }

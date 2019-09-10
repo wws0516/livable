@@ -1,37 +1,30 @@
 package com.chuangshu.livable.entity;
 
-import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
 
 @Data
-public class Looking {
+@Table(name = "landlord_house_relation")
+public class LandlordHouseRelation {
     @Id
-    @Column(name = "looking_id")
-    private Integer lookingId;
+    @Column(name = "relation_id")
+    private Integer relationId;
 
     /**
-     * 用户ID
+     * 房东ID
      */
     @Column(name = "user_id")
     private Integer userId;
 
     /**
-     * 房源ID
+     * 房子ID
      */
     @Column(name = "house_id")
     private Integer houseId;
 
-    /**
-     * 日期
-     */
-    private Date data;
-
-    public static final String LOOKING_ID = "lookingId";
+    public static final String RELATION_ID = "relationId";
 
     public static final String USER_ID = "userId";
 
     public static final String HOUSE_ID = "houseId";
-
-    public static final String DATA = "data";
 }

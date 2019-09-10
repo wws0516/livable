@@ -2,6 +2,8 @@
 serverIp: 127.0.0.1:8080
 
 spring:
+
+
   application:
     name: demo
   jackson:
@@ -35,6 +37,8 @@ spring:
     encoding: UTF-8
     basename: i18n/abt_messages
     use-code-as-default-message: true
+
+
 #  thymeleaf:
 #    prefix: classpath:/templates/
 ##    suffix: .html
@@ -60,9 +64,14 @@ logging:
   level:
     com.chuangshu.tucheng.mapper: DEBUG
 
+
+
 #security:
 #  basic:
 #    enabled: false
 #management:
 #  security:
+#    enabled: false
+#security:
+#  basic:
 #    enabled: false

@@ -26,6 +26,7 @@ import java.util.UUID;
  * @Date: 2019-07-05 13:22
  */
 
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -45,7 +46,7 @@ public class UserController {
     })
     public ResultDTO<User> insertOneUser(InsertUserDto insertUserDto){
         User user = new User(insertUserDto);
-        user.setUserId(UUID.randomUUID().toString());
+//        user.setUserId(UUID.randomUUID().toString());
         try {
             userService.save(user);
         }catch (Exception e){

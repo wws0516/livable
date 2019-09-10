@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 
 @Data
-public class InsertHourseDto {
+public class InsertHouseDto {
 
 
     /**
@@ -27,7 +27,7 @@ public class InsertHourseDto {
     /**
      * 房型
      */
-    private String hourseType;
+    private String houseType;
 
     /**
      * 租金

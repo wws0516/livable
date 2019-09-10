@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import com.chuangshu.livable.dto.InsertUserDto;
 import lombok.Data;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,7 +15,7 @@ public class User implements UserDetails {
      * 用户ID
      */
     @Column(name = "user_id")
-    private String userId;
+    private Integer userId;
 
     /**
      * 姓名
@@ -57,6 +56,8 @@ public class User implements UserDetails {
         this.password = insertUserDto.getPassword();
     }
 
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -86,4 +87,5 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

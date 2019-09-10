@@ -72,6 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
 
         http
+
+
                 .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .loginPage("/requireAuthentication")
@@ -92,7 +94,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .apply(emailCodeAuthenticationSecurityConfig)
                 .and()
-                .apply(springSocialConfigurer);
+                .apply(springSocialConfigurer)
+
+                //关闭验证
+                .and()
+                .authorizeRequests()
+                .anyRequest().permitAll().and().logout().permitAll();
 
 
     }

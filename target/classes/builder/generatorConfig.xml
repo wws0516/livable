@@ -28,8 +28,8 @@
         <javaClientGenerator targetPackage="${targetMapperPackage}" targetProject="${targetJavaProject}"
                              type="XMLMAPPER"/>
 
-        <table tableName="hourse"/>
-        <table tableName="landlord_hourse_relation"/>
+        <table tableName="house"/>
+        <table tableName="landlord_house_relation"/>
         <table tableName="landlord_information"/>
         <table tableName="looked"/>
         <table tableName="looking"/>

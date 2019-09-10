@@ -40,7 +40,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `user_opinion`;
 CREATE TABLE `user_opinion`  (
-  `opinion_id` int(11) NOT NULL COMMENT '意见ID',
+  `opinion_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '意见ID',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '用户ID',
   `opinion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '意见',
   `picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图片',
@@ -72,7 +72,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `opinion_count`;
 CREATE TABLE `opinion_count`  (
-  `opinion_id` int(11) NOT NULL COMMENT '意见ID',
+  `opinion_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '意见ID',
   `count` int(11) NULL DEFAULT NULL COMMENT '点赞次数',
   PRIMARY KEY (`opinion_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
@@ -86,7 +86,9 @@ DROP TABLE IF EXISTS `looking`;
 CREATE TABLE `looking`  (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `house_id` int(11) NOT NULL COMMENT '房源ID',
-  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
+  `looking_id` int(11) NOT NULL AUTO_INCREMENT,
+  `data` datetime(0) NULL DEFAULT NULL COMMENT '日期',
+  PRIMARY KEY (`looking_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -96,9 +98,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `looked`;
 CREATE TABLE `looked`  (
-  `user_id` int(11) NOT NULL COMMENT '用户ID',
-  `house_id` int(11) NOT NULL COMMENT '房源ID',
-  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
+  `looked_id` int(11) NOT NULL AUTO_INCREMENT,
+  `looking_id` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`looked_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -108,14 +110,15 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `landlord_information`;
 CREATE TABLE `landlord_information`  (
-  `user_id` int(11) NOT NULL COMMENT '房东ID',
+  `landlord_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '房东ID',
+  `user_id` int(11) NOT NULL COMMENT '用户ID',
   `id_number` int(18) NULL DEFAULT NULL COMMENT '身份证号',
   `id_card_picture_f` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '身份证正面',
   `id_card_picture_r` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '身份证反面',
   `alipay_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '支付宝账户名',
   `alipay_account` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '支付宝账号',
   `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '状态',
-  PRIMARY KEY (`user_id`) USING BTREE
+  PRIMARY KEY (`landlord_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -125,9 +128,10 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `landlord_hourse_relation`;
 CREATE TABLE `landlord_house_relation`  (
+  `relation_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT '房东ID',
   `house_id` int(11) NOT NULL COMMENT '房子ID',
-  PRIMARY KEY (`user_id`, `house_id`) USING BTREE
+  PRIMARY KEY (`relation_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;
@@ -137,7 +141,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `house`;
 CREATE TABLE `house`  (
-  `house_id` int(11) NOT NULL COMMENT '房子ID',
+  `house_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '房子ID',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '标题',
   `area` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '地区',
   `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '地址',
