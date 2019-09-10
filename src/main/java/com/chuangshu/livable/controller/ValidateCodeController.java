@@ -4,6 +4,7 @@ import com.chuangshu.livable.entity.ImageCode;
 import com.chuangshu.livable.entity.EmailCode;
 import com.chuangshu.livable.security.validate.EmailCodeSender;
 import com.chuangshu.livable.security.validate.ValidateCodeGenerator;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -39,6 +40,7 @@ public class ValidateCodeController {
     private EmailCodeSender sender;
 
     @GetMapping("/imageCode")
+    @ApiOperation("生成图形验证码")
     public void createImageCode(HttpServletRequest request, HttpServletResponse response){
 
         ImageCode imageCode = (ImageCode) imageCodeGenerator.generator(new ServletWebRequest(request));
@@ -51,6 +53,7 @@ public class ValidateCodeController {
     }
 
     @GetMapping("/emailCode")
+    @ApiOperation("发送邮箱验证码")
     public void createSmsCode(HttpServletRequest request, HttpServletResponse response) {
 
         EmailCode emailCode = (EmailCode) emailCodeGenerator.generator(new ServletWebRequest(request));

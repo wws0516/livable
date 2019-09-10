@@ -3,7 +3,9 @@ package com.chuangshu.livable.entity;
 import javax.persistence.*;
 
 import com.chuangshu.livable.dto.InsertUserDto;
+import com.chuangshu.livable.dto.UpdateUserDto;
 import lombok.Data;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,7 +17,7 @@ public class User implements UserDetails {
      * 用户ID
      */
     @Column(name = "user_id")
-    private Integer userId;
+    private String userId;
 
     /**
      * 姓名
@@ -56,7 +58,11 @@ public class User implements UserDetails {
         this.password = insertUserDto.getPassword();
     }
 
-
+    public User(UpdateUserDto updateUserDto){
+        this.name = updateUserDto.getName();
+        this.gender = updateUserDto.getGender();
+        this.email = updateUserDto.getEmail();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -87,5 +93,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
