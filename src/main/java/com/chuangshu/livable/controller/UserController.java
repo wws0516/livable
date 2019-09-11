@@ -32,7 +32,6 @@ import java.util.UUID;
  * @Date: 2019-07-05 13:22
  */
 
-@RestController
 @RequestMapping("/user")
 @RestController
 public class UserController {
