@@ -1,0 +1,94 @@
+body{
+    overflow-x: hidden;
+}
+.registSvg{
+    width: 15px;
+    height: 15px;
+}
+.background{
+    height: 600px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.registBody{
+    position: relative;
+}
+.registBody>div:first-child img{
+
+}
+.registinner{
+    position: absolute!important;
+    background-color: white;
+    border-radius: 10px;
+    height:400px;
+    top: 80px;
+}
+.registinner>div:first-child{
+    position: relative;
+}
+.registinner>div:first-child>div:first-child{
+    width: 100%;
+    height: 15px;
+    border-bottom: 1px #e4e4e4 solid;
+}
+.registinner>div:first-child>div:nth-child(2){
+    position: absolute;
+    color: #848484;
+    background-color: white;
+    text-align: center;
+    font-weight: bold;
+    top: 7px;
+}
+.registInnerBody{
+    margin-top: 10px;
+    color:#ffa144 ;
+    font-weight: bold;
+    font-size: small;
+}
+
+.registInnerBody span{
+    font-weight: normal;
+}
+.margin-top-sm{
+    margin-top: 20px!important;
+}
+.margin-sm{
+    margin-left: 20px!important;
+}
+.margin-xs{
+    margin: 10px 5px!important;
+}
+.RegistInput{
+    display: inline;
+    font-weight: normal;
+    font-size: small;
+    border-left: none;
+}
+.Registlabel{
+    font-weight: normal;
+    font-size: small;
+}
+input-group-addon{
+    padding: 5px;
+}
+
+#ToRegist{
+    background-color: #df8e3e;
+    color: white;
+    margin-top: 30px;
+}
+
+#ToRegist:hover{
+    background-color: #e5a565;
+    margin-top: 30px;
+}
+#GetEmailKey{
+    margin-top: 20px;
+}
+@media screen and (max-width: 960px) {
+    .background img{
+
+        height: 600px!important;
+    }
+}

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宜居-找房</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/findHmoe.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="aActive" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="javascript:void(0)">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a>退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+
+<div class="topLine findHomeBody">
+    <div class="col-lg-offset-2 col-lg-8 col-md-10 col-md-offset-1 ">
+        <div class="">
+            <div class="searchBar row">
+                <div class="col-lg-12 col-sm-12">
+                    <div class="col-lg-1 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-sm-1 margin-top-lg ">
+                        <img class="pull-left" src="../img/logo.png">
+                    </div>
+
+                    <div class="input-group input-group-lg col-lg-5 col-md-6 col-sm-6 margin-top-lg">
+                        <input class="form-control" placeholder="搜索关键词"  tabindex="3" type="text">
+                        <span class="input-group-addon"> <img class="animated shake" id="findByKey"  src="../img/findHome.png"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="queryCriteria margin-top-lg row">
+                <div class="pull-left">
+                    <div class="" id="choseCity">
+                        <img src="../img/lie.png">北京
+                    </div>
+
+                    <button class="" id="findHomeByMap">地图找房</button>
+                </div>
+
+
+                <div class="pull-left col-lg-offset-1 col-sm-offset-2">
+                    <input class="pull-left" id="starttime"  name="starttime" placeholder="请选择日期" readonly="readonly">
+                    <span class="pull-left"><img src="../img/calendar.png"></span>
+                </div>
+
+                <div class="col-lg-8 col-sm-12">
+                    <div class="pull-left col-lg-2 margin-top-sm">出租类型</div>
+                    <div class="col-lg-10 type">
+                        <button class="btn col-lg-3"><img name="whole" src="../img/whole.png">整租</button>
+                        <button class="btn col-lg-3"><img name="bed" src="../img/bed.png">床位</button>
+                        <button class="btn col-lg-4"><img name="double" src="../img/double.png">合租<input max="4" maxlength="1" placeholder="2" type="text">人</button>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-12 col-sm-12">
+                    <div class="pull-left col-lg-1 col-sm-1">价格</div>
+                    <div class=" col-lg-11 col-sm-11">
+                        <button class="btn">不限</button>
+                        <button class="btn">1000元以下</button>
+                        <button class="btn">1000-2000元</button>
+                        <button class="btn">2000-3000元</button>
+                        <button class="btn">3000元以上</button>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <div class=" col-lg-1 col-sm-1">面积</div>
+                    <div class=" col-lg-11 col-sm-11">
+                        <button class="btn">不限</button>
+                        <button class="btn">50m<sup>2</sup>以下</button>
+                        <button class="btn">50-80m<sup>2</sup></button>
+                        <button class="btn">80-100m<sup>2</sup></button>
+                        <button class="btn">100-120m<sup>2</sup></button>
+                        <button class="btn">120m<sup>2</sup>以上</button>
+                    </div>
+
+                </div>
+                <div class="col-lg-12 col-sm-12">
+                    <div class="pull-left col-lg-1">特色</div>
+                    <div class="pull-left col-lg-11 col-sm-11">
+                        <label class="pull-left col-lg-3">
+                            <input class="" type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            独立浴室
+                        </label >
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            独立阳台
+                        </label>
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            可立即入住
+                        </label>
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            可自行装修
+                        </label>
+                        <label class="pull-left col-lg-3" >
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            地铁十分钟
+                        </label>
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            首次出租
+                        </label>
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            随时看房
+                        </label>
+                        <label class="pull-left col-lg-3">
+                            <input type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            智能锁
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-sm-12 tagList">
+                    <div class="pull-left col-lg-2">筛选条件</div>
+                    <div>
+                        <label class="label screeningConditions">2000-3000元<span class="glyphicon glyphicon-remove"></span></label>
+                        <label class="label screeningConditions">独立浴室<span class="glyphicon glyphicon-remove"></span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="homeDeatil margin-top-lg">
+            <div class="col-lg-12 ">
+                <div>已为您找到<span id="homeNumber">26</span>套房</div>
+                <div class="">
+                    <button class="sort chosedSort">综合排序</button>
+                    <button class="sort">评价最高</button>
+                    <button class="sort">价格<img src="../img/priceSort.png"></button>
+                </div>
+            </div>
+            <div class=" margin-top-md homeCard col-lg-10 col-md-10 col-sm-12 animated bounceInLeft ">
+                <div class="col-lg-12 col-sm-12 aboutHouserOwner">
+                    <div class="pull-left">
+                        <img class="" src="../img/houseOwner.png">
+                    </div>
+                    <div class="pull-left">
+                        <span>房东昵称</span><br/>
+                        90后 | 白羊座 | 设计师
+                    </div>
+                </div>
+                <img class="pull-left" src="../img/background2.jpg">
+                <div class="pull-left col-lg-6">
+                    <h4>碧桂园城邦家园 <img class="love pull-right animated" src="../img/love.png"></h4>
+                    <h5 class="margin-top-md">麻章区 | 150m<sup>2</sup> | 东南 | 3室1厅2卫 </h5>
+                    <p class="text-muted margin-top-sm">发布时间:<span> 2019.09.07</span></p>
+                    <div class="pull-left col-lg-7 margin-top-md tag">
+                        <label>智能锁</label>
+                        <label>立即入住</label>
+                    </div>
+                    <div class="pull-right col-lg-5 margin-top-md money"><span>2000/月</span></div>
+
+
+                </div>
+            </div>
+
+            <div class=" margin-top-md homeCard col-lg-10 col-md-10 col-sm-12 animated bounceInLeft ">
+                <div class="col-lg-12 col-sm-12 aboutHouserOwner">
+                    <div class="pull-left">
+                        <img class="" src="../img/houseOwner.png">
+                    </div>
+                    <div class="pull-left">
+                        <span>房东昵称</span><br/>
+                        80后 | 狮子座 | 会计
+                    </div>
+                </div>
+                <img class="pull-left" src="../img/background2.jpg">
+                <div class="pull-left col-lg-6">
+                    <h4>万达广场 <img class="love pull-right animated " src="../img/love.png"></h4>
+                    <h5 class="margin-top-sm">武将区 | 80m<sup>2</sup> | 东南 | 2室1厅2卫 </h5>
+                    <p class="text-muted margin-top-sm">发布时间:<span> 2019.09.07</span></p>
+                    <div class="pull-left col-lg-7 margin-top-md tag">
+                        <label>智能锁</label>
+                        <label>立即入住</label>
+                    </div>
+                    <div class="pull-right col-lg-5 margin-top-md money"><span>2000/月</span></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="foot row">
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-xs-4">
+        <div>
+            <embed class="footSvg" src="../svg/weixin.svg">
+            <embed class="footSvg" src="../svg/qq.svg">
+        </div>
+        <div>
+            <span class="text-muted">Copyright: </span>Guangdong Ocean University<br/>
+            <span class="text-muted">Development and Maintenance: </span>Creative Software Team
+        </div>
+    </div>
+    <div class="col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1">
+        <img class="footLogo" src="../img/logo.png">
+    </div>
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-4 col-xs-offset-1">
+        <div class="text-muted callPhone pull-right">
+            Contact us：<span >XXX-XXXXXXX</span>
+        </div>
+        <div class="pull-right">
+            <span class="text-muted">Contact email: </span> XXXXXXXXXXX@gmail.com<br/>
+            <span class="pull-right">About Us and Livable</span>
+        </div>
+    </div>
+</div>
+
+</body>
+<script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script rel="script" src="../js/bootstrap.js"></script>
+<script rel="script" src="../js/bootstrap-datetimepicker.min.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script rel="script" src="../js/main.js"></script>
+<script rel="script" src="../js/findHmoe.js"></script>
+
+</html>

@@ -10,13 +10,12 @@ import lombok.Data;
 @Data
 public class ResultDTO<T> {
 
-    public interface fullResult{};
-
-    @JsonView(fullResult.class)
-    private String code;
+        @JsonView(fullResult.class)
+    private String code;;
     @JsonView(fullResult.class)
     private String msg;
     @JsonView(fullResult.class)
     private T data;
+public interface fullResult{}
 
 }

@@ -2,17 +2,14 @@ package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
-import com.chuangshu.livable.dto.InsertUserDto;
-import com.chuangshu.livable.dto.UpdateUserDto;
+import com.chuangshu.livable.dto.InsertUserDTO;
+import com.chuangshu.livable.dto.UpdateUserDTO;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -23,9 +20,6 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * @Author: wws
@@ -36,13 +30,11 @@ import java.util.UUID;
 @RestController
 public class UserController {
 
-    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
-
     @Autowired
     UserService userService;
-
     @Autowired
     PasswordEncoder passwordEncoder;
+    private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     @PostMapping("/register")
     @ApiOperation("新增用户信息")
@@ -52,7 +44,7 @@ public class UserController {
             @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码")
     })
-    public ResultDTO<User> insertOneUser(InsertUserDto insertUserDto){
+    public ResultDTO<User> insertOneUser(InsertUserDTO insertUserDto){
         User user = new User(insertUserDto);
 //        user.setUserId(UUID.randomUUID().toString());
         try {
@@ -71,7 +63,7 @@ public class UserController {
             @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
             @ApiImplicitParam(paramType = "query", name = "gender", dataType = "String", required = true, value = "性别")
     })
-    public ResultDTO<User> update(HttpServletRequest request, HttpServletResponse response, UpdateUserDto updateUserDto){
+    public ResultDTO<User> update(HttpServletRequest request, HttpServletResponse response, UpdateUserDTO updateUserDto){
         User user = new User(updateUserDto);
         user.setUserId(((User)sessionStrategy.getAttribute(new ServletWebRequest(request), "USER")).getUserId());
         try {

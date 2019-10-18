@@ -5,6 +5,7 @@ package com.chuangshu.livable.base.service;
 
 import com.chuangshu.livable.base.dto.BaseDTO;
 import com.chuangshu.livable.base.page.PageList;
+import com.chuangshu.livable.dto.NameLevelAddressDTO;
 
 import java.io.Serializable;
 import java.util.List;

@@ -5,150 +5,48 @@ import lombok.Data;
 
 @Data
 public class House {
-    /**
-     * 房子ID
-     */
     @Id
     @Column(name = "house_id")
     private Integer houseId;
 
-    /**
-     * 标题
-     */
     private String title;
 
-    /**
-     * 地区
-     */
-    private String area;
+    private String city;
 
-    /**
-     * 地址
-     */
+    private String region;
+
     private String address;
 
-    /**
-     * 房型
-     */
-    @Column(name = "house_type")
-    private String houseType;
+    private String hourse_type;
 
-    /**
-     * 租金
-     */
     private String rent;
 
-    /**
-     * 方式
-     */
-    @Column(name = "rent_way")
-    private String rentWay;
+    private String rent_way;
 
-    /**
-     * 电梯有无
-     */
-    private String elevator;
+    private char elevator;
 
-    /**
-     * 朝向
-     */
-    private String toward;
+    private char toward;
 
-    /**
-     * 车位有无
-     */
-    private String carport;
+    private char carport;
 
-    /**
-     * 电费
-     */
-    @Column(name = "energy_charge")
-    private String energyCharge;
+    private String energy_charge;
 
-    /**
-     * 水费
-     */
-    @Column(name = "water_charge")
-    private String waterCharge;
+    private String water_charge;
 
-    /**
-     * 特色
-     */
     private String feature;
 
-    /**
-     * 面积
-     */
     private String acreage;
 
-    /**
-     * 布局
-     */
     private String layout;
 
-    /**
-     * 状态
-     */
-    private String status;
-
-    /**
-     * 房产证
-     */
-    @Column(name = "house_proprietary_certificate")
-    private String houseProprietaryCertificate;
-
-    /**
-     * 图片
-     */
-    private String picture;
-
-    /**
-     * 房屋配置
-     */
     private String allocation;
 
-    /**
-     * 介绍
-     */
     private String introduction;
 
-    public static final String HOUSE_ID = "houseId";
+    private Integer status;
 
-    public static final String TITLE = "title";
+    private String house_proprietary_certificate;
 
-    public static final String AREA = "area";
+    private String picture;
 
-    public static final String ADDRESS = "address";
-
-    public static final String HOURSE_TYPE = "hourseType";
-
-    public static final String RENT = "rent";
-
-    public static final String RENT_WAY = "rentWay";
-
-    public static final String ELEVATOR = "elevator";
-
-    public static final String TOWARD = "toward";
-
-    public static final String CARPORT = "carport";
-
-    public static final String ENERGY_CHARGE = "energyCharge";
-
-    public static final String WATER_CHARGE = "waterCharge";
-
-    public static final String FEATURE = "feature";
-
-    public static final String ACREAGE = "acreage";
-
-    public static final String LAYOUT = "layout";
-
-    public static final String STATUS = "status";
-
-    public static final String HOUSE_PROPRIETARY_CERTIFICATE = "houseProprietaryCertificate";
-
-    public static final String PICTURE = "picture";
-
-    public static final String ALLOCATION = "allocation";
-
-    public static final String INTRODUCTION = "introduction";
 }

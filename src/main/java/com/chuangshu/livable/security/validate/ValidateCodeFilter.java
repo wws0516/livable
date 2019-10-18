@@ -69,7 +69,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         ValidateCode codeInSession = (ValidateCode) sessionStrategy.getAttribute(servletWebRequest, ValidateCodeController.SESSION_KEY+loginType);
         String codeInRequest = null;
         try {
-            if (loginType.equals("/login"))
+            if (loginType.equals("IMAGE"))
                 codeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "imageCode");
             else                 codeInRequest = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "emailCode");
         } catch (ServletRequestBindingException e) {
@@ -80,10 +80,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             if (codeInSession == null) {
                 throw new ValidateCodeException("验证码不存在");
             }
-            if (codeInSession.isExpried()) {
+            if (codeInSession.isExpired()) {
                 sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeController.SESSION_KEY+loginType);
                 throw new ValidateCodeException("验证码已过期");
             }
+            System.out.println(codeInRequest);
             if (!codeInRequest.equals(codeInSession.getCode())) {
                 throw new ValidateCodeException("验证码不匹配");
             }

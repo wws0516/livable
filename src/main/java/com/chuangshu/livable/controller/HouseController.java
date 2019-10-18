@@ -1,22 +1,26 @@
 package com.chuangshu.livable.controller;
 
-import com.chuangshu.livable.StatusCode.StatusCode;
+import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
-import com.chuangshu.livable.dto.HouseES;
-import com.chuangshu.livable.dto.UpdateHouseDto;
+import com.chuangshu.livable.dto.*;
+import com.chuangshu.livable.entity.Address;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.LandlordHouseRelation;
-import com.chuangshu.livable.repository.HouseESRepository;
+import com.chuangshu.livable.entity.MapSearch;
+import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.HouseService;
-import com.chuangshu.livable.service.LandlordHouseRelationService;
+import com.chuangshu.livable.service.search.ISearchService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import org.elasticsearch.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -25,19 +29,18 @@ import java.util.List;
  *
  */
 
-
 @RequestMapping("/house")
 @RestController
 public class HouseController {
 
     @Autowired
-    private HouseService houseService;
+    HouseService houseService;
 
     @Autowired
-    private HouseESRepository houseESRepository;
+    AddressService addressService;
 
     @Autowired
-    private LandlordHouseRelationService landlordHouseRelationService;
+    ISearchService searchService;
 
     @PostMapping("/insert")
     @ApiOperation(value = "新增房源信息")
@@ -62,17 +65,15 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
             @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
     })
-    public ResultDTO<House> insertOneHouse(House house,Integer userId)throws Exception{
+    public ResultDTO<House> insertOneHouse(House house){
         House saveHouse = null;
-        HouseES houseES = null;
-        System.out.println(house);
-        house.setStatus(StatusCode.HOUSE_UNCHECKED.getCode());
-        saveHouse = houseService.save(house);
-        LandlordHouseRelation landlordHouseRelation = new LandlordHouseRelation();
-        landlordHouseRelation.setHouseId(saveHouse.getHouseId());
-        landlordHouseRelation.setUserId(userId);
-        landlordHouseRelationService.save(landlordHouseRelation);
-        return ResultUtil.Success(houseES);
+        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
+        try {
+            saveHouse = houseService.save(house);
+        } catch (Exception e) {
+            ResultUtil.Error("500","新建房源信息失败："+e.getMessage());
+        }
+        return ResultUtil.Success(saveHouse);
     }
 
     @GetMapping("/getOneHouse")
@@ -81,57 +82,17 @@ public class HouseController {
     public ResultDTO getOneHouse(Integer houseID){
         House house = null;
         try {
-            house  = houseService.get(houseID);
+            house = houseService.get(houseID);
         } catch (Exception e) {
             ResultUtil.Error("500","查无此房源："+e.getMessage());
         }
         return ResultUtil.Success(house);
     }
 
-    @GetMapping("/getHouseByUserId")
-    @ApiOperation("用用户id得到房源")
-    @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户ID")
-    public ResultDTO getHouseByUserId(Integer userId){
-        List<LandlordHouseRelation> landlordHouseRelation = null;
-        LandlordHouseRelation find = new LandlordHouseRelation();
-        List<House> h = new ArrayList<>();
-        find.setHouseId(userId);
-        try {
-            landlordHouseRelation = landlordHouseRelationService.findByParams(find);
-            for(LandlordHouseRelation l:landlordHouseRelation){
-                House house = houseService.get(l.getHouseId());
-                h.add(house);
-            }
-        } catch (Exception e) {
-            return ResultUtil.Error("500","意料之外的错误");
-        }
-
-        return ResultUtil.Success(h);
-    }
+    public ResultDTO getHouseByParams(){
 
 
-    @GetMapping("/getHouseByKeyword")
-    public ResultDTO getHouseByParams(House house){
-//        // 构建查询条件
-//        NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder();
-//        // 添加基本分词查询
-//        queryBuilder.withQuery(QueryBuilders.matchQuery("area", houseES.getArea()));
-//        // 搜索，获取结果
-//        Page<HouseES> items = houseESRepository.search(queryBuilder.build());
-//        // 总条数
-//        long total = items.getTotalElements();
-//        searchs += "总共数据数：" + total + "\n";
-//        items.forEach(userES -> {
-//            searchs += userES.toString() + "\n";
-//        });
-        List<House> houseList = null;
-        try {
-            houseList = houseService.findByParams(house);
-        }catch (Exception e){
-            return ResultUtil.Error("500","发生预料之外的错误");
-        }
-
-        return ResultUtil.Success(houseList);
+        return ResultUtil.Success();
     }
 
     @DeleteMapping("/deleteHouse")
@@ -168,7 +129,7 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
             @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
     })
-    public ResultDTO updateHouseByDto(UpdateHouseDto updateHouseDto){
+    public ResultDTO updateHouseByDto(UpdateHouseDTO updateHouseDto){
         try{
             houseService.updateDTO(updateHouseDto,House.class);
         }catch (Exception e){
@@ -177,26 +138,47 @@ public class HouseController {
         return ResultUtil.Success();
     }
 
-    @ApiOperation("审批房源信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源ID"),
-            @ApiImplicitParam(paramType = "query", name = "code", dataType = "String", required = true, value = "房源信息状态"),
-    })
-    @GetMapping("/checkHouse")
-    public ResultDTO checkHouse(Integer houseId,String code){
-        House house = new House();
-        house.setHouseId(houseId);
-        if (code.equals("U")) {
-            house.setStatus(StatusCode.HOUSE_UNCHECKED.getCode());
-
-        }else if(code.equals("C")){
-            house.setStatus(StatusCode.HOUSE_CHECKED.getCode());
-        }
+    @GetMapping("/rentMap")
+    public String rentMapPage(@RequestParam(value = "city") String cityName, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        AddressDTO nameLevelAddressDTO = new NameLevelAddressDTO(cityName, "city");
         try {
-            houseService.update(house);
+            List<AddressDTO>  city = addressService.findByParams(nameLevelAddressDTO, AddressDTO.class);
+            if (city.size() == 0) {
+                redirectAttributes.addAttribute("msg", "must_choose_city");
+                return "redirect:/html/index.html";
+            }
+            else{
+                session.setAttribute("cityName", cityName);
+                model.addAttribute("city", city.get(0));
+            }
         } catch (Exception e) {
-            return ResultUtil.Error("500","意料之外的错误");
+            e.printStackTrace();
         }
-        return ResultUtil.Success();
+        LevelBelongToAddressDTO levelBelongToAddressDTO = new LevelBelongToAddressDTO(cityName, "region");
+        List<AddressDTO> regions = null;
+        try {
+            regions = addressService.findByParams(levelBelongToAddressDTO, AddressDTO.class);
+            List<HouseBucketDTO> houseBucketDtos = searchService.mapAggregate(cityName);
+            model.addAttribute("aggDate", houseBucketDtos);
+            model.addAttribute("total", houseBucketDtos.size());
+            model.addAttribute("regions", regions);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "rentMap";
     }
+
+    @GetMapping("/rentMapHouses")
+    @ResponseBody
+    public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
+        if (mapSearch.getCityName() == null)
+            return null;
+        if(mapSearch.getLevel() < 13){
+            houseService.wholeMapQuery(mapSearch);
+        }else {}
+//        ApiResponse response = ApiResponse.o
+    return null;
+    }
+
 }
+

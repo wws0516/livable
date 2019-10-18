@@ -7,10 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +19,8 @@ import java.io.IOException;
  * @Date: 2019-07-13 12:23
  */
 
-@RestController
+//@RestController
+@Controller
 public class BaseController {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
@@ -30,7 +29,7 @@ public class BaseController {
     /**
      * 当需要身份认证时，跳转到这里
      */
-    @PostMapping("/requireAuthentication")
+    @RequestMapping("/requireAuthentication")
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public ResultDTO requireAuthentication(HttpServletRequest request, HttpServletResponse response){
         SavedRequest savedRequest = requestCache.getRequest(request, response);
@@ -40,7 +39,7 @@ public class BaseController {
             String targetUrl = savedRequest.getRedirectUrl();
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")){
                 try {
-                    response.sendRedirect("/login.html");
+                    response.sendRedirect("/login1.html");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -54,9 +53,15 @@ public class BaseController {
         return ResultUtil.Error(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "您还未进行身份认证，请访问登陆页！");
     }
 
-    @RequestMapping("/hello")
-    public void a(){
-        System.out.println("hello");
+    @RequestMapping("/")
+    public String index(){
+        return "forward:html/index.html";
+
     }
 
+    @RequestMapping("/findHome")
+    public String findHome(){
+        return "forward:html/findHome.html";
+
+    }
 }

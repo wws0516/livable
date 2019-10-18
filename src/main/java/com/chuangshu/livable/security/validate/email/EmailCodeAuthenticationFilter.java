@@ -54,17 +54,17 @@ public class EmailCodeAuthenticationFilter extends AbstractAuthenticationProcess
         authRequest.setDetails(this.authenticationDetailsSource.buildDetails(request));
     }
 
-    public void setEmailParameter(String emailParameter) {
-        Assert.hasText(emailParameter, "Username parameter must not be empty or null");
-        this.emailParameter = emailParameter;
-    }
-
     public void setPostOnly(boolean postOnly) {
         this.postOnly = postOnly;
     }
 
     public final String getEmailParameter() {
         return this.emailParameter;
+    }
+
+    public void setEmailParameter(String emailParameter) {
+        Assert.hasText(emailParameter, "Username parameter must not be empty or null");
+        this.emailParameter = emailParameter;
     }
 
 }

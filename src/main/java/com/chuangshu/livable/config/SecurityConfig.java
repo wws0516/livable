@@ -29,21 +29,16 @@ import javax.sql.DataSource;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
+    DataSource dataSource;
+    @Autowired
+    EmailCodeAuthenticationSecurityConfig emailCodeAuthenticationSecurityConfig;
+    @Autowired
     private AuthenticationSuccessHandler livableAuthenticationSuccessHandle;
-
     @Autowired
     private AuthenticationFailureHandler livableAuthenticationFailureHandle;
-
-    @Autowired
-    DataSource dataSource;
-
     @Qualifier("myUserDetailService")
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    EmailCodeAuthenticationSecurityConfig emailCodeAuthenticationSecurityConfig;
-
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
 
@@ -72,35 +67,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
 
         http
-
-
-                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                .loginPage("/requireAuthentication")
-                .loginProcessingUrl("/login")
-                .successHandler(livableAuthenticationSuccessHandle)
-                .failureHandler(livableAuthenticationFailureHandle)
-                .and()
-                .rememberMe()
-                .tokenRepository(persistentTokenRepository())
-                .tokenValiditySeconds(3600)
-                .userDetailsService(userDetailsService)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/**").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .csrf().disable()
-                .apply(emailCodeAuthenticationSecurityConfig)
-                .and()
-                .apply(springSocialConfigurer)
+//                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+//                .formLogin()
+//                .loginPage("/requireAuthentication")
+//                .loginProcessingUrl("/login")
+//                .successHandler(livableAuthenticationSuccessHandle)
+//                .failureHandler(livableAuthenticationFailureHandle)
+//                .and()
+//                .rememberMe()
+//                .tokenRepository(persistentTokenRepository())
+//                .tokenValiditySeconds(3600)
+//                .userDetailsService(userDetailsService)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html", "/**").permitAll()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .csrf().disable()
+//                .apply(emailCodeAuthenticationSecurityConfig)
+//                .and()
+//                .apply(springSocialConfigurer)
 
                 //关闭验证
-                .and()
+//                .and()
                 .authorizeRequests()
                 .anyRequest().permitAll().and().logout().permitAll();
-
 
     }
 

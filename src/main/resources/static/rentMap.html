@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<header th:replace="common :: header"></header>
+<div>
+    <div id="allMap" style="width:500px; height:500px"></div>
+</div>
+
+<!--<div th:include="common :: footer"></div>-->
+<script src="http://api.map.baidu.com/api?v=2.0&ak=CyfcPlqt1OEV0Re3VE3dCvd5I4oLjXDG" type="text/javascript"></script>
+<script src="/js/baiduMap/TextIconOverlay.js" type="text/javascript"></script>
+<script src="/js/baiduMap/MarkerClusterer.js" type="text/javascript"></script>
+<script src="http://api.map.baidu.com/library/SearchInfoWindow/1.5/src/SearchInfoWindow_min.js" type="text/javascript"></script>
+<script src="/lib/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
+<script src="/js/rentMap.js" type="text/javascript"></script>
+<script th:inline="javascript" type="text/javascript">
+
+    // var city = [[${city}]];
+    // var regions = [[${regions}]];
+    // var aggData = [[${aggData}]];
+
+    var city, regions, aggData;
+    load(city, regions, aggData);
+</script>
+</body>
+</html>

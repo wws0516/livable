@@ -1,0 +1,260 @@
+body{
+    overflow-x: hidden;
+}
+#horizontalScreenTips{
+    position: fixed;
+    background-image: url("../img/horizontalScreenTips.gif");
+    background-color: white;
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+}
+.head{
+    height: 90px;
+    border-bottom: 2px #df8e3e solid;
+    padding-top: 10px;
+}
+.head>div>div{
+    color: #ff9900;
+    font-size: small;
+    margin-left: 10px;
+}
+.head>div>div>span{
+    font-size: medium;
+    font-weight: bold;
+
+}
+.head>div>div:nth-child(2){
+    margin-top: 10px;
+}
+.head>div:nth-child(2){
+    display: table-cell;
+    text-align: center;
+}
+.head>div:nth-child(2)>div{
+    position: relative;
+    display: inline-block;
+}
+.head>div:first-child>div:last-child{
+    display: inline;
+    vertical-align: bottom;
+    font-size: 14px;
+    border-radius: 20px;
+    border: 1px solid #e0e0e0;
+    padding: 5px 10px;
+    color: #24221f;
+    margin-left: 20px;
+    margin-top: 18px;
+}
+.head>div>div>img{
+    width: 44px;
+    height: 50px;
+
+}
+
+.head a{
+    font-size: large;
+    color: #908e8b;
+    text-decoration: none;
+    margin: 0px 15px;
+
+}
+.head>div:nth-child(2) a{
+    font-size: 21px;
+    color: #24221f;
+}
+.head>div:nth-child(2) a:hover{
+    padding-bottom: 5px;
+    border-bottom: #ff951c 3px solid;
+}
+.head a:hover{
+    color: #f3981c;
+}
+
+.head>div:nth-child(2),
+.head>div:last-child>div{
+    margin-top: 16px;
+    padding-left: 0;
+}
+
+.headImg{
+    width: 50px;
+    height: 50px;
+    margin-top: 5px;
+}
+
+.findCity{
+
+}
+#getLocation{
+    border-radius: 5px;
+
+}
+.topLine{
+    margin-top: 4px;
+    border-top: #f39c24 solid 1px;
+    padding-top: 20px;
+}
+.aActive{
+    color: #f3981c!important;
+}
+.foot{
+
+    height: 150px;
+}
+.foot>div:first-child{
+    border-top: #cccccc 1px solid;
+    margin-top: 10px;
+}
+.footSvg{
+
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 15px 5px;
+}
+.footLogo{
+    margin-top: 30px;
+    width: 50px;
+    height: 50px;
+}
+.callPhone{
+    border-top: #cccccc 1px solid;
+    margin-top: 10px;
+    padding-top: 10px;
+    margin-bottom: 20px;
+
+}
+.Registlabel{
+    background-color: white;
+    box-shadow: 0 1px 1px rgba(0,0,0,0);
+    border:#cccccc 1px solid ;
+    padding-right: 5px;
+}
+.callPhone span{
+    color:#ff9900 ;
+    font-size: x-large;
+    font-weight: bold;
+}
+.information {
+    display: inline-block;
+}
+.text-red{
+    color: red;
+
+}
+.margin-bottom-sm{
+    margin-bottom: 10px;
+}
+.margin-top-sm{
+    margin-top: 10px;
+}
+.margin-top-md{
+    margin-top: 20px;
+}
+.margin-top-lg{
+    margin-top: 40px;
+}
+.border-top-sm{
+    border-top: #e5e5e5 solid 1px;
+}
+
+@media screen and (max-width: 1000px) {
+    .head>div:nth-child(2) a{
+        font-size:20px;
+        color: #24221f;
+    }
+    .head a{
+        font-size: large;
+        color: #908e8b;
+        text-decoration: none;
+        margin: 0px 10px;
+
+    }
+    .aActive{
+        color: black!important;
+        padding-bottom: 5px;
+        border-bottom: #ff951c 3px solid;
+    }
+    .head>div:nth-child(2) a:hover{
+        color: black!important;
+        padding-bottom: 5px;
+        border-bottom: #ff951c 3px solid;
+    }
+}
+/*---------------------------------消息提示框-----------------------------------------*/
+.PromptBox{
+    position: fixed;
+    top: 150px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f9fddd;
+    border-radius: 17px;
+    color: #f49302;
+    font-weight: bold;
+    width: 200px;
+    height: 35px;
+    border: 1px solid #e5d2a7;
+    padding-top: 0px;
+    text-align: center;
+    padding: 5px;
+}
+/*---------------------------------自制特效-----------------------------------------*/
+.surround{
+    /*border: none;*/
+    /*background-color: white;*/
+    /*color: rgba(114,114,114,0.57);*/
+    /*border-radius: 10px;*/
+    outline: none;
+    border: none;
+    z-index: 1;
+    position: relative;
+    background: white;
+    padding: 3px;
+}
+.surround:hover{
+    cursor: pointer;
+}
+.surround::before{
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-bottom: rgba(114,114,114,0.57) solid 1.5px;
+    border-bottom-left-radius: 10px;
+    background-color: white;
+    transform-origin: left bottom;
+    transform:scale(0,0);
+    transition: transform 0.4s ease-in-out;
+}
+.surround:hover::before {
+    transform-origin:left bottom;
+    transform: scale(1,0.9);
+}
+
+.surround::after{
+    content: "";
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: rgba(114,114,114,0.57) solid 1.5px;
+    border-top-right-radius: 10px;
+    background-color: white;
+    transform-origin: right top;
+    transform:scale(0,0);
+    transition: transform 0.4s ease-in-out;
+}
+.surround:hover::after {
+    transform-origin:right top;
+    transform: scale(1,0.9);
+}

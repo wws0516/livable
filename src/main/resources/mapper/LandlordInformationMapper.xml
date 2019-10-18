@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.chuangshu.livable.mapper.LandlordInformationMapper" >
-  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.LandlordInformation" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuangshu.livable.mapper.LandlordInformationMapper">
+
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.LandlordInformation">
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="landlord_id" property="landlordId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="id_number" property="idNumber" jdbcType="INTEGER" />
-    <result column="id_card_picture_f" property="idCardPictureF" jdbcType="VARCHAR" />
-    <result column="id_card_picture_r" property="idCardPictureR" jdbcType="VARCHAR" />
-    <result column="alipay_name" property="alipayName" jdbcType="VARCHAR" />
-    <result column="alipay_account" property="alipayAccount" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="id_number" jdbcType="INTEGER" property="idNumber" />
+    <result column="id_card_picture_f" jdbcType="VARCHAR" property="idCardPictureF" />
+    <result column="id_card_picture_r" jdbcType="VARCHAR" property="idCardPictureR" />
+    <result column="alipay_name" jdbcType="VARCHAR" property="alipayName" />
+    <result column="alipay_account" jdbcType="VARCHAR" property="alipayAccount" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
 </mapper>

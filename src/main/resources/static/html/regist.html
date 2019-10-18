@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>宜居-注册</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/regist.css" rel="stylesheet">
+</head>
+<body>
+    <div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="javascript:void(0)">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a>退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+
+    <div class="registBody row">
+        <div class="carousel slide background" id="myCarousel">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
+                <li data-slide-to="1" data-target="#myCarousel"></li>
+                <li data-slide-to="2" data-target="#myCarousel"></li>
+            </ol>
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                <div class="item active">
+                    <img alt="First slide" src="../img/background1.jpg">
+                </div>
+                <div class="item">
+                    <img alt="Second slide" src="../img/background2.jpg">
+                </div>
+                <div class="item">
+                    <img alt="Third slide" src="../img/background3.jpg">
+                </div>
+            </div>
+            <!-- 轮播（Carousel）导航 -->
+            <a class="carousel-control left" data-slide="prev"
+               href="#myCarousel"> <span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-left"></span></a>
+
+            <a class="carousel-control right" data-slide="next"
+               href="#myCarousel"><span _ngcontent-c3="" aria-hidden="true" class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+        <div class="registinner animated bounceInDown col-lg-3 col-lg-offset-7 col-md-4 col-md-offset-6 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
+            <div>
+                <div></div>
+                <div class="col-lg-4 col-lg-offset-4 col-md-4 col-lg-md-4 col-sm-4 col-sm-offset-4 col-xs-4 col-xs-offset-4">欢迎注册</div>
+            </div>
+            <div class="registInnerBody form-group">
+                <div class="input-group col-lg-8 col-md-9 margin-top-sm">
+                    <div class="input-group-addon Registlabel"><embed class="registSvg" src="../svg/mail.svg"></div>
+                    <input class="form-control RegistInput" id="Email" placeholder="请输入邮箱" tabindex="1" type="text">
+                </div>
+                <div class="form-group col-lg-4 col-md-5 margin-top-sm pull-right">
+                    <select class="form-control" id="Sex" tabindex="2">
+                        <option value="man">男</option>
+                        <option value="woman">女</option>
+                    </select>
+                </div>
+                <div class="input-group col-lg-5 margin-top-sm">
+                    <div class="input-group-addon Registlabel"><embed class="registSvg" src="../svg/NameCard.svg"></div>
+                    <input class="form-control RegistInput" id="Name" placeholder="请输入姓名" tabindex="3" type="text">
+                </div>
+
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0 margin-top-sm">
+                    <div class="input-group-addon Registlabel"><embed class="registSvg" src="../svg/key.svg"></div>
+                    <input class="form-control RegistInput" id="Password" placeholder="请输入密码" tabindex="4" type="text">
+                </div>
+                <div class="input-group mb-2 mr-sm-2 mb-sm-0 margin-top-sm">
+                    <div class="input-group-addon Registlabel"><embed class="registSvg" src="../svg/keyword.svg"></div>
+                    <input class="form-control RegistInput" id="Passwords" placeholder="请再次输入验证密码" tabindex="5" type="text">
+                </div>
+                <input class="btn btn-success col-lg-4 col-md-4 col-sm-4 col-xs-4 pull-right " id="GetEmailKey" type="button" value="获取验证码">
+                <div class="input-group col-lg-6 mb-2 mr-sm-2 mb-sm-0 margin-top-sm">
+                    <div class="input-group-addon Registlabel"><embed class="registSvg" src="../svg/Verification%20code_ic.svg"></div>
+                    <input class="form-control RegistInput" id="EmailKey" placeholder="请输入验证码" tabindex="6" type="text">
+                </div>
+
+                <input class="btn animated  col-lg-10 col-md-10 col-sm-10 col-xs-10 col-lg-offset-1 col-xs-offset-1 col-md-offset-1 col-sm-offset-1" id="ToRegist" tabindex="7" type="button" value="注册">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="foot row">
+        <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-xs-4">
+            <div>
+                <embed class="footSvg" src="../svg/weixin.svg">
+                <embed class="footSvg" src="../svg/qq.svg">
+            </div>
+            <div>
+                <span class="text-muted">Copyright: </span>Guangdong Ocean University<br/>
+                <span class="text-muted">Development and Maintenance: </span>Creative Software Team
+            </div>
+        </div>
+        <div class="col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1">
+            <img class="footLogo" src="../img/logo.png">
+        </div>
+        <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-4 col-xs-offset-1">
+            <div class="text-muted callPhone pull-right">
+                Contact us：<span >XXX-XXXXXXX</span>
+            </div>
+            <div class="pull-right">
+                <span class="text-muted">Contact email: </span> XXXXXXXXXXX@gmail.com<br/>
+                <span class="pull-right">About Us and Livable</span>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script rel="script" src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script rel="script" src="../js/regist.js"></script>
+<script rel="script" src="../js/main.js"></script>
+
+</html>

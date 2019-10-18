@@ -26,24 +26,6 @@ public class PageList<E> implements Serializable {
 		data.addAll(c);
 	}
 
-	public void add(E e) {
-		data.add(e);
-	}
-
-	public void addAll(Collection<? extends E> c) {
-		data.addAll(c);
-	}
-
-	private void countTotalPages() {
-		if (totalItems == 0 || pageSize == 0) {
-			totalPages = 1;
-		} else if (totalItems % pageSize == 0) {
-			totalPages = totalItems / pageSize;
-		} else {
-			totalPages = totalItems / pageSize + 1;
-		}
-	}
-
 	public PageList(int pageNum, int pageSize, int totalItems) {
 		this.pageNum = pageNum;
 		this.pageSize = pageSize;
@@ -74,6 +56,24 @@ public class PageList<E> implements Serializable {
 		countTotalPages();
 	}
 
+	public void add(E e) {
+		data.add(e);
+	}
+
+	public void addAll(Collection<? extends E> c) {
+		data.addAll(c);
+	}
+
+	private void countTotalPages() {
+		if (totalItems == 0 || pageSize == 0) {
+			totalPages = 1;
+		} else if (totalItems % pageSize == 0) {
+			totalPages = totalItems / pageSize;
+		} else {
+			totalPages = totalItems / pageSize + 1;
+		}
+	}
+
 	public int getPageSize() {
 		return pageSize;
 	}
@@ -94,6 +94,10 @@ public class PageList<E> implements Serializable {
 		return totalPages;
 	}
 
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
+
 	public int getPageNum() {
 		return pageNum;
 	}
@@ -108,9 +112,5 @@ public class PageList<E> implements Serializable {
 
 	public void setData(List<E> data) {
 		this.data = data;
-	}
-
-	public void setTotalPages(int totalPages) {
-		this.totalPages = totalPages;
 	}
 }

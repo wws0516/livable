@@ -15,12 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 public class AbtBaseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
-
-    private Logger log = LoggerFactory.getLogger(getClass());
-
     protected String code;
-
     protected String arguments;
+    private Logger log = LoggerFactory.getLogger(getClass());
 
     public AbtBaseException() {
         super();

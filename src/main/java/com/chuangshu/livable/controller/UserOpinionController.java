@@ -35,7 +35,6 @@ public class UserOpinionController {
             @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String", required = true, value = "图片URL"),
             @ApiImplicitParam(paramType = "query", name = "star", dataType = "Integer", required = true, value = "星数"),
             @ApiImplicitParam(paramType = "query", name = "opinion", dataType = "String", required = true, value = "意见"),
-            @ApiImplicitParam(paramType = "query", name = "opinion", dataType = "String", required = true, value = "意见"),
     })
     public ResultDTO<UserOpinion> insertOneOpinion(UserOpinion userOpinion)throws Exception{
         userOpinionService.save(userOpinion);

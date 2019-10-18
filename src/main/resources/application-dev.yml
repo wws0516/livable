@@ -2,11 +2,6 @@
 serverIp: 127.0.0.1:8080
 
 spring:
-  data:
-    elasticsearch:
-      cluster-name: my-application
-      cluster-nodes: 127.0.0.1:9300
-
   application:
     name: demo
   jackson:
@@ -14,7 +9,7 @@ spring:
     time-zone: GMT+8
   datasource:
     name: sanqiu
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
     # druid
@@ -41,6 +36,17 @@ spring:
     basename: i18n/abt_messages
     use-code-as-default-message: true
 
+  kafka:
+      bootstrap-servers: 127.0.0.1:9092
+  #指定默认topic id
+      template.default-topic: house
+  #指定listener 容器中的线程数，用于提高并发量
+      listener:
+        concurrency: 3
+        #指定默认消费者group id
+      consumer:
+        group-id: livable
+
 
 #  thymeleaf:
 #    prefix: classpath:/templates/
@@ -57,24 +63,21 @@ sever:
       timeout: 2592000
 
 mybatis:
-  basepackage: com.chuangshu.livable.mapper
+  basepackage: com.qiu.demo.mapper
   mapper-locations: ["classpath*:mapper/**/*.xml"]
-  type-aliases-package: com.chuangshu.livable.entity
-  mappers: com.chuangshu.livable.base.mapper.BaseMapper
+  type-aliases-package: com.qiu.demo.entity
+  mappers: com.qiu.demo.base.mapper.BaseMapper
   identity: MYSQL
 
 logging:
   level:
-    com.chuangshu.livable.mapper: DEBUG
+    com.chuangshu.tucheng.mapper: DEBUG
 
 
 
-#security:
-#  basic:
-#    enabled: false
-#management:
-#  security:
-#    enabled: false
-#security:
-#  basic:
-#    enabled: false
+  security:
+    basic:
+      enabled: false
+  management:
+    security:
+      enabled: false

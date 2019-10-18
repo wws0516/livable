@@ -19,9 +19,28 @@ public class Paginator implements Serializable {
 		this.pageNum = computePageNo(pageNum);
 	}
 
+	private static int computeLastPageNumber(int totalItems, int pageSize) {
+		if (pageSize <= 0)
+			return 1;
+		int result = (int) (totalItems % pageSize == 0 ? totalItems / pageSize : totalItems / pageSize + 1);
+		if (result <= 1)
+			result = 1;
+		return result;
+	}
+
+	private static int computePageNumber(int page, int pageSize, int totalItems) {
+		if (page <= 1) {
+			return 1;
+		}
+		if (Integer.MAX_VALUE == page || page > computeLastPageNumber(totalItems, pageSize)) {
+			return computeLastPageNumber(totalItems, pageSize);
+		}
+		return page;
+	}
+
 	/**
 	 * The total number of items made.
-	 * 
+	 *
 	 * @return total
 	 */
 	public int getTotalItems() {
@@ -30,7 +49,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * Whether it is home page (the first page), the first page number is 1
-	 * 
+	 *
 	 * @return Boolean
 	 */
 	public boolean isFirstPage() {
@@ -39,7 +58,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * Whether it is the last page
-	 * 
+	 *
 	 * @return Boolean
 	 */
 	public boolean isLastPage() {
@@ -64,7 +83,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * The specified page numbers are forbidden to judge, that is beyond the scope of the specified number or equal to the current page.
-	 * 
+	 *
 	 * @param page
 	 * @return boolean
 	 */
@@ -74,7 +93,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * If there is a page
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean isHasPrePage() {
@@ -83,7 +102,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * If there is a next page
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public boolean isHasNextPage() {
@@ -126,7 +145,7 @@ public class Paginator implements Serializable {
 
 	/**
 	 * To get the total number of pages
-	 * 
+	 *
 	 * @return
 	 */
 	public int getTotalPages() {
@@ -146,25 +165,6 @@ public class Paginator implements Serializable {
 
 	protected int computePageNo(int page) {
 		return computePageNumber(page, pageSize, totalItems);
-	}
-
-	private static int computeLastPageNumber(int totalItems, int pageSize) {
-		if (pageSize <= 0)
-			return 1;
-		int result = (int) (totalItems % pageSize == 0 ? totalItems / pageSize : totalItems / pageSize + 1);
-		if (result <= 1)
-			result = 1;
-		return result;
-	}
-
-	private static int computePageNumber(int page, int pageSize, int totalItems) {
-		if (page <= 1) {
-			return 1;
-		}
-		if (Integer.MAX_VALUE == page || page > computeLastPageNumber(totalItems, pageSize)) {
-			return computeLastPageNumber(totalItems, pageSize);
-		}
-		return page;
 	}
 
 	public String toString() {

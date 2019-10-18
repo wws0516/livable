@@ -7,7 +7,8 @@
     -->
     <id column="house_id" property="houseId" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="region" property="region" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="house_type" property="houseType" jdbcType="VARCHAR" />
     <result column="rent" property="rent" jdbcType="VARCHAR" />
