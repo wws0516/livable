@@ -2,7 +2,10 @@
 serverIp: 127.0.0.1:8080
 
 spring:
-
+  data:
+    elasticsearch:
+      cluster-name: my-application
+      cluster-nodes: 127.0.0.1:9300
 
   application:
     name: demo
@@ -11,7 +14,7 @@ spring:
     time-zone: GMT+8
   datasource:
     name: sanqiu
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: 123456
     # druid
@@ -54,15 +57,15 @@ sever:
       timeout: 2592000
 
 mybatis:
-  basepackage: com.qiu.demo.mapper
+  basepackage: com.chuangshu.livable.mapper
   mapper-locations: ["classpath*:mapper/**/*.xml"]
-  type-aliases-package: com.qiu.demo.entity
-  mappers: com.qiu.demo.base.mapper.BaseMapper
+  type-aliases-package: com.chuangshu.livable.entity
+  mappers: com.chuangshu.livable.base.mapper.BaseMapper
   identity: MYSQL
 
 logging:
   level:
-    com.chuangshu.tucheng.mapper: DEBUG
+    com.chuangshu.livable.mapper: DEBUG
 
 
 

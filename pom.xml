@@ -164,14 +164,17 @@
             <version>1.4.7</version>
         </dependency>
 
-        <!--mongoDB-->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.9.1</version>
-        </dependency>
-    </dependencies>
 
+
+        <!-- ES -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+
+
+
+    </dependencies>
     <profiles>
         <profile>
             <id>dev</id>
@@ -183,7 +186,6 @@
             </properties>
         </profile>
     </profiles>
-
     <build>
         <plugins>
             <!-- 此插件用来生成通用mapper的代码 -->

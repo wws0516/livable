@@ -24,9 +24,9 @@ public class LookingController {
     @PostMapping("/insertLooking")
     @ApiOperation("新增约看")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "userID", dataType = "Integer", required = true, value = "用户ID"),
-            @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
-            @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间")
+            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户ID"),
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源ID"),
+            @ApiImplicitParam(paramType = "query", name = "data", dataType = "timestamp", required = true, value = "时间")
     })
     public ResultDTO insertLooking(Looking looking){
         Looking saveLooking = null;

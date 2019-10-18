@@ -10,6 +10,12 @@ public class LandlordInformation {
      * 房东ID
      */
     @Id
+    @Column(name = "landlord_id")
+    private Integer landlordId;
+
+    /**
+     * 用户ID
+     */
     @Column(name = "user_id")
     private Integer userId;
 
@@ -47,6 +53,8 @@ public class LandlordInformation {
      * 状态
      */
     private String status;
+
+    public static final String LANDLORD_ID = "landlordId";
 
     public static final String USER_ID = "userId";
 
