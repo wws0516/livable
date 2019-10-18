@@ -1,32 +1,29 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chuangshu.livable.mapper.HouseMapper">
-  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.House">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangshu.livable.mapper.HouseMapper" >
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.House" >
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="price" jdbcType="INTEGER" property="price" />
-    <result column="area" jdbcType="INTEGER" property="area" />
-    <result column="room" jdbcType="INTEGER" property="room" />
-    <result column="floor" jdbcType="INTEGER" property="floor" />
-    <result column="total_floor" jdbcType="INTEGER" property="totalFloor" />
-    <result column="watch_times" jdbcType="INTEGER" property="watchTimes" />
-    <result column="build_years" jdbcType="INTEGER" property="buildYears" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="last_update_time" jdbcType="TIMESTAMP" property="lastUpdateTime" />
-    <result column="city_en_name" jdbcType="VARCHAR" property="cityEnName" />
-    <result column="region_en_name" jdbcType="VARCHAR" property="regionEnName" />
-    <result column="cover" jdbcType="VARCHAR" property="cover" />
-    <result column="direction" jdbcType="INTEGER" property="direction" />
-    <result column="distance_to_subway" jdbcType="INTEGER" property="distanceToSubway" />
-    <result column="parlour" jdbcType="INTEGER" property="parlour" />
-    <result column="district" jdbcType="VARCHAR" property="district" />
-    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
-    <result column="bathroom" jdbcType="INTEGER" property="bathroom" />
-    <result column="street" jdbcType="VARCHAR" property="street" />
+    <id column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="house_type" property="houseType" jdbcType="VARCHAR" />
+    <result column="rent" property="rent" jdbcType="VARCHAR" />
+    <result column="rent_way" property="rentWay" jdbcType="VARCHAR" />
+    <result column="elevator" property="elevator" jdbcType="CHAR" />
+    <result column="toward" property="toward" jdbcType="CHAR" />
+    <result column="carport" property="carport" jdbcType="CHAR" />
+    <result column="energy_charge" property="energyCharge" jdbcType="VARCHAR" />
+    <result column="water_charge" property="waterCharge" jdbcType="VARCHAR" />
+    <result column="feature" property="feature" jdbcType="VARCHAR" />
+    <result column="acreage" property="acreage" jdbcType="VARCHAR" />
+    <result column="layout" property="layout" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="house_proprietary_certificate" property="houseProprietaryCertificate" jdbcType="VARCHAR" />
+    <result column="picture" property="picture" jdbcType="VARCHAR" />
+    <result column="allocation" property="allocation" jdbcType="LONGVARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
-
 </mapper>

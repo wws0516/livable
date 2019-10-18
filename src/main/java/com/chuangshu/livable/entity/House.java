@@ -1,106 +1,154 @@
 package com.chuangshu.livable.entity;
 
-import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
 
 @Data
 public class House {
+    /**
+     * 房子ID
+     */
     @Id
-    private Integer id;
+    @Column(name = "house_id")
+    private Integer houseId;
 
+    /**
+     * 标题
+     */
     private String title;
 
-    private Integer price;
+    /**
+     * 地区
+     */
+    private String area;
 
-    private Integer area;
+    /**
+     * 地址
+     */
+    private String address;
 
-    private Integer room;
+    /**
+     * 房型
+     */
+    @Column(name = "house_type")
+    private String houseType;
 
-    private Integer floor;
+    /**
+     * 租金
+     */
+    private String rent;
 
-    @Column(name = "total_floor")
-    private Integer totalFloor;
+    /**
+     * 方式
+     */
+    @Column(name = "rent_way")
+    private String rentWay;
 
-    @Column(name = "watch_times")
-    private Integer watchTimes;
+    /**
+     * 电梯有无
+     */
+    private String elevator;
 
-    @Column(name = "build_years")
-    private Integer buildYears;
+    /**
+     * 朝向
+     */
+    private String toward;
 
-    private Integer status;
+    /**
+     * 车位有无
+     */
+    private String carport;
 
-    @Column(name = "create_time")
-    private Date createTime;
+    /**
+     * 电费
+     */
+    @Column(name = "energy_charge")
+    private String energyCharge;
 
-    @Column(name = "last_update_time")
-    private Date lastUpdateTime;
+    /**
+     * 水费
+     */
+    @Column(name = "water_charge")
+    private String waterCharge;
 
-    @Column(name = "city_en_name")
-    private String cityEnName;
+    /**
+     * 特色
+     */
+    private String feature;
 
-    @Column(name = "region_en_name")
-    private String regionEnName;
+    /**
+     * 面积
+     */
+    private String acreage;
 
-    private String cover;
+    /**
+     * 布局
+     */
+    private String layout;
 
-    private Integer direction;
+    /**
+     * 状态
+     */
+    private String status;
 
-    @Column(name = "distance_to_subway")
-    private Integer distanceToSubway;
+    /**
+     * 房产证
+     */
+    @Column(name = "house_proprietary_certificate")
+    private String houseProprietaryCertificate;
 
-    private Integer parlour;
+    /**
+     * 图片
+     */
+    private String picture;
 
-    private String district;
+    /**
+     * 房屋配置
+     */
+    private String allocation;
 
-    @Column(name = "admin_id")
-    private Integer adminId;
+    /**
+     * 介绍
+     */
+    private String introduction;
 
-    private Integer bathroom;
-
-    private String street;
-
-    public static final String ID = "id";
+    public static final String HOUSE_ID = "houseId";
 
     public static final String TITLE = "title";
 
-    public static final String PRICE = "price";
-
     public static final String AREA = "area";
 
-    public static final String ROOM = "room";
+    public static final String ADDRESS = "address";
 
-    public static final String FLOOR = "floor";
+    public static final String HOURSE_TYPE = "hourseType";
 
-    public static final String TOTAL_FLOOR = "totalFloor";
+    public static final String RENT = "rent";
 
-    public static final String WATCH_TIMES = "watchTimes";
+    public static final String RENT_WAY = "rentWay";
 
-    public static final String BUILD_YEARS = "buildYears";
+    public static final String ELEVATOR = "elevator";
+
+    public static final String TOWARD = "toward";
+
+    public static final String CARPORT = "carport";
+
+    public static final String ENERGY_CHARGE = "energyCharge";
+
+    public static final String WATER_CHARGE = "waterCharge";
+
+    public static final String FEATURE = "feature";
+
+    public static final String ACREAGE = "acreage";
+
+    public static final String LAYOUT = "layout";
 
     public static final String STATUS = "status";
 
-    public static final String CREATE_TIME = "createTime";
+    public static final String HOUSE_PROPRIETARY_CERTIFICATE = "houseProprietaryCertificate";
 
-    public static final String LAST_UPDATE_TIME = "lastUpdateTime";
+    public static final String PICTURE = "picture";
 
-    public static final String CITY_EN_NAME = "cityEnName";
+    public static final String ALLOCATION = "allocation";
 
-    public static final String REGION_EN_NAME = "regionEnName";
-
-    public static final String COVER = "cover";
-
-    public static final String DIRECTION = "direction";
-
-    public static final String DISTANCE_TO_SUBWAY = "distanceToSubway";
-
-    public static final String PARLOUR = "parlour";
-
-    public static final String DISTRICT = "district";
-
-    public static final String ADMIN_ID = "adminId";
-
-    public static final String BATHROOM = "bathroom";
-
-    public static final String STREET = "street";
+    public static final String INTRODUCTION = "introduction";
 }

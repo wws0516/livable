@@ -1,12 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.chuangshu.livable.mapper.LookedMapper">
-
-  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.Looked">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangshu.livable.mapper.LookedMapper" >
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.Looked" >
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="looked_id" jdbcType="INTEGER" property="lookedId" />
-    <result column="looking_id" jdbcType="INTEGER" property="lookingId" />
+    <id column="looked_id" property="lookedId" jdbcType="INTEGER" />
+    <result column="looking_id" property="lookingId" jdbcType="INTEGER" />
   </resultMap>
 </mapper>
