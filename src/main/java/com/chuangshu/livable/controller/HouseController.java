@@ -183,6 +183,8 @@ public class HouseController {
     @GetMapping("/checkHouses")
     @ResponseBody
     public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
-    }
+    
+             
+                 }
 }
 
