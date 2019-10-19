@@ -189,6 +189,22 @@ public class HouseController {
         }else {}
 //        ApiResponse response = ApiResponse.o
         return null;
+
+
+    }
+
+    @GetMapping("/rentMapHouses")
+    @ResponseBody
+    public ApiResponse rentMapHousessa(@ModelAttribute MapSearch mapSearch){
+        if (mapSearch.getCityName() == null)
+            return null;
+        if(mapSearch.getLevel() < 13){
+            houseService.wholeMapQuery(mapSearch);
+        }else {}
+//        ApiResponse response = ApiResponse.o
+        return null;
+
+
     }
 
 }
