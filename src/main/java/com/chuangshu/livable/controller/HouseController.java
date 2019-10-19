@@ -179,10 +179,17 @@ public class HouseController {
 //        ApiResponse response = ApiResponse.o
     return null;
     }
-
-    @GetMapping("/checkHouses")
+    @GetMapping("/rentMapHouses")
     @ResponseBody
-    public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
+    public ApiResponse rentMapHousesa(@ModelAttribute MapSearch mapSearch){
+        if (mapSearch.getCityName() == null)
+            return null;
+        if(mapSearch.getLevel() < 13){
+            houseService.wholeMapQuery(mapSearch);
+        }else {}
+//        ApiResponse response = ApiResponse.o
+        return null;
     }
+
 }
 
