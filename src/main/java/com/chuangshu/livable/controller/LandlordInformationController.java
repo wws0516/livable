@@ -34,7 +34,7 @@ public class LandlordInformationController {
     @PostMapping("/registerLandlord")
     public ResultDTO registerLandlord(LandlordInformation landlordInformation){
         LandlordInformation landlordInformation1 = null;
-        landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
+        landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
         try {
             landlordInformation1 = landlordInformationService.save(landlordInformation);
         } catch (Exception e) {
@@ -52,12 +52,12 @@ public class LandlordInformationController {
     @GetMapping("/checkLandlord")
     public ResultDTO checkLandlord(Integer landlordId,String code) {
         LandlordInformation landlordInformation = new LandlordInformation();
-        landlordInformation.setUserId(landlordId);
+        landlordInformation.setLandlordId(landlordId);
         if (code.equals("U")) {
-            landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
+            landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
 
         }else if(code.equals("C")){
-            landlordInformation.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode().toString());
+            landlordInformation.setStatus(StatusCode.HOUSE_CHECKED.getCode());
         }
         try {
             landlordInformationService.update(landlordInformation);
