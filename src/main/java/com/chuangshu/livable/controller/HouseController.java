@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.elasticsearch.search.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -171,8 +172,9 @@ public class HouseController {
     @GetMapping("/rentMapHouses")
     @ResponseBody
     public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
-        if (mapSearch.getCityName() == null)
+        if(mapSearch.getCityName() == null) {
             return null;
+        }
         if(mapSearch.getLevel() < 13){
             houseService.wholeMapQuery(mapSearch);
         }else {}
@@ -180,11 +182,30 @@ public class HouseController {
     return null;
     }
 
-    @GetMapping("/checkHouses")
-    @ResponseBody
-    public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
-    
-             
-                 }
+
+    @ApiOperation("审批房源信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源ID"),
+            @ApiImplicitParam(paramType = "query", name = "code", dataType = "String", required = true, value = "房源信息状态"),
+    })
+    @GetMapping("/checkHouse")
+    public ResultDTO checkHouse(Integer houseId,String code){
+        House house = new House();
+        house.setHouseId(houseId);
+        if (code.equals("U")) {
+            house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
+
+        }else if(code.equals("C")){
+            house.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode());
+        }
+        try {
+            houseService.update(house);
+        } catch (Exception e) {
+            return ResultUtil.Error("500","意料之外的错误");
+        }
+        return ResultUtil.Success();
+    }
+
+
 }
 
