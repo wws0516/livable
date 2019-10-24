@@ -8,11 +8,15 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,14 +35,15 @@ public class UserOpinionController {
     @PutMapping("/insertOneOpinion")
     @ApiOperation("新增意见")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户ID"),
             @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String", required = true, value = "图片URL"),
-            @ApiImplicitParam(paramType = "query", name = "star", dataType = "Integer", required = true, value = "星数"),
             @ApiImplicitParam(paramType = "query", name = "opinion", dataType = "String", required = true, value = "意见"),
     })
     public ResultDTO<UserOpinion> insertOneOpinion(UserOpinion userOpinion)throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        userOpinion.setUserId(userId);
         userOpinionService.save(userOpinion);
-        return ResultUtil.Success(userOpinionService.findByParams(userOpinion));
+        return ResultUtil.Success(userOpinionService.get(userId));
     }
 
     @ApiOperation("得到所有opinion")
