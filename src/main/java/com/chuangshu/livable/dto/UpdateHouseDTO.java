@@ -4,91 +4,48 @@ import com.chuangshu.livable.base.dto.BaseDTO;
 import lombok.Data;
 
 @Data
-public class UpdateHouseDTO extends BaseDTO {
+public class UpdateHouseDTO extends HouseDTO {
+    private Integer houseId;
 
-    /**
-     * 标题
-     */
     private String title;
 
-    /**
-     * 地区
-     */
-    private String area;
+    private String city;
 
-    /**
-     * 地址
-     */
+    private String region;
+
     private String address;
 
-    /**
-     * 房型
-     */
-    private String houseType;
+    private String hourse_type;
 
-    /**
-     * 租金
-     */
     private String rent;
 
-    /**
-     * 方式
-     */
-    private String rentWay;
+    private String rent_way;
 
-    /**
-     * 电梯有无
-     */
-    private String elevator;
+    private char elevator;
 
-    /**
-     * 朝向
-     */
-    private String toward;
+    private char toward;
 
-    /**
-     * 车位有无
-     */
-    private String carport;
+    private char carport;
 
-    /**
-     * 电费
-     */
-    private String energyCharge;
+    private String energy_charge;
 
-    /**
-     * 水费
-     */
-    private String waterCharge;
+    private String water_charge;
 
-    /**
-     * 特色
-     */
     private String feature;
 
-    /**
-     * 面积
-     */
     private String acreage;
 
-    /**
-     * 布局
-     */
     private String layout;
 
-
-    /**
-     * 图片
-     */
-    private String picture;
-
-    /**
-     * 房屋配置
-     */
     private String allocation;
 
-    /**
-     * 介绍
-     */
     private String introduction;
+
+    private Integer status;
+
+    private String house_proprietary_certificate;
+
+    private String picture;
+
 }
+

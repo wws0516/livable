@@ -18,7 +18,7 @@ public class LandlordInformation {
      */
     @Id
     @Column(name = "user_id")
-    private Integer userId;
+    private Integer landlordId;
     /**
      * 身份证号
      */

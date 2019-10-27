@@ -7,6 +7,7 @@ import com.chuangshu.livable.entity.MapSearch;
 import com.chuangshu.livable.mapper.HouseMapper;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
+import com.chuangshu.livable.service.search.RentSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,4 +44,13 @@ public class HouseServiceImpl extends BaseServiceImpl<HouseMapper, House> implem
         return houseDTOS;
     }
 
+
+    @Override
+    public List<HouseDTO> query(RentSearch rentSearch) {
+            List<Integer> houseIds = searchService.query(rentSearch);
+            if (houseIds.size() == 0){
+                return null;
+            }
+            return wrapperHouseResult(houseIds);
+    }
 }

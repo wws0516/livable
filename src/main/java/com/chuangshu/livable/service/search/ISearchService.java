@@ -38,4 +38,16 @@ public interface ISearchService {
      * 城市级别查询
      */
     List<Integer> mapQuery(String cityName, String orderBy, String orderDirection, int start, int size);
+
+    /**
+     * 按关键词和条件搜索房源
+     */
+    List<Integer> query(RentSearch rentSearch);
+
+    /**
+     * 获取补全建议关键词
+     */
+    List<String> suggest(String prefix);
+
+
 }

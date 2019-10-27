@@ -23,10 +23,10 @@ public class Address {
     private String level;
 
     @Column(name = "baidu_map_lng")
-    private double baiduMapLongitude;
+    private String baiduMapLongitude;
 
     @Column(name = "baidu_map_lat")
-    private double baiduMapLatitude;
+    private String baiduMapLatitude;
 
     /**
      * 行政级别

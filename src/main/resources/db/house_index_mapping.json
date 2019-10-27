@@ -1,94 +1,103 @@
 {
-  "settings":{
-    "number_of_replicas":0
+  "settings": {
+    "number_of_replicas": 0
   },
-  "mappings":{
-    "house":{
-      "dynamic":false,
-      "properties":{
-        "house_id":{
-          "type":"integer"
+  "mappings": {
+    "house": {
+      "dynamic": false,
+      "properties": {
+        "house_id": {
+          "type": "integer"
         },
-        "title":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "title": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "city":{
-          "type":"keyword"
+        "city": {
+          "type": "keyword"
         },
-        "region":{
-          "type":"keyword"
+        "region": {
+          "type": "keyword"
         },
-        "address":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "address": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "house_type":{
-          "type":"keyword"
+        "house_type": {
+          "type": "keyword"
         },
-        "rent":{
-          "type":"integer"
+        "rent": {
+          "type": "integer"
         },
-        "rent_way":{
-          "type":"keyword"
+        "rent_way": {
+          "type": "keyword"
         },
-        "elevator":{
-          "type":"text",
-          "index":false
+        "elevator": {
+          "type": "text",
+          "index": false
         },
-        "toward":{
-          "type":"keyword"
+        "toward": {
+          "type": "keyword"
         },
-        "carport":{
-          "type":"text",
-          "index":false
+        "carport": {
+          "type": "text",
+          "index": false
         },
-        "energy_charge":{
-          "type":"text",
-          "index":false
+        "energy_charge": {
+          "type": "text",
+          "index": false
         },
-        "water_charge":{
-          "type":"text",
-          "index":false
+        "water_charge": {
+          "type": "text",
+          "index": false
         },
-        "feature":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "feature": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "acreage":{
-          "type":"integer"
+        "acreage": {
+          "type": "integer"
         },
-        "layout":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "layout": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "allocation":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "allocation": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "introduction":{
-          "type":"text",
-          "index":true,
-          "analyzer":"ik_smart"
+        "introduction": {
+          "type": "text",
+          "index": true,
+          "analyzer": "ik_smart",
+          "search_analyzer": "ik_smart"
         },
-        "status":{
-          "type":"integer"
+        "status": {
+          "type": "integer"
         },
-        "house_proprietary_certificate":{
-          "type":"text",
-          "index":false
+        "house_proprietary_certificate": {
+          "type": "text",
+          "index": false
         },
-        "picture":{
-          "type":"text",
-          "index":false
+        "picture": {
+          "type": "text",
+          "index": false
         },
-        "location":{
-          "type":"geo_point"
+        "location": {
+          "type": "geo_point"
+        },
+        "suggests": {
+          "type": "completion"
         }
       }
     }

@@ -1,6 +1,6 @@
 package com.chuangshu.livable.controller;
 
-import com.chuangshu.livable.StatusCode.StatusCode;
+import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.entity.LandlordInformation;
@@ -34,7 +34,7 @@ public class LandlordInformationController {
     @PostMapping("/registerLandlord")
     public ResultDTO registerLandlord(LandlordInformation landlordInformation){
         LandlordInformation landlordInformation1 = null;
-        landlordInformation.setStatus(StatusCode.HOUSE_UNCHECKED.getCode());
+        landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
         try {
             landlordInformation1 = landlordInformationService.save(landlordInformation);
         } catch (Exception e) {
@@ -54,10 +54,10 @@ public class LandlordInformationController {
         LandlordInformation landlordInformation = new LandlordInformation();
         landlordInformation.setLandlordId(landlordId);
         if (code.equals("U")) {
-            landlordInformation.setStatus(StatusCode.HOUSE_UNCHECKED.getCode());
+            landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
 
         }else if(code.equals("C")){
-            landlordInformation.setStatus(StatusCode.HOUSE_CHECKED.getCode());
+            landlordInformation.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode().toString());
         }
         try {
             landlordInformationService.update(landlordInformation);

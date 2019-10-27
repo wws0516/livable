@@ -4,17 +4,19 @@ import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.*;
-import com.chuangshu.livable.entity.Address;
 import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.MapSearch;
 import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
+import com.chuangshu.livable.service.search.RentSearch;
+import com.chuangshu.livable.service.search.RentValueBlock;
+import com.chuangshu.livable.service.search.impl.AddressServiceImpl;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
-import org.elasticsearch.search.SearchService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,27 @@ public class HouseController {
 
     @Autowired
     ISearchService searchService;
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    /**
+     * 自动补全接口
+     */
+    @GetMapping("rent/autocomplete")
+    @ResponseBody
+    @ApiOperation(value = "搜索时提示功能")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "prefix", dataType = "String",required = true, value = "前缀")
+    })
+    public List<String> autocomplete(@RequestParam(value = "prefix") String prefix) {
+
+        if (prefix.isEmpty()) {
+            return null;
+        }
+        List<String> suggest = this.searchService.suggest(prefix);
+        return suggest;
+    }
 
     @PostMapping("/insert")
     @ApiOperation(value = "新增房源信息")
@@ -70,10 +93,75 @@ public class HouseController {
         house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
         try {
             saveHouse = houseService.save(house);
+//            //新增es索引
+//            searchService.index(house.getHouseId());
         } catch (Exception e) {
             ResultUtil.Error("500","新建房源信息失败："+e.getMessage());
         }
         return ResultUtil.Success(saveHouse);
+    }
+
+    @PostMapping("/search")
+    @ApiOperation(value = "搜索房源信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "city", dataType = "String", required = true, value = "城市"),
+            @ApiImplicitParam(paramType = "query", name = "region", dataType = "String", required = true, value = "地区"),
+            @ApiImplicitParam(paramType = "query", name = "priceBlock", dataType = "String", required = true, value = "价格区间"),
+            @ApiImplicitParam(paramType = "query", name = "acreageBlock", dataType = "String", required = true, value = "面积区间"),
+            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String", required = true, value = "方式"),
+            @ApiImplicitParam(paramType = "query", name = "keyWords", dataType = "String", required = true, value = "关键字"),
+            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String", required = true, value = "朝向"),
+            @ApiImplicitParam(paramType = "query", name = "orderBy", dataType = "String", required = true, value = "排序字段"),
+            @ApiImplicitParam(paramType = "query", name = "orderDirection", dataType = "String", required = true, value = "排序方向"),
+            @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索开始位置"),
+            @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索个数")
+    })
+    public String searchHouses(@ModelAttribute RentSearch rentSearch, Model model, HttpSession session, RedirectAttributes redirectAttributes){
+
+        if (rentSearch.getCity() == null){
+            String cityNameInSession = (String) session.getAttribute("cityName");
+            if (cityNameInSession == null){
+                redirectAttributes.addAttribute("msg", "请选择城市！");
+            }else {
+                rentSearch.setCity(cityNameInSession);
+            }
+        }else {
+            session.setAttribute("cityName", rentSearch.getCity());
+        }
+
+        AddressDTO city = addressService.findCity(rentSearch.getCity());
+        if (city == null) {
+            redirectAttributes.addAttribute("msg", "must_chose_city");
+            return "redirect:/index";
+        }
+        model.addAttribute("currentCity", city);
+
+        List<AddressDTO> regions = addressService.findAllRegionsByCityName(rentSearch.getCity());
+        if (regions == null || regions.size() < 1) {
+            redirectAttributes.addAttribute("msg", "must_chose_city");
+            return "redirect:/index";
+        }
+
+        List<HouseDTO> houseDTOS = houseService.query(rentSearch);
+
+        model.addAttribute("total", houseDTOS.size());
+        model.addAttribute("houses", houseDTOS);
+
+        if (rentSearch.getRegion() == null) {
+            rentSearch.setRegion("*");
+        }
+
+        model.addAttribute("searchBody", rentSearch);
+        model.addAttribute("regions", regions);
+
+        model.addAttribute("priceBlocks", RentValueBlock.PRICE_BLOCK);
+        model.addAttribute("acreageBlocks", RentValueBlock.ACREAGE_BLOCK);
+
+        model.addAttribute("currentPriceBlock", RentValueBlock.matchPrice(rentSearch.getPriceBlock()));
+        model.addAttribute("currentAcreageBlock", RentValueBlock.matchAcreage(rentSearch.getAcreageBlock()));
+
+        return "rent-list";
+
     }
 
     @GetMapping("/getOneHouse")
@@ -89,9 +177,9 @@ public class HouseController {
         return ResultUtil.Success(house);
     }
 
+
+
     public ResultDTO getHouseByParams(){
-
-
         return ResultUtil.Success();
     }
 
@@ -101,6 +189,8 @@ public class HouseController {
     public ResultDTO deleteHouse(Integer houseID){
         try {
             houseService.deleteById(houseID);
+            //删除es索引
+            searchService.remove(houseID);
         } catch (Exception e) {
             ResultUtil.Error("500","删除房源失败："+e.getMessage());
         }
@@ -132,8 +222,17 @@ public class HouseController {
     public ResultDTO updateHouseByDto(UpdateHouseDTO updateHouseDto){
         try{
             houseService.updateDTO(updateHouseDto,House.class);
+
         }catch (Exception e){
             ResultUtil.Error("500","更新房源信息失败："+e.getMessage());
+        }
+
+        try {
+            HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
+            if (houseDTO.getStatus() == HouseStatusCode.HOUSE_CHECKED.getCode())
+                searchService.index(houseDTO.getHouseId());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return ResultUtil.Success();
     }
@@ -176,35 +275,7 @@ public class HouseController {
         if(mapSearch.getLevel() < 13){
             houseService.wholeMapQuery(mapSearch);
         }else {}
-//        ApiResponse response = ApiResponse.o
     return null;
-    }
-    @GetMapping("/rentMapHouses")
-    @ResponseBody
-    public ApiResponse rentMapHousesa(@ModelAttribute MapSearch mapSearch){
-        if (mapSearch.getCityName() == null)
-            return null;
-        if(mapSearch.getLevel() < 13){
-            houseService.wholeMapQuery(mapSearch);
-        }else {}
-//        ApiResponse response = ApiResponse.o
-        return null;
-
-
-    }
-
-    @GetMapping("/rentMapHouses")
-    @ResponseBody
-    public ApiResponse rentMapHousessa(@ModelAttribute MapSearch mapSearch){
-        if (mapSearch.getCityName() == null)
-            return null;
-        if(mapSearch.getLevel() < 13){
-            houseService.wholeMapQuery(mapSearch);
-        }else {}
-//        ApiResponse response = ApiResponse.o
-        return null;
-
-
     }
 
 }

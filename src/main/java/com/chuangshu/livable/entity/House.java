@@ -2,6 +2,8 @@ package com.chuangshu.livable.entity;
 
 import javax.persistence.*;
 import lombok.Data;
+import org.apache.kafka.common.protocol.types.Field;
+import org.elasticsearch.search.SearchHit;
 
 @Data
 public class House {
@@ -25,7 +27,7 @@ public class House {
 
     private char elevator;
 
-    private char toward;
+    private String toward;
 
     private char carport;
 
