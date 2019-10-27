@@ -238,6 +238,10 @@ public class HouseController {
     }
 
     @GetMapping("/rentMap")
+    @ApiOperation("查询城市下的区(县)的房源数")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "city", dataType = "String", required = true, value = "城市")
+    })
     public String rentMapPage(@RequestParam(value = "city") String cityName, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AddressDTO nameLevelAddressDTO = new NameLevelAddressDTO(cityName, "city");
         try {
@@ -268,6 +272,10 @@ public class HouseController {
     }
 
     @GetMapping("/rentMapHouses")
+    @ApiOperation("查询某城市的房源")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "cityName", dataType = "String", required = true, value = "城市名")
+    })
     @ResponseBody
     public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
         if (mapSearch.getCityName() == null)
@@ -277,6 +285,5 @@ public class HouseController {
         }else {}
     return null;
     }
-
 }
 

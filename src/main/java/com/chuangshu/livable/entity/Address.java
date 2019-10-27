@@ -22,6 +22,8 @@ public class Address {
 
     private String level;
 
+    private String shortName;
+
     @Column(name = "baidu_map_lng")
     private String baiduMapLongitude;
 
@@ -32,8 +34,10 @@ public class Address {
      * 行政级别
      */
     public enum Level{
-        CITY("city"),
-        REGION("region");
+        PROVINCE("1"),
+        CITY("2"),
+        REGION("3"),
+        TOWN("4");
 
         private String value;
 

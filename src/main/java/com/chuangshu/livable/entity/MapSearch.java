@@ -14,7 +14,7 @@ public class MapSearch {
      * 地图缩放级别
      */
     private int level = 12;
-    private String orderBy = "lastUpdateTime";
+    private String orderBy = "rent";
     private String orderDirection = "desc";
     /**
      * 左上角
