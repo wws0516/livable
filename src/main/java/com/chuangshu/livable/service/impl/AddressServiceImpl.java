@@ -18,7 +18,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.kafka.common.protocol.types.Field;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +27,11 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.NoSuchAlgorithmException;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> implements AddressService {
@@ -67,7 +68,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
     }
 
     @Override
-    public List<AddressDTO> findByNameAndBelongTo(String name, String belongTo) {
+    public AddressDTO findByNameAndBelongTo(String name, String belongTo) {
         return null;
     }
 
@@ -137,8 +138,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
             return null;
         }
     }
-
-    // 来自stackoverflow的MD5计算方法，调用了MessageDigest库函数，并把byte数组结果转换成16进制
+//    来自stackoverflow的MD5计算方法，调用了MessageDigest库函数，并把byte数组结果转换成16进制
 //    public String MD5(String md5)
 //    {
 //        try
@@ -157,4 +157,45 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
 //        }
 //        return null;
 //    }
+
+    @Override
+    public List<AddressDTO> findAllCities(String cityName) {
+
+        List<AddressDTO> cities = findAllByLevel(Address.Level.CITY.getValue());
+        return cities;
+    }
+
+    @Override
+    public Map<Address.Level, AddressDTO> findCityAndRegion(String cityName, String regionName) {
+        Map<Address.Level, AddressDTO> result = new HashMap<>();
+        AddressDTO city = findByNameAndLevel(cityName, Address.Level.CITY.getValue());
+        AddressDTO region = findByNameAndBelongTo(regionName, city.getName());
+
+        result.put(Address.Level.CITY, city);
+        result.put(Address.Level.REGION, region);
+        return result;
+    }
+
+    @Override
+    public List<AddressDTO> findAllRegionsByCityName(String cityName) {
+        if (cityName == null) {
+            return new ArrayList<>();
+        }
+        List<AddressDTO> regions = findAllByLevelAndBelongTo(Address.Level.REGION
+                .getValue(), cityName);
+
+        return regions;
+    }
+
+    @Override
+    public AddressDTO findCity(String cityName) {
+        if (cityName == null) {
+            return null;
+        }
+        AddressDTO city = findByNameAndLevel(cityName, Address.Level.CITY.getValue());
+        if (city == null) {
+            return null;
+        }
+        return city;
+    }
 }

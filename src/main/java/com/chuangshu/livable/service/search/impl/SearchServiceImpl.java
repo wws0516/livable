@@ -10,6 +10,10 @@ import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.client.methods.RequestBuilder;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeAction;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequestBuilder;
+import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -17,6 +21,7 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.index.query.RangeQueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
@@ -28,6 +33,11 @@ import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.aggregations.bucket.terms.Terms;
 import org.elasticsearch.search.aggregations.bucket.terms.TermsAggregationBuilder;
 import org.elasticsearch.search.sort.SortOrder;
+import org.elasticsearch.search.suggest.Suggest;
+import org.elasticsearch.search.suggest.SuggestBuilder;
+import org.elasticsearch.search.suggest.SuggestBuilders;
+import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
+import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +48,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: wws
@@ -109,7 +121,6 @@ public class SearchServiceImpl implements ISearchService {
         String address = city.getName() + region.getName() + house.getAddress();
 
         BaiduMapLocation baiduMapLocation = addressService.getBaiduMapLocation(city.getName(), address);
-
 
 
         SearchRequestBuilder requestBuilder = this.esClient.prepareSearch(INDEX_NAME).setTypes(INDEX_TYPE)
@@ -334,12 +345,169 @@ public class SearchServiceImpl implements ISearchService {
         return houseIds;
     }
 
+    @Override
+    public List<Integer> query(RentSearch rentSearch) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        boolQueryBuilder.filter(
+                QueryBuilders.termQuery(HouseIndexKey.CITY, rentSearch.getCity())
+        );
+        if (rentSearch.getRegion() != null && !"*".equals(rentSearch.getRegion())){
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexKey.REGION, rentSearch.getRegion())
+            );
+        }
+        RentValueBlock acreage = RentValueBlock.matchAcreage(rentSearch.getAcreageBlock());
+        if (!acreage.equals(RentValueBlock.ALL)){
+            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexKey.ACREAGE);
+            if (acreage.getMax()>0){
+                rangeQueryBuilder.lte(acreage.getMax());
+            }
+            if (acreage.getMin()>0){
+                rangeQueryBuilder.gte(acreage.getMin());
+            }
+            boolQueryBuilder.filter(rangeQueryBuilder);
+        }
+
+        RentValueBlock price = RentValueBlock.matchPrice(rentSearch.getPriceBlock());
+
+        if (!RentValueBlock.ALL.equals(price)){
+            RangeQueryBuilder rangeQueryBuilder = QueryBuilders.rangeQuery(HouseIndexKey.RENT);
+            if (price.getMax()>0)
+                rangeQueryBuilder.lte(price.getMax());
+            if (price.getMin()>0)
+                rangeQueryBuilder.gte(price.getMin());
+            boolQueryBuilder.filter(rangeQueryBuilder);
+        }
+
+        if (rentSearch.getRentWay() != null){
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexKey.RENT_WAY, rentSearch.getRentWay())
+            );
+        }
+        if (rentSearch.getToward() != null){
+            boolQueryBuilder.filter(
+                    QueryBuilders.termQuery(HouseIndexKey.TOWARD, rentSearch.getToward())
+            );
+        }
+
+        if (rentSearch.getKeywords()!=null && !rentSearch.getKeywords().isEmpty()) {
+            boolQueryBuilder.must(
+                    QueryBuilders.multiMatchQuery(rentSearch.getKeywords(),
+                            HouseIndexKey.TITLE,
+                            HouseIndexKey.ALLOCATION,
+                            HouseIndexKey.FEATURE,
+                            HouseIndexKey.INTRODUCTION,
+                            HouseIndexKey.LAYOUT
+                    )
+            );
+        }
+
+        SearchRequestBuilder searchRequestBuilder = this.esClient.prepareSearch(INDEX_NAME);
+        searchRequestBuilder.setQuery(boolQueryBuilder)
+                .setTypes(INDEX_TYPE)
+                .setFrom(rentSearch.getStart())
+                .setSize(rentSearch.getSize())
+                .addSort(rentSearch.getOrderBy(),
+                        SortOrder.fromString(rentSearch.getOrderDirection())
+                )
+                .setFetchSource(HouseIndexKey.HOUSE_ID, null);
+
+        logger.debug(searchRequestBuilder.toString());
+        List<Integer> houseIds = new ArrayList<>();
+        SearchResponse response = searchRequestBuilder.get();
+        if (response.status()!=RestStatus.OK){
+            logger.warn("Search status is not ok for "+ searchRequestBuilder);
+        }
+
+        for (SearchHit searchHit : response.getHits()){
+            try {
+                System.out.println(searchHit.getFields().get("houseId"));
+                HouseIndexTemplate houseIndexTemplate = objectMapper.readValue(searchHit.getSourceAsString(), HouseIndexTemplate.class);
+
+
+                Integer houseId = objectMapper.readValue(searchHit.getSourceAsString(), HouseIndexTemplate.class).getHouseId();
+                houseIds.add(houseId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return houseIds;
+    }
+
+    @Override
+    public List<String> suggest(String prefix) {
+        CompletionSuggestionBuilder suggestion = SuggestBuilders.completionSuggestion("suggests").prefix(prefix).size(5);
+        SuggestBuilder suggestBuilder = new SuggestBuilder();
+        suggestBuilder.addSuggestion("autocomplete", suggestion);
+
+        SearchRequestBuilder request = this.esClient.prepareSearch(INDEX_NAME)
+                .setTypes(INDEX_TYPE)
+                .suggest(suggestBuilder);
+        SearchResponse response = request.get();
+        Suggest suggest = response.getSuggest();
+        if (suggest==null)
+            return null;
+        Suggest.Suggestion autocomplete = suggest.getSuggestion("autocomplete");
+
+        int maxSuggest = 0;
+        Set<String> suggestSet = new HashSet<>();
+        for(Object term : autocomplete.getEntries()){
+            if (term instanceof CompletionSuggestion.Entry){
+                CompletionSuggestion.Entry item = (CompletionSuggestion.Entry) term;
+                if (item.getOptions().isEmpty())
+                    continue;
+                for(CompletionSuggestion.Entry.Option option : item.getOptions()) {
+                    String tip = option.getText().string();
+                    if (suggestSet.contains(tip))
+                        continue;
+                    suggestSet.add(tip);
+                    maxSuggest++;
+                }
+            }
+            if (maxSuggest>5)
+                break;
+        }
+        List<String> suggests = (List<String>) suggestSet;
+        return suggests;
+    }
+
+    public boolean updateSuggest(HouseIndexTemplate houseIndexTemplate) {
+        AnalyzeRequestBuilder analyzeRequestBuilder = new AnalyzeRequestBuilder(
+                this.esClient, AnalyzeAction.INSTANCE, INDEX_NAME, houseIndexTemplate.getTitle(), houseIndexTemplate.getAddress(), houseIndexTemplate.getFeature(), houseIndexTemplate.getAllocation(), houseIndexTemplate.getLayout(), houseIndexTemplate.getIntroduction());
+        analyzeRequestBuilder.setAnalyzer("ik_smart");
+        AnalyzeResponse analyzeTokens = analyzeRequestBuilder.get();
+
+        List<AnalyzeResponse.AnalyzeToken> tokens = analyzeTokens.getTokens();
+
+        if (tokens==null) {
+            logger.warn("Can not analyzer token for house: " + houseIndexTemplate.getHouseId());
+            return false;
+        }
+
+        List<HouseSuggest> suggests = new ArrayList<>();
+        for (AnalyzeResponse.AnalyzeToken token : tokens){
+            if ("<NUM>".equals(token.getType()))
+                continue;
+            HouseSuggest suggest = new HouseSuggest();
+            suggest.setInput(token.getTerm());
+            suggests.add(suggest);
+
+        }
+        houseIndexTemplate.setSuggests(suggests);
+        return true;
+    }
+
     /**
      * 创建索引
      * @param houseIndexTemplate
      * @return
      */
     private boolean create(HouseIndexTemplate houseIndexTemplate) {
+
+        if (!updateSuggest(houseIndexTemplate)){
+            return false;
+        }
+
         try {
             IndexResponse response = this.esClient.prepareIndex(INDEX_NAME, INDEX_TYPE)
                     .setSource(objectMapper.writeValueAsBytes(houseIndexTemplate), XContentType.JSON).get();
@@ -360,6 +528,11 @@ public class SearchServiceImpl implements ISearchService {
      * @return
      */
     private boolean update(Integer houseId, HouseIndexTemplate houseIndexTemplate) {
+
+        if (!updateSuggest(houseIndexTemplate)){
+            return false;
+        }
+
         try {
             UpdateResponse response = this.esClient.prepareUpdate(INDEX_NAME, INDEX_TYPE, String.valueOf(houseId))
                     .setDoc(objectMapper.writeValueAsBytes(houseIndexTemplate), XContentType.JSON).get();

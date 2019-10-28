@@ -1,17 +1,17 @@
 # ip:port
-serverIp: 47.106.247.251:8080
+serverIp: 47.106.247.251:8081
 
 spring:
   application:
-    name: tu—cheng
+    name: livable
   jackson:
     date-format: yyyy-MM-dd hh:mm:ss
     time-zone: GMT+8
   datasource:
-    name: tu—cheng
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/tu_cheng?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
+    name: livable
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
     username: root
-    password: MyNewPass4!
+    password: 123456
     # druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -35,6 +35,17 @@ spring:
     encoding: UTF-8
     basename: i18n/abt_messages
     use-code-as-default-message: true
+
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092
+    #指定默认topic id
+    template.default-topic: house
+    #指定listener 容器中的线程数，用于提高并发量
+    listener:
+      concurrency: 3
+      #指定默认消费者group id
+    consumer:
+      group-id: livable
 #  thymeleaf:
 #    prefix: classpath:/templates/
 #    suffix: .html
@@ -46,6 +57,8 @@ spring:
 
 #  mvc:
 #    static-path-pattern: /**
+
+
 
 sever:
   servlet:
