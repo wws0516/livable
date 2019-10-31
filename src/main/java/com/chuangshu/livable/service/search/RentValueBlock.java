@@ -1,6 +1,7 @@
 package com.chuangshu.livable.service.search;
 
 import com.google.common.collect.ImmutableMap;
+import lombok.Data;
 
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import java.util.Map;
  * @Author: wws
  * @Date: 2019-09-25 13:52
  */
+@Data
 public class RentValueBlock {
 
     /**
@@ -63,29 +65,5 @@ public class RentValueBlock {
             return ALL;
         }
         return block;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public int getMin() {
-        return min;
-    }
-
-    public void setMin(int min) {
-        this.min = min;
-    }
-
-    public int getMax() {
-        return max;
-    }
-
-    public void setMax(int max) {
-        this.max = max;
     }
 }

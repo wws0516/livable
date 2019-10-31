@@ -54,13 +54,13 @@ public class ValidateCodeController {
 
     @GetMapping("/emailCode")
     @ApiOperation("发送邮箱验证码")
-    public void createSmsCode(HttpServletRequest request, HttpServletResponse response) {
+    public void createSmsCode(HttpServletRequest request, HttpServletResponse response, String email) {
 
         EmailCode emailCode = (EmailCode) emailCodeGenerator.generator(new ServletWebRequest(request));
         System.out.println(emailCode.getCode());
         sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY+"EMAIL", emailCode);
         try {
-            sender.send(emailCode.getCode());
+            sender.send(emailCode.getCode(), email);
         } catch (MessagingException e) {
             e.printStackTrace();
         }

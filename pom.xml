@@ -165,11 +165,11 @@
         </dependency>
 
         <!--mongoDB-->
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.9.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.mongodb</groupId>-->
+            <!--<artifactId>mongo-java-driver</artifactId>-->
+            <!--<version>3.9.1</version>-->
+        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch -->
         <dependency>
@@ -218,7 +218,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <spring.profiles.active>dev</spring.profiles.active>
+                <spring.profiles.active>prod</spring.profiles.active>
             </properties>
         </profile>
     </profiles>

@@ -1,9 +1,12 @@
 package com.chuangshu.livable.service.search;
 
+import lombok.Data;
+
 /**
  * @Author: wws
  * @Date: 2019-09-24 09:39
  */
+@Data
 public class HouseIndexMessage {
 
     public static final String INDEX = "index";
@@ -25,27 +28,4 @@ public class HouseIndexMessage {
         this.retry = retry;
     }
 
-    public Integer getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(Integer houseId) {
-        this.houseId = houseId;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
-
-    public int getRetry() {
-        return retry;
-    }
-
-    public void setRetry(int retry) {
-        this.retry = retry;
-    }
 }

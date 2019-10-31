@@ -19,7 +19,7 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class EmailCodeSender {
 
-    public void send(String code) throws AddressException, MessagingException {
+    public void send(String code, String email) throws AddressException, MessagingException {
         Properties properties = new Properties();
         properties.put("mail.transport.protocol", "smtp");// 连接协议
         properties.put("mail.smtp.host", "smtp.qq.com");// 主机名
@@ -34,7 +34,7 @@ public class EmailCodeSender {
         // 设置发件人邮箱地址
         message.setFrom(new InternetAddress("1578494176@qq.com"));
         // 设置收件人邮箱地址
-        message.setRecipients(Message.RecipientType.TO, new InternetAddress[]{new InternetAddress("1536721135@qq.com")});
+        message.setRecipients(Message.RecipientType.TO, new InternetAddress[]{new InternetAddress(email)});
         //message.setRecipient(Message.RecipientType.TO, new InternetAddress("xxx@qq.com"));//一个收件人
         // 设置邮件标题
         message.setSubject("Code");

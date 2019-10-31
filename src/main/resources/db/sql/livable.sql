@@ -168,12 +168,13 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `address`;
 CREATE TABLE `address` (
-                                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+                                 `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
                                  `belong_to` varchar(32) NOT NULL DEFAULT '0' COMMENT '上一级行政单位名',
                                  `name` varchar(32) NOT NULL COMMENT '行政单位中文名',
-                                 `level` varchar(16) NOT NULL COMMENT '行政级别 市-city 地区-region',
-                                 `baidu_map_lng` double NOT NULL COMMENT '百度地图经度',
-                                 `baidu_map_lat` double NOT NULL COMMENT '百度地图纬度',
+                                 `shortname` varchar(32) NOT NULL COMMENT '简称',
+                                 `level` varchar(1) NOT NULL COMMENT '行政级别 市-city 地区-region',
+                                 `baidu_map_lng` VARCHAR(20) NOT NULL COMMENT '百度地图经度',
+                                 `baidu_map_lat` VARCHAR(20) NOT NULL COMMENT '百度地图纬度',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
