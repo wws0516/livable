@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuangshu.livable.mapper.AddressMapper">
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.Address">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="belong_to" jdbcType="VARCHAR" property="belongTo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="shortname" jdbcType="VARCHAR" property="shortName" />
+    <result column="level" jdbcType="VARCHAR" property="level" />
+    <result column="baidu_map_lng" jdbcType="VARCHAR" property="baiduMapLongitude" />
+    <result column="baidu_map_lat" jdbcType="VARCHAR" property="baiduMapLatitude" />
+  </resultMap>
+
+</mapper>

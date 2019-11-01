@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuangshu.livable.mapper.FeatureMapper">
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.Feature">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="independent_bathroom" jdbcType="INTEGER" property="independentBathroom" />
+    <result column="independent_balcony" jdbcType="INTEGER" property="independentBalcony" />
+    <result column="smart_sock" jdbcType="INTEGER" property="smartSock" />
+    <result column="self_decorating" jdbcType="INTEGER" property="selfDecorating" />
+    <result column="first_rent" jdbcType="INTEGER" property="firstRent" />
+    <result column="fully_furnished" jdbcType="INTEGER" property="fullyFurnished" />
+    <result column="nearby_subway" jdbcType="INTEGER" property="nearbySubway" />
+    <result column="any_time_to_see" jdbcType="INTEGER" property="anyTimeToSee" />
+    <result column="check_in_at_once" jdbcType="INTEGER" property="checkInAtOnce" />
+  </resultMap>
+
+</mapper>

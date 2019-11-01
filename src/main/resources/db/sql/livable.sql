@@ -25,7 +25,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-                       `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+                       `user_id` varchar(255) NOT NULL  COMMENT '用户ID',
                        `name` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
                        `gender` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '性别',
                        `email` varchar(25) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '邮箱',
@@ -137,7 +137,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- ----------------------------
 DROP TABLE IF EXISTS `house`;
 CREATE TABLE `house`  (
-                        `house_id` int(11) NOT NULL COMMENT '房子ID',
+                        `house_id` varchar(255) NOT NULL COMMENT '房子ID',
                         `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '标题',
                         `city` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '城市',
                         `region` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '地区',

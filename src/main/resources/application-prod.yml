@@ -1,6 +1,7 @@
 # ip:port
 serverIp: 47.106.247.251:8081
 
+
 spring:
   application:
     name: livable
@@ -75,3 +76,5 @@ mybatis:
 logging:
   level:
     com.chuangshu.livable.mapper: DEBUG
+server:
+  port: 8001

@@ -70,6 +70,8 @@ mybatis:
   identity: MYSQL
 
 logging:
+  path:  C:/Users/叶三秋/Desktop/代码/livable/
+  file: livable%d+%i.log
   level:
     com.chuangshu.tucheng.mapper: DEBUG
 

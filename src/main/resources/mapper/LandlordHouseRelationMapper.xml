@@ -5,7 +5,6 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="relation_id" property="relationId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="house_id" property="houseId" jdbcType="INTEGER" />
   </resultMap>

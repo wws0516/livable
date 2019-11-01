@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chuangshu.livable.mapper.AllocationMapper">
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.Allocation">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" jdbcType="INTEGER" property="id" />
+    <result column="tv" jdbcType="INTEGER" property="tv" />
+    <result column="refrigerator" jdbcType="INTEGER" property="refrigerator" />
+    <result column="washing_machine" jdbcType="INTEGER" property="washingMachine" />
+    <result column="air_condition" jdbcType="INTEGER" property="airCondition" />
+    <result column="wifi" jdbcType="INTEGER" property="wifi" />
+    <result column="beds" jdbcType="INTEGER" property="beds" />
+    <result column="water_heater" jdbcType="INTEGER" property="waterHeater" />
+    <result column="chest" jdbcType="INTEGER" property="chest" />
+    <result column="desk" jdbcType="INTEGER" property="desk" />
+    <result column="cooking" jdbcType="INTEGER" property="cooking" />
+  </resultMap>
+
+</mapper>

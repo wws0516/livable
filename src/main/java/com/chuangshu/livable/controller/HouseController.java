@@ -4,9 +4,13 @@ import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.*;
+import com.chuangshu.livable.entity.Allocation;
+import com.chuangshu.livable.entity.Feature;
 import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.MapSearch;
 import com.chuangshu.livable.service.AddressService;
+import com.chuangshu.livable.service.AllocationService;
+import com.chuangshu.livable.service.FeatureService;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.service.search.RentSearch;
@@ -39,6 +43,12 @@ public class HouseController {
     HouseService houseService;
 
     @Autowired
+    AllocationService allocationService;
+
+    @Autowired
+    FeatureService featureService;
+
+    @Autowired
     AddressService addressService;
 
     @Autowired
@@ -47,11 +57,12 @@ public class HouseController {
     @Autowired
     ModelMapper modelMapper;
 
+
+
     /**
      * 自动补全接口
      */
     @GetMapping("rent/autocomplete")
-    @ResponseBody
     @ApiOperation(value = "搜索时提示功能")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "prefix", dataType = "String",required = true, value = "前缀")
@@ -65,33 +76,37 @@ public class HouseController {
         return suggest;
     }
 
-    @PostMapping("/insert")
-    @ApiOperation(value = "新增房源信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "title", dataType = "String",required = true, value = "标题"),
-            @ApiImplicitParam(paramType = "query", name = "area", dataType = "String",required = true, value = "地区"),
-            @ApiImplicitParam(paramType = "query", name = "address", dataType = "String",required = true, value = "地址"),
-            @ApiImplicitParam(paramType = "query", name = "houseType", dataType = "String",required = true, value = "房型"),
-            @ApiImplicitParam(paramType = "query", name = "rent", dataType = "String",required = true, value = "租金"),
-            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "方式"),
-            @ApiImplicitParam(paramType = "query", name = "elevator", dataType = "String",required = true, value = "电梯"),
-            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String",required = true, value = "朝向"),
-            @ApiImplicitParam(paramType = "query", name = "carport", dataType = "String",required = true, value = "车位有无"),
-            @ApiImplicitParam(paramType = "query", name = "energyCharge", dataType = "String",required = true, value = "电费"),
-            @ApiImplicitParam(paramType = "query", name = "waterCharge", dataType = "String",required = true, value = "水费"),
-            @ApiImplicitParam(paramType = "query", name = "feature", dataType = "String",required = true, value = "特色"),
-            @ApiImplicitParam(paramType = "query", name = "acreage", dataType = "String",required = true, value = "面积"),
-            @ApiImplicitParam(paramType = "query", name = "layout", dataType = "String",required = true, value = "布局"),
-            @ApiImplicitParam(paramType = "query", name = "status", dataType = "String",required = false, value = "状态"),
-            @ApiImplicitParam(paramType = "query", name = "houseProprietaryCertificate", dataType = "String",required = true, value = "房产证url"),
-            @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String",required = true, value = "图片"),
-            @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
-            @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
-    })
-    public ResultDTO<House> insertOneHouse(House house){
+    @RequestMapping("/insert")
+//    @ApiOperation(value = "新增房源信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(paramType = "query", name = "title", dataType = "String",required = true, value = "标题"),
+//            @ApiImplicitParam(paramType = "query", name = "area", dataType = "String",required = true, value = "地区"),
+//            @ApiImplicitParam(paramType = "query", name = "address", dataType = "String",required = true, value = "地址"),
+//            @ApiImplicitParam(paramType = "query", name = "houseType", dataType = "String",required = true, value = "房型"),
+//            @ApiImplicitParam(paramType = "query", name = "rent", dataType = "String",required = true, value = "租金"),
+//            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "方式"),
+//            @ApiImplicitParam(paramType = "query", name = "elevator", dataType = "String",required = true, value = "电梯"),
+//            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String",required = true, value = "朝向"),
+//            @ApiImplicitParam(paramType = "query", name = "carport", dataType = "String",required = true, value = "车位有无"),
+//            @ApiImplicitParam(paramType = "query", name = "energyCharge", dataType = "String",required = true, value = "电费"),
+//            @ApiImplicitParam(paramType = "query", name = "waterCharge", dataType = "String",required = true, value = "水费"),
+//            @ApiImplicitParam(paramType = "query", name = "feature", dataType = "String",required = true, value = "特色"),
+//            @ApiImplicitParam(paramType = "query", name = "acreage", dataType = "String",required = true, value = "面积"),
+//            @ApiImplicitParam(paramType = "query", name = "layout", dataType = "String",required = true, value = "布局"),
+//            @ApiImplicitParam(paramType = "query", name = "status", dataType = "String",required = false, value = "状态"),
+//            @ApiImplicitParam(paramType = "query", name = "houseProprietaryCertificate", dataType = "String",required = true, value = "房产证url"),
+//            @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String",required = true, value = "图片"),
+//            @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
+//            @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
+//    })
+    public ResultDTO insert(House house, Allocation allocation, Feature feature){
         House saveHouse = null;
-        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
+        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
         try {
+            int allocationId = allocationService.save(allocation).getId();
+            int featureId = featureService.save(feature).getId();
+            house.setAllocationId(allocationId);
+            house.setFeatureId(featureId);
             saveHouse = houseService.save(house);
 //            //新增es索引
 //            searchService.index(house.getHouseId());
@@ -219,17 +234,19 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
             @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
     })
-    public ResultDTO updateHouseByDto(UpdateHouseDTO updateHouseDto){
+    public ResultDTO updateHouseByDto(UpdateHouseDTO updateHouseDto,Feature feature,Allocation allocation){
         try{
-            houseService.updateDTO(updateHouseDto,House.class);
 
+            houseService.updateDTO(updateHouseDto,House.class);
+            featureService.update(feature);
+            allocationService.update(allocation);
         }catch (Exception e){
             ResultUtil.Error("500","更新房源信息失败："+e.getMessage());
         }
 
         try {
             HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
-            if (houseDTO.getStatus() == HouseStatusCode.HOUSE_CHECKED.getCode())
+            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode()))
                 searchService.index(houseDTO.getHouseId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -278,8 +295,9 @@ public class HouseController {
     })
     @ResponseBody
     public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
-        if (mapSearch.getCityName() == null)
+        if(mapSearch.getCityName() == null) {
             return null;
+        }
         if(mapSearch.getLevel() < 13){
             houseService.wholeMapQuery(mapSearch);
         }else {}

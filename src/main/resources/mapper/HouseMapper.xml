@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="house_id" property="houseId" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="region" property="region" jdbcType="VARCHAR" />
@@ -13,18 +13,20 @@
     <result column="house_type" property="houseType" jdbcType="VARCHAR" />
     <result column="rent" property="rent" jdbcType="VARCHAR" />
     <result column="rent_way" property="rentWay" jdbcType="VARCHAR" />
-    <result column="elevator" property="elevator" jdbcType="CHAR" />
-    <result column="toward" property="toward" jdbcType="CHAR" />
-    <result column="carport" property="carport" jdbcType="CHAR" />
+    <result column="rent_type" property="rentType" jdbcType="VARCHAR" />
+    <result column="number_of_people" property="numberOfPeople" jdbcType="INTEGER" />
+    <result column="elevator" property="elevator" jdbcType="VARCHAR" />
+    <result column="toward" property="toward" jdbcType="VARCHAR" />
+    <result column="carport" property="carport" jdbcType="VARCHAR" />
     <result column="energy_charge" property="energyCharge" jdbcType="VARCHAR" />
     <result column="water_charge" property="waterCharge" jdbcType="VARCHAR" />
-    <result column="feature" property="feature" jdbcType="VARCHAR" />
+    <result column="feature_id" property="featureId" jdbcType="INTEGER" />
     <result column="acreage" property="acreage" jdbcType="VARCHAR" />
     <result column="layout" property="layout" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="allocation_id" property="allocationId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="house_proprietary_certificate" property="houseProprietaryCertificate" jdbcType="VARCHAR" />
     <result column="picture" property="picture" jdbcType="VARCHAR" />
-    <result column="allocation" property="allocation" jdbcType="LONGVARCHAR" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
 </mapper>

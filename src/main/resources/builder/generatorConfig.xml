@@ -38,5 +38,7 @@
         <table tableName="user"/>
         <table tableName="user_opinion"/>
         <table tableName="address"/>
+        <table tableName="feature"/>
+        <table tableName="allocation"/>
     </context>
 </generatorConfiguration>

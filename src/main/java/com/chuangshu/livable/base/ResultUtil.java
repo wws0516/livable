@@ -10,7 +10,7 @@ import com.chuangshu.livable.base.dto.ResultDTO;
 public class ResultUtil {
 
     public static ResultDTO Success(Object object){
-        ResultDTO resultDto = new ResultDTO();
+        ResultDTO<Object> resultDto = new ResultDTO<Object>();
         resultDto.setData(object);
         resultDto.setMsg("成功");
         resultDto.setCode("200");

@@ -12,9 +12,98 @@
                 <constraints nullable="true"/>
             </column>
 
-
-            <column name=""
-
         </addColumn>
+    </changeSet>
+    
+    <changeSet id="2" author="yesanqiu">
+<!--        新增配置表-->
+        <sql>
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for allocation
+            -- ----------------------------
+            DROP TABLE IF EXISTS `allocation`;
+            CREATE TABLE `allocation`  (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `tv` int(11) NULL DEFAULT 0 COMMENT '电视',
+            `refrigerator` int(11) NULL DEFAULT 0 COMMENT '冰箱',
+            `washing_machine` int(11) NULL DEFAULT 0 COMMENT '洗衣机',
+            `air_condition` int(11) NULL DEFAULT 0 COMMENT '空调',
+            `wifi` int(11) NULL DEFAULT 0 COMMENT 'WI-FI',
+            `beds` int(11) NULL DEFAULT 0 COMMENT '床',
+            `water_heater` int(11) NULL DEFAULT 0 COMMENT '热水器',
+            `chest` int(11) NULL DEFAULT 0 COMMENT '衣柜',
+            `desk` int(11) NULL DEFAULT 0 COMMENT '书桌',
+            `cooking` int(11) NULL DEFAULT 0 COMMENT '烹饪',
+            PRIMARY KEY (`id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+            SET FOREIGN_KEY_CHECKS = 1;
+        </sql>
+
+
+<!--        house表删除wifi列-->
+        <dropColumn tableName="house">
+            <column name="wifi">
+                <constraints nullable="true"/>
+            </column>
+        </dropColumn>
+<!--        house表修改配置字段类型为int-->
+        <sql>
+            alter table house change allocation allocation_id int(11) COMMENT '配置id';
+        </sql>
+<!--        新增特色表-->
+        <sql>
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for feature
+            -- ----------------------------
+            DROP TABLE IF EXISTS `feature`;
+            CREATE TABLE `feature`  (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `independent_bathroom` int(11) NULL DEFAULT 0 COMMENT '独立卫浴',
+            `independent_balcony` int(11) NULL DEFAULT 0 COMMENT '独立阳台',
+            `smart_sock` int(11) NULL DEFAULT 0 COMMENT '智能锁',
+            `self_decorating` int(11) NULL DEFAULT 0 COMMENT '可自行装修',
+            `first_rent` int(11) NULL DEFAULT 0 COMMENT '首次出租',
+            `fully_furnished` int(11) NULL DEFAULT 0 COMMENT '拎包入住',
+            `nearby_subway` int(11) NULL DEFAULT 0 COMMENT '地铁十分钟',
+            `any_time_to_see` int(11) NULL DEFAULT 0 COMMENT '随时看房',
+            `check_in_at_once` int(11) NULL DEFAULT 0 COMMENT '随时入住',
+            PRIMARY KEY (`id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+            SET FOREIGN_KEY_CHECKS = 1;
+
+        </sql>
+
+        <!--        修改house表特色字段类型为int-->
+        <sql>
+            alter table house change feature feature_id int(11) COMMENT '特色id';
+        </sql>
+
+
+<!--        house表添加租房方式和租房人数字段-->
+        <sql>
+            alter table house add COLUMN rent_type VARCHAR(20) DEFAULT NULL COMMENT '租房方式' after rent_way;
+            alter table house add COLUMN number_of_people int(11) DEFAULT NULL COMMENT '租房人数' after rent_type;
+        </sql>
+
+<!--        house表修改字段类型从char变为varchar-->
+        <sql>
+            alter table house change COLUMN elevator elevator VARCHAR(10) DEFAULT NULL COMMENT '电梯有无';
+            alter table house change COLUMN toward toward VARCHAR(10) DEFAULT NULL COMMENT '电梯有无';
+            alter table house change COLUMN carport carport VARCHAR(10) DEFAULT NULL COMMENT '电梯有无';
+            alter table house change COLUMN status status VARCHAR(10) DEFAULT NULL COMMENT '电梯有无';
+        </sql>
+
+<!--        house表修改id字段类型从varchar变为Int-->
+        <sql>
+            alter table house change COlUMN house_id house_id int(11) NOT NULL AUTO_INCREMENT COMMENT '房源ID';
+        </sql>
     </changeSet>
 </databaseChangeLog>
