@@ -52,7 +52,7 @@ public class LandlordInformationController {
     @GetMapping("/checkLandlord")
     public ResultDTO checkLandlord(Integer landlordId,String code) {
         LandlordInformation landlordInformation = new LandlordInformation();
-        landlordInformation.setUserId(landlordId);
+        landlordInformation.setLandlordId(landlordId);
         if (code.equals("U")) {
             landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
 

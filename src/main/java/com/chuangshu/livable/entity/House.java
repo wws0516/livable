@@ -19,21 +19,23 @@ public class House {
 
     private String address;
 
-    private String hourse_type;
+    private String houseType;
 
     private String rent;
 
-    private String rent_way;
+    private String rentWay;
 
+    @Column(name = "elevator")
     private char elevator;
 
     private String toward;
 
+    @Column(name = "carport")
     private char carport;
 
-    private String energy_charge;
+    private String energyCharge;
 
-    private String water_charge;
+    private String waterCharge;
 
     private String feature;
 
@@ -47,8 +49,13 @@ public class House {
 
     private Integer status;
 
-    private String house_proprietary_certificate;
+    private String houseProprietaryCertificate;
+
 
     private String picture;
+
+
+
+
 
 }
