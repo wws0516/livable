@@ -74,4 +74,4 @@ mybatis:
 
 logging:
   level:
-    com.chuangshu.tucheng.mapper: DEBUG
+    com.chuangshu.livable.mapper: DEBUG

@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset sanqiu:init
+--changeset zhang:change house
 
 /*
  Navicat Premium Data Transfer
@@ -177,6 +177,7 @@ CREATE TABLE `address` (
                                  `baidu_map_lat` VARCHAR(20) NOT NULL COMMENT '百度地图纬度',
                                  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+
 
 
 
