@@ -1,7 +1,7 @@
 package com.chuangshu.livable.service.address;
 
 import com.chuangshu.livable.LivableApplicationTests;
-import com.chuangshu.livable.entity.BaiduMapLocation;
+import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import com.chuangshu.livable.service.AddressService;
 import org.junit.Assert;
 import org.junit.Test;

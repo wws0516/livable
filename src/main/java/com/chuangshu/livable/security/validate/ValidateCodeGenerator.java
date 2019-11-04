@@ -1,6 +1,6 @@
 package com.chuangshu.livable.security.validate;
 
-import com.chuangshu.livable.entity.ValidateCode;
+import com.chuangshu.livable.utils.validateUtil.ValidateCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 

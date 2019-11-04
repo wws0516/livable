@@ -1,7 +1,7 @@
 package com.chuangshu.livable.security.validate.impl;
 
-import com.chuangshu.livable.entity.EmailCode;
-import com.chuangshu.livable.entity.ValidateCode;
+import com.chuangshu.livable.utils.validateUtil.EmailCode;
+import com.chuangshu.livable.utils.validateUtil.ValidateCode;
 import com.chuangshu.livable.security.validate.ValidateCodeGenerator;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Component;

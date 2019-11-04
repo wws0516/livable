@@ -3,11 +3,9 @@ package com.chuangshu.livable.service;
 import com.chuangshu.livable.base.service.BaseService;
 import com.chuangshu.livable.dto.AddressDTO;
 import com.chuangshu.livable.entity.Address;
-import com.chuangshu.livable.entity.BaiduMapLocation;
+import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

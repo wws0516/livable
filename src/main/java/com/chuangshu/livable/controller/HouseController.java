@@ -7,15 +7,14 @@ import com.chuangshu.livable.dto.*;
 import com.chuangshu.livable.entity.Allocation;
 import com.chuangshu.livable.entity.Feature;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.MapSearch;
-import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.AllocationService;
 import com.chuangshu.livable.service.FeatureService;
+import com.chuangshu.livable.utils.esUtil.MapSearch;
+import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
-import com.chuangshu.livable.service.search.RentSearch;
-import com.chuangshu.livable.service.search.RentValueBlock;
-import com.chuangshu.livable.service.search.impl.AddressServiceImpl;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
+import com.chuangshu.livable.utils.esUtil.RentValueBlock;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+
 
 /**
  * @author：Yesanqiu
@@ -301,7 +301,7 @@ public class HouseController {
         if(mapSearch.getLevel() < 13){
             houseService.wholeMapQuery(mapSearch);
         }else {}
-    return null;
+        return null;
     }
 }
 

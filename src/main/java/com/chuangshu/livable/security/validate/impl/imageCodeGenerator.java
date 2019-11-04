@@ -1,18 +1,13 @@
 package com.chuangshu.livable.security.validate.impl;
 
-import com.chuangshu.livable.entity.ImageCode;
+import com.chuangshu.livable.utils.validateUtil.ImageCode;
 import com.chuangshu.livable.security.validate.ValidateCodeGenerator;
-import com.chuangshu.livable.entity.ValidateCode;
+import com.chuangshu.livable.utils.validateUtil.ValidateCode;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 /**

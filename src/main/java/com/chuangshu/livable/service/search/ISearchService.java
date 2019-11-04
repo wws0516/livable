@@ -1,6 +1,7 @@
 package com.chuangshu.livable.service.search;
 
 import com.chuangshu.livable.dto.HouseBucketDTO;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

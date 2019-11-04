@@ -1,4 +1,4 @@
-package com.chuangshu.livable.entity;
+package com.chuangshu.livable.utils.baiduMapUtil;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

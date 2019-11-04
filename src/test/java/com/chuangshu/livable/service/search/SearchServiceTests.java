@@ -1,14 +1,10 @@
 package com.chuangshu.livable.service.search;
 
 import com.chuangshu.livable.LivableApplicationTests;
-import com.chuangshu.livable.controller.HouseController;
-import com.chuangshu.livable.dto.AddressDTO;
 import com.chuangshu.livable.dto.HouseBucketDTO;
-import com.chuangshu.livable.dto.LevelBelongToAddressDTO;
-import com.chuangshu.livable.dto.NameLevelAddressDTO;
 import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.HouseService;
-import org.junit.Assert;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

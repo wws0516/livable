@@ -1,8 +1,7 @@
 package com.chuangshu.livable.security.validate;
 
 import com.chuangshu.livable.controller.ValidateCodeController;
-import com.chuangshu.livable.entity.ImageCode;
-import com.chuangshu.livable.entity.ValidateCode;
+import com.chuangshu.livable.utils.validateUtil.ValidateCode;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;

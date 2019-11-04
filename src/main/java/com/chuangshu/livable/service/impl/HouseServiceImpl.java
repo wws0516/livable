@@ -3,11 +3,11 @@ package com.chuangshu.livable.service.impl;
 import com.chuangshu.livable.base.service.impl.BaseServiceImpl;
 import com.chuangshu.livable.dto.HouseDTO;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.MapSearch;
+import com.chuangshu.livable.utils.esUtil.MapSearch;
 import com.chuangshu.livable.mapper.HouseMapper;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
-import com.chuangshu.livable.service.search.RentSearch;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

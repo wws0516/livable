@@ -1,5 +1,6 @@
 package com.chuangshu.livable.controller;
 
+import com.chuangshu.livable.dto.UserDTO;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -40,17 +41,17 @@ public class MyUserDetailService implements UserDetailsService, SocialUserDetail
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码"),
     })
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        System.out.println(username);
-//        User user = new User();
-//        user.setName(username);
-//        List<User> userList = new ArrayList<>();
-//        try {
-//            userList = userService.findByParams(user);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(userList.get(0));
-        return new org.springframework.security.core.userdetails.User("1578494176@qq.com", "111", true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+
+        User user = new User();
+        user.setName(username);
+        List<User> list = new ArrayList<>();
+        try {
+            list = userService.findByParams(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list.get(0);
+//        return new org.springframework.security.core.userdetails.User("1578494176@qq.com", "111", true, true, true, true, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
 
     }
 
