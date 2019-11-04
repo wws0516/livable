@@ -9,6 +9,7 @@ public class OpinionCount {
     /**
      * 意见ID
      */
+    @Id
     @Column(name = "opinion_id")
     private Integer opinionId;
 

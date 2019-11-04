@@ -8,6 +8,7 @@ public class House {
     /**
      * 房源ID
      */
+    @Id
     @Column(name = "house_id")
     private Integer houseId;
 

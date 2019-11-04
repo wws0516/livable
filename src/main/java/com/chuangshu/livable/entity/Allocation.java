@@ -5,6 +5,8 @@ import lombok.Data;
 
 @Data
 public class Allocation {
+
+    @Id
     private Integer id;
 
     /**

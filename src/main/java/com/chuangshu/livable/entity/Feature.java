@@ -10,6 +10,7 @@ public class Feature {
     /**
      * 独立卫浴
      */
+    @Id
     @Column(name = "independent_bathroom")
     private Integer independentBathroom;
 

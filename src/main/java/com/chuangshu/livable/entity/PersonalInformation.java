@@ -9,6 +9,7 @@ public class PersonalInformation {
     /**
      * 用户ID
      */
+    @Id
     @Column(name = "user_id")
     private Integer userId;
 

@@ -20,6 +20,7 @@ public class User implements UserDetails {
     /**
      * 用户ID
      */
+    @Id
     @Column(name = "user_id")
     private String userId;
     /**
