@@ -39,7 +39,7 @@ public class UserController {
     @PostMapping("/register")
     @ApiOperation("新增用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "name", dataType = "String", required = true, value = "姓名"),
+            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "姓名"),
             @ApiImplicitParam(paramType = "query", name = "gender", dataType = "String", required = true, value = "性别"),
             @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码")
@@ -73,6 +73,5 @@ public class UserController {
         }
         return ResultUtil.Success();
     }
-
 
 }

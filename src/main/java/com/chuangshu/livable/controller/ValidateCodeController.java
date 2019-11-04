@@ -1,9 +1,11 @@
 package com.chuangshu.livable.controller;
 
-import com.chuangshu.livable.entity.ImageCode;
-import com.chuangshu.livable.entity.EmailCode;
+import com.chuangshu.livable.utils.validateUtil.ImageCode;
+import com.chuangshu.livable.utils.validateUtil.EmailCode;
 import com.chuangshu.livable.security.validate.EmailCodeSender;
 import com.chuangshu.livable.security.validate.ValidateCodeGenerator;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -54,8 +56,10 @@ public class ValidateCodeController {
 
     @GetMapping("/emailCode")
     @ApiOperation("发送邮箱验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
+    })
     public void createSmsCode(HttpServletRequest request, HttpServletResponse response, String email) {
-
         EmailCode emailCode = (EmailCode) emailCodeGenerator.generator(new ServletWebRequest(request));
         System.out.println(emailCode.getCode());
         sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY+"EMAIL", emailCode);

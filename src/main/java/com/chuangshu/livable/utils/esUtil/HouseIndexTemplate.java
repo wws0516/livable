@@ -1,6 +1,6 @@
-package com.chuangshu.livable.service.search;
+package com.chuangshu.livable.utils.esUtil;
 
-import com.chuangshu.livable.entity.BaiduMapLocation;
+import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import lombok.Data;
 
 import java.util.List;

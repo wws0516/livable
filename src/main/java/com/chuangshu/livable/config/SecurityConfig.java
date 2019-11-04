@@ -92,7 +92,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //关闭验证
 //                .and()
                 .authorizeRequests()
-                .anyRequest().permitAll().and().logout().permitAll();
+                .anyRequest().permitAll()
+                .and()
+                .logout().permitAll()
+        .and()
+        .csrf().disable();
 
     }
 

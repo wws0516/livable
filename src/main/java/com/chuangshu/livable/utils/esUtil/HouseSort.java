@@ -1,4 +1,4 @@
-package com.chuangshu.livable.service.search;
+package com.chuangshu.livable.utils.esUtil;
 
 import com.google.common.collect.Sets;
 import com.tdunning.math.stats.Sort;

@@ -1,4 +1,4 @@
-package com.chuangshu.livable.entity;
+package com.chuangshu.livable.utils.validateUtil;
 
 /**
  * @Author: wws

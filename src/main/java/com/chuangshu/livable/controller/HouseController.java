@@ -4,12 +4,17 @@ import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.*;
-import com.chuangshu.livable.entity.*;
-import com.chuangshu.livable.service.*;
+import com.chuangshu.livable.entity.Allocation;
+import com.chuangshu.livable.entity.Feature;
+import com.chuangshu.livable.entity.House;
+import com.chuangshu.livable.service.AllocationService;
+import com.chuangshu.livable.service.FeatureService;
+import com.chuangshu.livable.utils.esUtil.MapSearch;
+import com.chuangshu.livable.service.AddressService;
+import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
-import com.chuangshu.livable.service.search.RentSearch;
-import com.chuangshu.livable.service.search.RentValueBlock;
-import com.chuangshu.livable.service.search.impl.AddressServiceImpl;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
+import com.chuangshu.livable.utils.esUtil.RentValueBlock;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+
 
 /**
  * @author：Yesanqiu
@@ -41,9 +47,6 @@ public class HouseController {
 
     @Autowired
     FeatureService featureService;
-
-    @Autowired
-    LandlordHouseRelationService landlordHouseRelationService;
 
     @Autowired
     AddressService addressService;
@@ -73,49 +76,30 @@ public class HouseController {
         return suggest;
     }
 
-    @PostMapping("/insert")
-    @ApiOperation(value = "新增房源信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "title", dataType = "String",required = true, value = "标题"),
-            @ApiImplicitParam(paramType = "query", name = "area", dataType = "String",required = true, value = "地区"),
-            @ApiImplicitParam(paramType = "query", name = "address", dataType = "String",required = true, value = "地址"),
-            @ApiImplicitParam(paramType = "query", name = "houseType", dataType = "String",required = true, value = "房型"),
-            @ApiImplicitParam(paramType = "query", name = "rent", dataType = "String",required = true, value = "租金"),
-            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "租金付费方式"),
-            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "租房方式"),
-            @ApiImplicitParam(paramType = "query", name = "numberOfPeople", dataType = "String",required = true, value = "租房人数"),
-            @ApiImplicitParam(paramType = "query", name = "elevator", dataType = "String",required = true, value = "电梯"),
-            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String",required = true, value = "朝向"),
-            @ApiImplicitParam(paramType = "query", name = "carport", dataType = "String",required = true, value = "车位有无"),
-            @ApiImplicitParam(paramType = "query", name = "energyCharge", dataType = "String",required = true, value = "电费"),
-            @ApiImplicitParam(paramType = "query", name = "waterCharge", dataType = "String",required = true, value = "水费"),
-            @ApiImplicitParam(paramType = "query", name = "tv", dataType = "Integer",required = true, value = "电视"),
-            @ApiImplicitParam(paramType = "query", name = "refrigerator", dataType = "Integer",required = true, value = "冰箱"),
-            @ApiImplicitParam(paramType = "query", name = "washingMachine", dataType = "Integer",required = true, value = "洗衣机"),
-            @ApiImplicitParam(paramType = "query", name = "airCondition", dataType = "Integer",required = true, value = "空调"),
-            @ApiImplicitParam(paramType = "query", name = "wifi", dataType = "Integer",required = true, value = "WI-FI"),
-            @ApiImplicitParam(paramType = "query", name = "beds", dataType = "Integer",required = true, value = "床"),
-            @ApiImplicitParam(paramType = "query", name = "waterHeater", dataType = "Integer",required = true, value = "热水器"),
-            @ApiImplicitParam(paramType = "query", name = "chest", dataType = "Integer",required = true, value = "衣柜"),
-            @ApiImplicitParam(paramType = "query", name = "desk", dataType = "Integer",required = true, value = "书桌"),
-            @ApiImplicitParam(paramType = "query", name = "cooking", dataType = "Integer",required = true, value = "烹饪"),
-            @ApiImplicitParam(paramType = "query", name = "acreage", dataType = "String",required = true, value = "面积"),
-            @ApiImplicitParam(paramType = "query", name = "layout", dataType = "String",required = true, value = "布局"),
-            @ApiImplicitParam(paramType = "query", name = "houseProprietaryCertificate", dataType = "String",required = true, value = "房产证url"),
-            @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String",required = true, value = "图片"),
-            @ApiImplicitParam(paramType = "query", name = "independentBathroom", dataType = "Integer",required = true, value = "独立卫浴"),
-            @ApiImplicitParam(paramType = "query", name = "independentBalcony", dataType = "Integer",required = true, value = "独立阳台"),
-            @ApiImplicitParam(paramType = "query", name = "smartSock", dataType = "Integer",required = true, value = "智能锁"),
-            @ApiImplicitParam(paramType = "query", name = "selfDecorating", dataType = "Integer",required = true, value = "可自行装修"),
-            @ApiImplicitParam(paramType = "query", name = "firstRent", dataType = "Integer",required = true, value = "首次出租"),
-            @ApiImplicitParam(paramType = "query", name = "fullyFurnished", dataType = "Integer",required = true, value = "拎包入住"),
-            @ApiImplicitParam(paramType = "query", name = "nearbySubway", dataType = "Integer",required = true, value = "地铁十分钟"),
-            @ApiImplicitParam(paramType = "query", name = "anyTimeToSee", dataType = "Integer",required = true, value = "随时看房"),
-            @ApiImplicitParam(paramType = "query", name = "checkInAtOnce", dataType = "Integer",required = true, value = "随时入住"),
-            @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
-            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer",required = true, value = "用户id"),
-    })
-    public ResultDTO insert(House house, Allocation allocation, Feature feature,Integer userId){
+    @RequestMapping("/insert")
+//    @ApiOperation(value = "新增房源信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(paramType = "query", name = "title", dataType = "String",required = true, value = "标题"),
+//            @ApiImplicitParam(paramType = "query", name = "area", dataType = "String",required = true, value = "地区"),
+//            @ApiImplicitParam(paramType = "query", name = "address", dataType = "String",required = true, value = "地址"),
+//            @ApiImplicitParam(paramType = "query", name = "houseType", dataType = "String",required = true, value = "房型"),
+//            @ApiImplicitParam(paramType = "query", name = "rent", dataType = "String",required = true, value = "租金"),
+//            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "方式"),
+//            @ApiImplicitParam(paramType = "query", name = "elevator", dataType = "String",required = true, value = "电梯"),
+//            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String",required = true, value = "朝向"),
+//            @ApiImplicitParam(paramType = "query", name = "carport", dataType = "String",required = true, value = "车位有无"),
+//            @ApiImplicitParam(paramType = "query", name = "energyCharge", dataType = "String",required = true, value = "电费"),
+//            @ApiImplicitParam(paramType = "query", name = "waterCharge", dataType = "String",required = true, value = "水费"),
+//            @ApiImplicitParam(paramType = "query", name = "feature", dataType = "String",required = true, value = "特色"),
+//            @ApiImplicitParam(paramType = "query", name = "acreage", dataType = "String",required = true, value = "面积"),
+//            @ApiImplicitParam(paramType = "query", name = "layout", dataType = "String",required = true, value = "布局"),
+//            @ApiImplicitParam(paramType = "query", name = "status", dataType = "String",required = false, value = "状态"),
+//            @ApiImplicitParam(paramType = "query", name = "houseProprietaryCertificate", dataType = "String",required = true, value = "房产证url"),
+//            @ApiImplicitParam(paramType = "query", name = "picture", dataType = "String",required = true, value = "图片"),
+//            @ApiImplicitParam(paramType = "query", name = "allocation", dataType = "String",required = true, value = "房屋配置"),
+//            @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
+//    })
+    public ResultDTO insert(House house, Allocation allocation, Feature feature){
         House saveHouse = null;
         house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
         try {
@@ -124,11 +108,6 @@ public class HouseController {
             house.setAllocationId(allocationId);
             house.setFeatureId(featureId);
             saveHouse = houseService.save(house);
-            LandlordHouseRelation landlordHouseRelation = new LandlordHouseRelation();
-            landlordHouseRelation.setUserId(userId);
-            landlordHouseRelation.setHouseId(saveHouse.getHouseId());
-            landlordHouseRelationService.save(landlordHouseRelation);
-
 //            //新增es索引
 //            searchService.index(house.getHouseId());
         } catch (Exception e) {
@@ -322,7 +301,7 @@ public class HouseController {
         if(mapSearch.getLevel() < 13){
             houseService.wholeMapQuery(mapSearch);
         }else {}
-    return null;
+        return null;
     }
 }
 

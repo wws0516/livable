@@ -1,13 +1,12 @@
 package com.chuangshu.livable.service.impl;
 
-import com.chuangshu.livable.base.SnUtil;
 import com.chuangshu.livable.base.service.impl.BaseServiceImpl;
 import com.chuangshu.livable.dto.AddressDTO;
 import com.chuangshu.livable.dto.LevelAddressDTO;
 import com.chuangshu.livable.dto.LevelBelongToAddressDTO;
 import com.chuangshu.livable.dto.NameLevelAddressDTO;
 import com.chuangshu.livable.entity.Address;
-import com.chuangshu.livable.entity.BaiduMapLocation;
+import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import com.chuangshu.livable.mapper.AddressMapper;
 import com.chuangshu.livable.service.AddressService;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -18,7 +17,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

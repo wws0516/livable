@@ -3,8 +3,8 @@ package com.chuangshu.livable.service;
 import com.chuangshu.livable.base.service.BaseService;
 import com.chuangshu.livable.dto.HouseDTO;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.MapSearch;
-import com.chuangshu.livable.service.search.RentSearch;
+import com.chuangshu.livable.utils.esUtil.MapSearch;
+import com.chuangshu.livable.utils.esUtil.RentSearch;
 
 import java.util.List;
 
