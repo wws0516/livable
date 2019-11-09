@@ -9,6 +9,7 @@ public class House {
      * 房源ID
      */
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "house_id")
     private Integer houseId;
 

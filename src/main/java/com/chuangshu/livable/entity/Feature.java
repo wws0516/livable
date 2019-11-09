@@ -29,7 +29,7 @@ public class Feature {
     /**
      * 可自行装修
      */
-    @Column(name = "self-decorating")
+    @Column(name = "self_decorating")
     private Integer selfDecorating;
 
     /**
