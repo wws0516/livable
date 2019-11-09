@@ -3,6 +3,7 @@ package com.chuangshu.livable.entity;
 import java.util.Date;
 import javax.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class Looking {
@@ -26,5 +27,6 @@ public class Looking {
     /**
      * 日期
      */
+    @DateTimeFormat
     private Date data;
 }
