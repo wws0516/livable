@@ -212,7 +212,7 @@ public class HouseController {
         ReturnHouseDTO returnHouseDTO = null;
         try {
             house = houseService.get(houseID);
-            if(house.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.toString())) {
+            if(house.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode().toString())) {
                 Feature feature = featureService.get(house.getFeatureId());
                 Allocation allocation = allocationService.get(house.getAllocationId());
                 returnHouseDTO = new ReturnHouseDTO(house, feature, allocation);
@@ -280,7 +280,7 @@ public class HouseController {
 
         try {
             HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
-            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode()))
+            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode().toString()))
                 searchService.index(houseDTO.getHouseId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -342,7 +342,7 @@ public class HouseController {
     public ResultDTO checkHouse(Integer houseId) throws Exception{
         House house = new House();
         house.setHouseId(houseId);
-        house.setStatus(HouseStatusCode.HOUSE_CHECKED.toString());
+        house.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode().toString());
         houseService.update(house);
         
         return ResultUtil.Success();
