@@ -7,6 +7,7 @@ import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -17,6 +18,11 @@ import java.net.UnknownHostException;
 
 @Configuration
 public class ElasticSearchConfig {
+
+    @PostConstruct
+    void init() {
+        System.setProperty("es.set.netty.runtime.available.processors", "false");
+    }
     @Bean
     public TransportClient esClient() throws UnknownHostException{
         Settings settings = Settings.builder()

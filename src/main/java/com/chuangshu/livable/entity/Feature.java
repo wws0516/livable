@@ -5,12 +5,12 @@ import lombok.Data;
 
 @Data
 public class Feature {
+    @Id
     private Integer id;
 
     /**
      * 独立卫浴
      */
-    @Id
     @Column(name = "independent_bathroom")
     private Integer independentBathroom;
 
@@ -29,7 +29,7 @@ public class Feature {
     /**
      * 可自行装修
      */
-    @Column(name = "self-decorating")
+    @Column(name = "self_decorating")
     private Integer selfDecorating;
 
     /**

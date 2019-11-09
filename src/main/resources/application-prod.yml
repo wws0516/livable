@@ -37,6 +37,17 @@ spring:
     basename: i18n/abt_messages
     use-code-as-default-message: true
 
+  redis:
+    host: localhost
+    password:
+    port: 6379
+    database: 0
+    timeout: 1000
+    pool:
+      max-active: 8
+      max-wait: -1
+      min-idle: 0
+      max-idle: 8
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     #指定默认topic id
@@ -67,10 +78,10 @@ sever:
       timeout: 2592000
 
 mybatis:
-  basepackage: com.chuangshu.tucheng.mapper
+  basepackage: com.chuangshu.livable.mapper
   mapper-locations: ["classpath*:mapper/**/*.xml"]
-  type-aliases-package: com.chuangshu.entity
-  mappers: com.chuangshu.tucheng.base.mapper.BaseMapper
+  type-aliases-package: com.chuangshu.RedisBase
+  mappers: com.chuangshu.livable.base.mapper.BaseMapper
   identity: MYSQL
 
 logging:

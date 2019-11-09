@@ -28,7 +28,7 @@ public class Allocation {
     /**
      * 空调
      */
-    @Column(name = "air-condition")
+    @Column(name = "air_condition")
     private Integer airCondition;
 
     /**

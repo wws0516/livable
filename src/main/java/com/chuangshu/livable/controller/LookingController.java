@@ -2,8 +2,11 @@ package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.base.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
+import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.Looking;
+import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.LookingService;
+import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +23,8 @@ public class LookingController {
     @Autowired
     LookingService lookingService;
 
+    @Autowired
+    UserRedisService userRedisService;
 
     @PostMapping("/insertLooking")
     @ApiOperation("新增约看")
@@ -28,8 +33,14 @@ public class LookingController {
             @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
             @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间")
     })
-    public ResultDTO insertLooking(Looking looking){
+    public ResultDTO insertLooking(Looking looking) throws Exception {
         Looking saveLooking = null;
+        User user = new User();
+        user.setUserId(looking.getUserId().toString());
+        House house = new House();
+        house.setHouseId(looking.getHouseId());
+        //修改redis中user的值
+        userRedisService.userLookHouse(user,house);
         try {
             saveLooking = lookingService.save(looking);
         } catch (Exception e) {

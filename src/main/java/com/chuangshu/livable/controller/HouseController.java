@@ -8,7 +8,11 @@ import com.chuangshu.livable.entity.Allocation;
 import com.chuangshu.livable.entity.Feature;
 import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.LandlordHouseRelation;
+import com.chuangshu.livable.redis.HouseRedisDTO;
 import com.chuangshu.livable.service.*;
+import com.chuangshu.livable.service.redis.HouseRedisService;
+import com.chuangshu.livable.service.redis.RedisService;
+import com.chuangshu.livable.service.redis.impl.HouseRedisServiceImpl;
 import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.utils.esUtil.MapSearch;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
@@ -17,12 +21,14 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -58,6 +64,8 @@ public class HouseController {
     @Autowired
     ModelMapper modelMapper;
 
+    @Resource(name = "HouseRedisServiceImpl",type = HouseRedisServiceImpl.class)
+    private HouseRedisService houseRedisService;
 
 
     /**
@@ -132,7 +140,7 @@ public class HouseController {
             landlordHouseRelation.setUserId(userId);
             landlordHouseRelation.setHouseId(saveHouse.getHouseId());
             landlordHouseRelationService.save(landlordHouseRelation);
-
+            houseRedisService.setHouseDTO(house,feature,allocation);
 //            //新增es索引
 //            searchService.index(house.getHouseId());
         } catch (Exception e) {
@@ -274,6 +282,9 @@ public class HouseController {
             houseService.updateDTO(updateHouseDto,House.class);
             featureService.update(feature);
             allocationService.update(allocation);
+            House house = new House();
+            PropertyUtils.copyProperties(house,updateHouseDto);
+            houseRedisService.setHouseDTO(house,feature,allocation);
         }catch (Exception e){
             ResultUtil.Error("500","更新房源信息失败："+e.getMessage());
         }
