@@ -25,9 +25,6 @@ import java.lang.reflect.InvocationTargetException;
 public class laji {
 
 
-
-
-
     @Test
     public void test1() throws IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         DataA dataA = new DataA("sdafsa");

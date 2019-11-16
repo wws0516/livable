@@ -1,4 +1,4 @@
-package com.chuangshu.livable.service.search;
+package com.chuangshu.livable.service;
 
 import com.chuangshu.livable.LivableApplicationTests;
 import com.chuangshu.livable.base.util.modelmapper.ToFeature;
@@ -9,6 +9,7 @@ import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.FeatureService;
 import com.chuangshu.livable.service.HouseService;
+import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import com.chuangshu.livable.utils.esUtil.HouseIndexTemplate;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
@@ -38,6 +39,7 @@ import java.util.List;
  * @Author: wws
  * @Date: 2019-09-23 13:32
  */
+
 public class SearchServiceTests extends LivableApplicationTests {
 
     @Autowired

@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Created by 瓦力.
+ * Created by wws.
  */
 public class AddressServiceTests extends LivableApplicationTests {
     @Autowired

@@ -1,17 +1,16 @@
 package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.StatusCode.HouseStatusCode;
-import com.chuangshu.livable.base.ResultUtil;
+import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.*;
 import com.chuangshu.livable.entity.Allocation;
 import com.chuangshu.livable.entity.Feature;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.service.AllocationService;
-import com.chuangshu.livable.service.FeatureService;
+import com.chuangshu.livable.entity.LandlordHouseRelation;
+import com.chuangshu.livable.service.*;
+import com.chuangshu.livable.service.redis.HouseRedisService;
 import com.chuangshu.livable.utils.esUtil.MapSearch;
-import com.chuangshu.livable.service.AddressService;
-import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
 import com.chuangshu.livable.utils.esUtil.RentValueBlock;
@@ -57,6 +56,11 @@ public class HouseController {
     @Autowired
     ModelMapper modelMapper;
 
+    @Autowired
+    LandlordHouseRelationService landlordHouseRelationService;
+    
+    @Autowired
+    HouseRedisService houseRedisService;
 
 
     /**
@@ -181,13 +185,6 @@ public class HouseController {
         if (rentSearch.getRegion() == null) {
             rentSearch.setRegion("*");
         }
-
-//        model.addAttribute("searchBody", rentSearch);
-//        model.addAttribute("regions", regions);
-//        model.addAttribute("priceBlocks", RentValueBlock.PRICE_BLOCK);
-//        model.addAttribute("acreageBlocks", RentValueBlock.ACREAGE_BLOCK);
-//        model.addAttribute("currentPriceBlock", RentValueBlock.matchPrice(rentSearch.getPriceBlock()));
-//        model.addAttribute("currentAcreageBlock", RentValueBlock.matchAcreage(rentSearch.getAcreageBlock()));
         return ResultUtil.Success(houseDTOS);
 
     }
@@ -288,6 +285,8 @@ public class HouseController {
         }
         LevelBelongToAddressDTO levelBelongToAddressDTO = new LevelBelongToAddressDTO(cityName, "region");
         List<AddressDTO> regions = null;
+        
+        List<HouseBucketDTO> houseBucketDtos = null;
         try {
             regions = addressService.findByParams(levelBelongToAddressDTO, AddressDTO.class);
             houseBucketDtos = searchService.mapAggregate(cityName);
