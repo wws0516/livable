@@ -30,4 +30,8 @@ public interface AddressService extends BaseService<Address> {
 
     public AddressDTO findCity(String cityName);
 
-    }
+    public boolean lbsUpdate(BaiduMapLocation baiduMapLocation, String title, Integer rent, Integer houseId, String address, Integer acreage);
+
+    public boolean removeLbs(Integer houseId);
+
+}

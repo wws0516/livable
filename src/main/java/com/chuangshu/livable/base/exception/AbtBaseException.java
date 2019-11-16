@@ -1,6 +1,6 @@
 package com.chuangshu.livable.base.exception;
 
-import com.chuangshu.livable.base.ResultUtil;
+import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;

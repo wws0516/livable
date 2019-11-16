@@ -28,7 +28,8 @@
           "search_analyzer": "ik_smart"
         },
         "house_type": {
-          "type": "keyword"
+          "type": "keyword",
+          "index": false
         },
         "rent": {
           "type": "integer"
@@ -36,45 +37,67 @@
         "rent_way": {
           "type": "keyword"
         },
+        "rent_type": {
+          "type": "keyword"
+        },
         "elevator": {
-          "type": "text",
-          "index": false
+          "type": "integer"
         },
         "toward": {
           "type": "keyword"
         },
         "carport": {
-          "type": "text",
-          "index": false
+          "type": "integer"
         },
         "energy_charge": {
-          "type": "text",
-          "index": false
+          "type": "integer"
         },
         "water_charge": {
-          "type": "text",
-          "index": false
+          "type": "integer"
         },
         "feature": {
-          "type": "text",
-          "index": true,
-          "analyzer": "ik_smart",
-          "search_analyzer": "ik_smart"
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "independent_bathroom": {
+              "type": "integer"
+            },
+            "independent_balcony": {
+              "type": "integer"
+            },
+            "smart_sock": {
+              "type": "integer"
+            },
+            "self_decorating": {
+              "type": "integer"
+            },
+            "first_rent": {
+              "type": "integer"
+            },
+            "fully_furnished": {
+              "type": "integer"
+            },
+            "nearby_subway": {
+              "type": "integer"
+            },
+            "any_time_to_see": {
+              "type": "integer"
+            },
+            "check_in_at_once": {
+              "type": "integer"
+            }
+          }
         },
         "acreage": {
           "type": "integer"
         },
         "layout": {
           "type": "text",
-          "index": true,
-          "analyzer": "ik_smart",
-          "search_analyzer": "ik_smart"
+          "index": false
         },
         "allocation": {
-          "type": "text",
-          "index": true,
-          "analyzer": "ik_smart",
-          "search_analyzer": "ik_smart"
+          "type": "integer"
         },
         "introduction": {
           "type": "text",

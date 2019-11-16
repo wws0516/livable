@@ -22,6 +22,7 @@ public class Address {
 
     private String level;
 
+    @Column(name = "short_name")
     private String shortName;
 
     @Column(name = "baidu_map_lng")
@@ -36,8 +37,7 @@ public class Address {
     public enum Level{
         PROVINCE("1"),
         CITY("2"),
-        REGION("3"),
-        TOWN("4");
+        REGION("3");
 
         private String value;
 
@@ -45,18 +45,16 @@ public class Address {
             this.value = value;
         }
 
-        public static Level of(String value){
-            for (Level level : Level.values()){
-                if (level.getValue().equals(value)){
-                    return level;
-                }
-            }
-
-            throw new IllegalArgumentException();
+        public String getValue(){
+            return value;
         }
 
-        public String getValue() {
-            return value;
+        public Level of(String value) {
+            for (Level level : Level.values()) {
+                if (level.getValue().equals(value))
+                    return level;
+            }
+            throw new IllegalArgumentException();
         }
     }
 }

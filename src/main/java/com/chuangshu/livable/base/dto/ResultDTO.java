@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class ResultDTO<T> {
 
-        @JsonView(fullResult.class)
+    @JsonView(fullResult.class)
     private String code;;
     @JsonView(fullResult.class)
     private String msg;

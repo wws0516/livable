@@ -16,22 +16,17 @@ import javax.persistence.Id;
 @Data
 public class AddressDTO extends BaseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
-    @Column(name = "belong_to")
     private String belongTo;
 
-    @Column(name = "name")
     private String name;
 
     private String level;
 
-    @Column(name = "baidu_map_lng")
     private double baiduMapLongitude;
 
-    @Column(name = "baidu_map_lat")
     private double baiduMapLatitude;
 
 

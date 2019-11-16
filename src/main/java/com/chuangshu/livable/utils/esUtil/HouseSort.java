@@ -17,4 +17,11 @@ public class HouseSort {
             "acreage"
     );
 
+    public static String getSortKey(String sortKey){
+        if (SORT_KEYS.contains(sortKey))
+            return sortKey;
+        else
+            return DEFAULT_SORT_KEY;
+    }
+
 }

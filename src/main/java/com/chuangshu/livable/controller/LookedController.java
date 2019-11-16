@@ -1,7 +1,7 @@
 package com.chuangshu.livable.controller;
 
 
-import com.chuangshu.livable.base.ResultUtil;
+import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.entity.Looked;
 import com.chuangshu.livable.entity.Looking;

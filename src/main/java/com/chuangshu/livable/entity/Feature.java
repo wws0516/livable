@@ -5,7 +5,9 @@ import lombok.Data;
 
 @Data
 public class Feature {
+
     @Id
+    @Column(name = "id")
     private Integer id;
 
     /**
@@ -81,4 +83,19 @@ public class Feature {
     public static final String ANY_TIME_TO_SEE = "anyTimeToSee";
 
     public static final String CHECK_IN_AT_ONCE = "checkInAtOnce";
+
+    public Feature() {
+    }
+
+    public Feature(Integer independentBathroom, Integer independentBalcony, Integer smartSock, Integer selfDecorating, Integer firstRent, Integer fullyFurnished, Integer nearbySubway, Integer anyTimeToSee, Integer checkInAtOnce) {
+        this.independentBathroom = independentBathroom;
+        this.independentBalcony = independentBalcony;
+        this.smartSock = smartSock;
+        this.selfDecorating = selfDecorating;
+        this.firstRent = firstRent;
+        this.fullyFurnished = fullyFurnished;
+        this.nearbySubway = nearbySubway;
+        this.anyTimeToSee = anyTimeToSee;
+        this.checkInAtOnce = checkInAtOnce;
+    }
 }

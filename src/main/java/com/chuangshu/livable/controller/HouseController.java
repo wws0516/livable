@@ -7,28 +7,24 @@ import com.chuangshu.livable.dto.*;
 import com.chuangshu.livable.entity.Allocation;
 import com.chuangshu.livable.entity.Feature;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.LandlordHouseRelation;
-import com.chuangshu.livable.redis.HouseRedisDTO;
-import com.chuangshu.livable.service.*;
-import com.chuangshu.livable.service.redis.HouseRedisService;
-import com.chuangshu.livable.service.redis.RedisService;
-import com.chuangshu.livable.service.redis.impl.HouseRedisServiceImpl;
-import com.chuangshu.livable.service.search.ISearchService;
+import com.chuangshu.livable.service.AllocationService;
+import com.chuangshu.livable.service.FeatureService;
 import com.chuangshu.livable.utils.esUtil.MapSearch;
+import com.chuangshu.livable.service.AddressService;
+import com.chuangshu.livable.service.HouseService;
+import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
 import com.chuangshu.livable.utils.esUtil.RentValueBlock;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -53,9 +49,6 @@ public class HouseController {
     FeatureService featureService;
 
     @Autowired
-    LandlordHouseRelationService landlordHouseRelationService;
-
-    @Autowired
     AddressService addressService;
 
     @Autowired
@@ -64,8 +57,6 @@ public class HouseController {
     @Autowired
     ModelMapper modelMapper;
 
-    @Resource(name = "HouseRedisServiceImpl",type = HouseRedisServiceImpl.class)
-    private HouseRedisService houseRedisService;
 
 
     /**
@@ -164,12 +155,12 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索开始位置"),
             @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索个数")
     })
-    public String searchHouses(@ModelAttribute RentSearch rentSearch, Model model, HttpSession session, RedirectAttributes redirectAttributes){
+    public ResultDTO searchHouses(@ModelAttribute RentSearch rentSearch, Model model, HttpSession session, RedirectAttributes redirectAttributes){
 
         if (rentSearch.getCity() == null){
             String cityNameInSession = (String) session.getAttribute("cityName");
             if (cityNameInSession == null){
-                redirectAttributes.addAttribute("msg", "请选择城市！");
+                return ResultUtil.Error("123", "请选择城市！");
             }else {
                 rentSearch.setCity(cityNameInSession);
             }
@@ -178,37 +169,26 @@ public class HouseController {
         }
 
         AddressDTO city = addressService.findCity(rentSearch.getCity());
-        if (city == null) {
-            redirectAttributes.addAttribute("msg", "must_chose_city");
-            return "redirect:/index";
-        }
         model.addAttribute("currentCity", city);
 
         List<AddressDTO> regions = addressService.findAllRegionsByCityName(rentSearch.getCity());
-        if (regions == null || regions.size() < 1) {
-            redirectAttributes.addAttribute("msg", "must_chose_city");
-            return "redirect:/index";
-        }
+//        if (regions == null || regions.size() < 1) {
+//            return ResultUtil.Error("123", "请选择城市！");
+//        }
 
         List<HouseDTO> houseDTOS = houseService.query(rentSearch);
-
-        model.addAttribute("total", houseDTOS.size());
-        model.addAttribute("houses", houseDTOS);
 
         if (rentSearch.getRegion() == null) {
             rentSearch.setRegion("*");
         }
 
-        model.addAttribute("searchBody", rentSearch);
-        model.addAttribute("regions", regions);
-
-        model.addAttribute("priceBlocks", RentValueBlock.PRICE_BLOCK);
-        model.addAttribute("acreageBlocks", RentValueBlock.ACREAGE_BLOCK);
-
-        model.addAttribute("currentPriceBlock", RentValueBlock.matchPrice(rentSearch.getPriceBlock()));
-        model.addAttribute("currentAcreageBlock", RentValueBlock.matchAcreage(rentSearch.getAcreageBlock()));
-
-        return "rent-list";
+//        model.addAttribute("searchBody", rentSearch);
+//        model.addAttribute("regions", regions);
+//        model.addAttribute("priceBlocks", RentValueBlock.PRICE_BLOCK);
+//        model.addAttribute("acreageBlocks", RentValueBlock.ACREAGE_BLOCK);
+//        model.addAttribute("currentPriceBlock", RentValueBlock.matchPrice(rentSearch.getPriceBlock()));
+//        model.addAttribute("currentAcreageBlock", RentValueBlock.matchAcreage(rentSearch.getAcreageBlock()));
+        return ResultUtil.Success(houseDTOS);
 
     }
 
@@ -217,18 +197,12 @@ public class HouseController {
     @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer",required = true, value = "房源ID")
     public ResultDTO getOneHouse(Integer houseID){
         House house = null;
-        ReturnHouseDTO returnHouseDTO = null;
         try {
             house = houseService.get(houseID);
-            if(house.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode().toString())) {
-                Feature feature = featureService.get(house.getFeatureId());
-                Allocation allocation = allocationService.get(house.getAllocationId());
-                returnHouseDTO = new ReturnHouseDTO(house, feature, allocation);
-            }
         } catch (Exception e) {
             ResultUtil.Error("500","查无此房源："+e.getMessage());
         }
-        return ResultUtil.Success(returnHouseDTO);
+        return ResultUtil.Success(house);
     }
 
 
@@ -242,9 +216,6 @@ public class HouseController {
     @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer",required = true, value = "房源ID")
     public ResultDTO deleteHouse(Integer houseID){
         try {
-            House house = houseService.get(houseID);
-            featureService.deleteById(house.getFeatureId());
-            allocationService.deleteById(house.getAllocationId());
             houseService.deleteById(houseID);
             //删除es索引
             searchService.remove(houseID);
@@ -282,16 +253,13 @@ public class HouseController {
             houseService.updateDTO(updateHouseDto,House.class);
             featureService.update(feature);
             allocationService.update(allocation);
-            House house = new House();
-            PropertyUtils.copyProperties(house,updateHouseDto);
-            houseRedisService.setHouseDTO(house,feature,allocation);
         }catch (Exception e){
             ResultUtil.Error("500","更新房源信息失败："+e.getMessage());
         }
 
         try {
             HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
-            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode().toString()))
+            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode()))
                 searchService.index(houseDTO.getHouseId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -304,13 +272,12 @@ public class HouseController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "city", dataType = "String", required = true, value = "城市")
     })
-    public String rentMapPage(@RequestParam(value = "city") String cityName, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+    public ResultDTO rentMapPage(@RequestParam(value = "city") String cityName, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         AddressDTO nameLevelAddressDTO = new NameLevelAddressDTO(cityName, "city");
         try {
             List<AddressDTO>  city = addressService.findByParams(nameLevelAddressDTO, AddressDTO.class);
             if (city.size() == 0) {
-                redirectAttributes.addAttribute("msg", "must_choose_city");
-                return "redirect:/html/index.html";
+                return ResultUtil.Error("123", "请选择城市！");
             }
             else{
                 session.setAttribute("cityName", cityName);
@@ -323,14 +290,12 @@ public class HouseController {
         List<AddressDTO> regions = null;
         try {
             regions = addressService.findByParams(levelBelongToAddressDTO, AddressDTO.class);
-            List<HouseBucketDTO> houseBucketDtos = searchService.mapAggregate(cityName);
-            model.addAttribute("aggDate", houseBucketDtos);
-            model.addAttribute("total", houseBucketDtos.size());
-            model.addAttribute("regions", regions);
+            houseBucketDtos = searchService.mapAggregate(cityName);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "rentMap";
+        return ResultUtil.Success(houseBucketDtos);
     }
 
     @GetMapping("/rentMapHouses")
@@ -339,24 +304,21 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "cityName", dataType = "String", required = true, value = "城市名")
     })
     @ResponseBody
-    public ApiResponse rentMapHouses(@ModelAttribute MapSearch mapSearch){
+    public ResultDTO<HouseDTO> rentMapHouses(@ModelAttribute MapSearch mapSearch){
         if(mapSearch.getCityName() == null) {
             return null;
         }
-        if(mapSearch.getLevel() < 13){
-            houseService.wholeMapQuery(mapSearch);
-        }else {}
-        return null;
-    }
 
-    @PostMapping("/checkHouse")
-    public ResultDTO checkHouse(Integer houseId) throws Exception{
-        House house = new House();
-        house.setHouseId(houseId);
-        house.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode().toString());
-        houseService.update(house);
-        
-        return ResultUtil.Success();
+        ResultDTO result = null;
+
+        if(mapSearch.getLevel() < 13){
+            List<HouseDTO> houseDTOS = houseService.wholeMapQuery(mapSearch);
+            result = ResultUtil.Success(houseDTOS);
+        }else {
+            List<HouseDTO> houseDTOS = houseService.boundMapQuery(mapSearch);
+            result = ResultUtil.Success(houseDTOS);
+        }
+        return result;
     }
 }
 

@@ -1,16 +1,21 @@
 package com.chuangshu.livable.service.search.impl;
 
+import com.chuangshu.livable.base.util.modelmapper.ToAllocation;
+import com.chuangshu.livable.base.util.modelmapper.ToFeature;
 import com.chuangshu.livable.dto.AddressDTO;
 import com.chuangshu.livable.dto.HouseBucketDTO;
 import com.chuangshu.livable.entity.Address;
-import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
+import com.chuangshu.livable.entity.Feature;
+import com.chuangshu.livable.service.FeatureService;
 import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.service.AddressService;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.search.*;
+import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import com.chuangshu.livable.utils.esUtil.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.lucene.search.join.ScoreMode;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeAction;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeRequestBuilder;
 import org.elasticsearch.action.admin.indices.analyze.AnalyzeResponse;
@@ -19,10 +24,9 @@ import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.transport.TransportClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.RangeQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.elasticsearch.index.reindex.DeleteByQueryAction;
 import org.elasticsearch.index.reindex.DeleteByQueryRequestBuilder;
@@ -37,7 +41,7 @@ import org.elasticsearch.search.suggest.SuggestBuilder;
 import org.elasticsearch.search.suggest.SuggestBuilders;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestion;
 import org.elasticsearch.search.suggest.completion.CompletionSuggestionBuilder;
-import org.modelmapper.ModelMapper;
+import org.modelmapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +62,8 @@ import java.util.Set;
 @Service
 public class SearchServiceImpl implements ISearchService {
 
+    static int mapping = 0;
+
     private static final String INDEX_TOPIC = "house";
 
     private static final Logger logger = LoggerFactory.getLogger(ISearchService.class);
@@ -77,8 +83,14 @@ public class SearchServiceImpl implements ISearchService {
     private ObjectMapper objectMapper;
     @Autowired
     private AddressService addressService;
+    @Autowired
+    private FeatureService featureService;
+    @Autowired
+    ToFeature toFeature;
+    @Autowired
+    ToAllocation toAllocation;
 
-    @KafkaListener(topics = INDEX_TOPIC)
+//    @KafkaListener(topics = INDEX_TOPIC)
     private void handleMessage(String content){
         HouseIndexMessage houseIndexMessage = null;
         try {
@@ -110,10 +122,28 @@ public class SearchServiceImpl implements ISearchService {
         }
         if (house == null){
             logger.error("Index house {} does not exist!", houseId);
+            this.index(houseId, message.getRetry()+1);
             return;
         }
         HouseIndexTemplate houseIndexTemplate = new HouseIndexTemplate();
-        modelMapper.map(house, houseIndexTemplate);
+
+
+        //创建自定义映射规则
+        PropertyMap<House, HouseIndexTemplate> propertyMap = new PropertyMap<House, HouseIndexTemplate>() {
+            @Override
+            protected void configure() {
+                using(toFeature.getToFeature()).map(source.getFeatureId(),destination.getFeature());//使用自定义转换规则
+                skip(destination.getSuggests());
+            }
+        };
+
+        if (mapping<1) {
+            //添加映射器
+            modelMapper.addMappings(propertyMap);
+            mapping++;
+        }
+        modelMapper.validate();
+        houseIndexTemplate = modelMapper.map(house, HouseIndexTemplate.class);
 
         AddressDTO city = addressService.findByNameAndLevel(house.getCity(), Address.Level.CITY.getValue());
         AddressDTO region = addressService.findByNameAndLevel(house.getRegion(), Address.Level.REGION.getValue());
@@ -121,9 +151,8 @@ public class SearchServiceImpl implements ISearchService {
 
         BaiduMapLocation baiduMapLocation = addressService.getBaiduMapLocation(city.getName(), address);
 
-
         SearchRequestBuilder requestBuilder = this.esClient.prepareSearch(INDEX_NAME).setTypes(INDEX_TYPE)
-                .setQuery(QueryBuilders.termQuery("house_id", houseId));
+                .setQuery(QueryBuilders.termQuery("houseId", houseId));
 
         logger.debug(requestBuilder.toString());
         SearchResponse searchResponse = requestBuilder.get();
@@ -135,10 +164,15 @@ public class SearchServiceImpl implements ISearchService {
             success = create(houseIndexTemplate);
 
         }else if(totalHit == 1) {
-            success = update(houseId, houseIndexTemplate);
+            String esId = searchResponse.getHits().getAt(0).getId();
+            success = update(houseId, houseIndexTemplate, esId);
         }else success = deleteAndCreate(houseId, houseIndexTemplate);
-        if (success) {
+
+        if (!success) {
+            this.index(message.getHouseId(), message.getRetry()+1);
+        }else {
             logger.debug("Index success with house" + houseId);
+            boolean lbsUpdate = addressService.lbsUpdate(baiduMapLocation, house.getTitle(), houseIndexTemplate.getRent(), house.getHouseId(), address, houseIndexTemplate.getAcreage());
         }
 
         return;
@@ -150,15 +184,19 @@ public class SearchServiceImpl implements ISearchService {
 
         DeleteByQueryRequestBuilder builder = DeleteByQueryAction.INSTANCE
                 .newRequestBuilder(esClient)
-                .filter(QueryBuilders.termQuery("house_id", houseId))
+                .filter(QueryBuilders.termQuery("houseId", houseId))
                 .source(INDEX_NAME);
 
         logger.debug("Delete by query for house: " + builder);
 
         BulkByScrollResponse response = builder.get();
         long deleted = response.getDeleted();
+
         if (deleted <= 0) {
             this.remove(houseId, message.getRetry()+1);
+        }else {
+            logger.debug("Index success with house" + houseId);
+//            boolean lbsRemove = addressService.removeLbs(houseId);
         }
     }
 
@@ -176,7 +214,7 @@ public class SearchServiceImpl implements ISearchService {
 
         HouseIndexMessage message = new HouseIndexMessage(houseId, HouseIndexMessage.INDEX, retry);
         try {
-            kafkaTemplate.send(INDEX_TOPIC, objectMapper.writeValueAsString(message));
+            handleMessage(objectMapper.writeValueAsString(message));
         } catch (JsonProcessingException e) {
             logger.error("Json encode error for " + message);
         }
@@ -191,13 +229,13 @@ public class SearchServiceImpl implements ISearchService {
 
     public void remove(Integer houseId, int retry){
             if (retry > HouseIndexMessage.MAX_RETRY) {
-                logger.error("Retry index times over 3 for house " + houseId + "Please check it!");
+                logger.error("Retry remove times over 3 for house " + houseId + "Please check it!");
                 return;
             }
 
         HouseIndexMessage message = new HouseIndexMessage(houseId, HouseIndexMessage.REMOVE, retry);
         try {
-            kafkaTemplate.send(INDEX_TOPIC, objectMapper.writeValueAsString(message));
+            handleMessage(objectMapper.writeValueAsString(message));
         } catch (JsonProcessingException e) {
             logger.error("Json encode error for " + message, e);
         }
@@ -345,6 +383,41 @@ public class SearchServiceImpl implements ISearchService {
     }
 
     @Override
+    public List<Integer> mapQuery(MapSearch mapSearch){
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        boolQueryBuilder.filter(QueryBuilders.termQuery(HouseIndexKey.CITY, mapSearch.getCityName()));
+
+        boolQueryBuilder.filter(
+                QueryBuilders.geoBoundingBoxQuery("location").setCorners(
+                    new GeoPoint(mapSearch.getLeftLatitude(), mapSearch.getLeftLongitude()),
+                    new GeoPoint(mapSearch.getRightLatitude(), mapSearch.getRightLongitude())
+        ));
+
+        SearchRequestBuilder searchRequestBuilder = esClient.prepareSearch(INDEX_NAME)
+                .setTypes(INDEX_TYPE)
+                .setQuery(boolQueryBuilder)
+                .setFrom(mapSearch.getStart())
+                .setSize(mapSearch.getSize())
+                .addSort(HouseSort.getSortKey(mapSearch.getOrderBy()), SortOrder.fromString(
+                        mapSearch.getOrderDirection()
+                ));
+
+        SearchResponse searchResponse = searchRequestBuilder.get();
+
+        List<Integer> houseIds = new ArrayList<>();
+        for (SearchHit searchHit : searchResponse.getHits()){
+            try {
+                Integer houseId = objectMapper.readValue(searchHit.getSourceAsString(), HouseIndexTemplate.class).getHouseId();
+                houseIds.add(houseId);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return houseIds;
+    }
+
+    @Override
     public List<Integer> query(RentSearch rentSearch) {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.filter(
@@ -383,20 +456,42 @@ public class SearchServiceImpl implements ISearchService {
                     QueryBuilders.termQuery(HouseIndexKey.RENT_WAY, rentSearch.getRentWay())
             );
         }
-        if (rentSearch.getToward() != null){
+
+        if (rentSearch.getRentType() != null){
             boolQueryBuilder.filter(
-                    QueryBuilders.termQuery(HouseIndexKey.TOWARD, rentSearch.getToward())
+                    QueryBuilders.termQuery(HouseIndexKey.RENT_TYPE, rentSearch.getRentType())
             );
         }
+
+        BoolQueryBuilder boolQueryBuilder1 = QueryBuilders.boolQuery();
+        if (rentSearch.getFeature().getAnyTimeToSee()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.ANY_TIME_TO_SEE, rentSearch.getFeature().getAnyTimeToSee()));
+        if (rentSearch.getFeature().getCheckInAtOnce()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.CHECK_IN_AT_ONCE, rentSearch.getFeature().getCheckInAtOnce()));
+        if (rentSearch.getFeature().getFirstRent()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.FIRST_RENT, rentSearch.getFeature().getFirstRent()));
+        if (rentSearch.getFeature().getFullyFurnished()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.FULLY_FURNISHED, rentSearch.getFeature().getFullyFurnished()));
+        if (rentSearch.getFeature().getIndependentBalcony()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.INDEPENDENT_BALCONY, rentSearch.getFeature().getIndependentBalcony()));
+        if (rentSearch.getFeature().getIndependentBathroom()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.INDEPENDENT_BATHROOM, rentSearch.getFeature().getIndependentBathroom()));
+        if (rentSearch.getFeature().getNearbySubway()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.NEARBY_SUBWAY, rentSearch.getFeature().getNearbySubway()));
+        if (rentSearch.getFeature().getSelfDecorating()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.SELF_DECORATING, rentSearch.getFeature().getSelfDecorating()));
+        if (rentSearch.getFeature().getSmartSock()==1)
+            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.SMART_SOCK, rentSearch.getFeature().getSmartSock()));
+
+        NestedQueryBuilder nestedQueryBuilder = QueryBuilders.nestedQuery(HouseIndexKey.FEATURE, boolQueryBuilder1, ScoreMode.Avg);
+        boolQueryBuilder.must(nestedQueryBuilder);
+
 
         if (rentSearch.getKeywords()!=null && !rentSearch.getKeywords().isEmpty()) {
             boolQueryBuilder.must(
                     QueryBuilders.multiMatchQuery(rentSearch.getKeywords(),
                             HouseIndexKey.TITLE,
-                            HouseIndexKey.ALLOCATION,
-                            HouseIndexKey.FEATURE,
-                            HouseIndexKey.INTRODUCTION,
-                            HouseIndexKey.LAYOUT
+                            HouseIndexKey.INTRODUCTION
                     )
             );
         }
@@ -408,8 +503,8 @@ public class SearchServiceImpl implements ISearchService {
                 .setSize(rentSearch.getSize())
                 .addSort(rentSearch.getOrderBy(),
                         SortOrder.fromString(rentSearch.getOrderDirection())
-                )
-                .setFetchSource(HouseIndexKey.HOUSE_ID, null);
+                );
+//                .setFetchSource(HouseIndexKey.HOUSE_ID, null);
 
         logger.debug(searchRequestBuilder.toString());
         List<Integer> houseIds = new ArrayList<>();
@@ -422,10 +517,7 @@ public class SearchServiceImpl implements ISearchService {
             try {
                 System.out.println(searchHit.getFields().get("houseId"));
                 HouseIndexTemplate houseIndexTemplate = objectMapper.readValue(searchHit.getSourceAsString(), HouseIndexTemplate.class);
-
-
-                Integer houseId = objectMapper.readValue(searchHit.getSourceAsString(), HouseIndexTemplate.class).getHouseId();
-                houseIds.add(houseId);
+                houseIds.add(houseIndexTemplate.getHouseId());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -472,7 +564,7 @@ public class SearchServiceImpl implements ISearchService {
 
     public boolean updateSuggest(HouseIndexTemplate houseIndexTemplate) {
         AnalyzeRequestBuilder analyzeRequestBuilder = new AnalyzeRequestBuilder(
-                this.esClient, AnalyzeAction.INSTANCE, INDEX_NAME, houseIndexTemplate.getTitle(), houseIndexTemplate.getAddress(), houseIndexTemplate.getFeature(), houseIndexTemplate.getAllocation(), houseIndexTemplate.getLayout(), houseIndexTemplate.getIntroduction());
+                this.esClient, AnalyzeAction.INSTANCE, INDEX_NAME, houseIndexTemplate.getTitle(), houseIndexTemplate.getAddress(), houseIndexTemplate.getIntroduction());
         analyzeRequestBuilder.setAnalyzer("ik_smart");
         AnalyzeResponse analyzeTokens = analyzeRequestBuilder.get();
 
@@ -526,14 +618,14 @@ public class SearchServiceImpl implements ISearchService {
      * @param houseIndexTemplate
      * @return
      */
-    private boolean update(Integer houseId, HouseIndexTemplate houseIndexTemplate) {
+    private boolean update(Integer houseId, HouseIndexTemplate houseIndexTemplate, String esId) {
 
         if (!updateSuggest(houseIndexTemplate)){
             return false;
         }
 
         try {
-            UpdateResponse response = this.esClient.prepareUpdate(INDEX_NAME, INDEX_TYPE, String.valueOf(houseId))
+            UpdateResponse response = this.esClient.prepareUpdate(INDEX_NAME, INDEX_TYPE, esId)
                     .setDoc(objectMapper.writeValueAsBytes(houseIndexTemplate), XContentType.JSON).get();
             logger.debug("Update index with house: " + houseIndexTemplate.getHouseId());
             if (response.status() == RestStatus.OK) {
@@ -554,7 +646,7 @@ public class SearchServiceImpl implements ISearchService {
     private boolean deleteAndCreate(Integer totalHit, HouseIndexTemplate houseIndexTemplate){
         DeleteByQueryRequestBuilder builder = DeleteByQueryAction.INSTANCE
                 .newRequestBuilder(esClient)
-                .filter(QueryBuilders.termQuery("house_id", houseIndexTemplate.getHouseId()))
+                .filter(QueryBuilders.termQuery("houseId", houseIndexTemplate.getHouseId()))
                 .source(INDEX_NAME);
 
         logger.debug("Delete by query for house: " + builder);

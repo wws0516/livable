@@ -11,11 +11,19 @@ import com.chuangshu.livable.mapper.AddressMapper;
 import com.chuangshu.livable.service.AddressService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +45,10 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
     private static final String BAIDU_MAP_KEY = "WFcr4SZwZgS9XPwWqR0DBtGNoWKGUsGj";
     private static final String BAIDU_MAP_SK = "1KpmrjNu48Zns8W5ARLY2jLeae5SC8lQ";
     private static final String BAIDU_MAP_GEOCONV_API = "http://api.map.baidu.com/geocoding/v3/?";
+    private static final String BAIDU_POI_CREATE = "http://api.map.baidu.com/geodata/v3/poi/create";
+    private static final String BAIDU_POI_UPDATE = "http://api.map.baidu.com/geodata/v3/poi/update";
+    private static final String BAIDU_POI_DELETE = "http://api.map.baidu.com/geodata/v3/poi/delete";
+    private static final String BAIDU_POI_LIST = "http://api.map.baidu.com/geodata/v3/poi/list?";
 
     private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
 
@@ -196,4 +208,124 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
         }
         return city;
     }
+
+    @Override
+    public boolean lbsUpdate(BaiduMapLocation baiduMapLocation, String title, Integer rent, Integer houseId, String address, Integer acreage) {
+
+        HttpClient httpClient = HttpClients.createDefault();
+
+        List<NameValuePair> nvps = new ArrayList<>();
+        nvps.add(new BasicNameValuePair("latitude", String.valueOf(baiduMapLocation.getLatitude())));
+        nvps.add(new BasicNameValuePair("longitude", String.valueOf(baiduMapLocation.getLongitude())));
+        nvps.add(new BasicNameValuePair("coord_type", "3"));
+        nvps.add(new BasicNameValuePair("geotable_id", "206952"));
+        nvps.add(new BasicNameValuePair("ak", BAIDU_MAP_KEY));
+        nvps.add(new BasicNameValuePair("title", title));
+        nvps.add(new BasicNameValuePair("address", address));
+        nvps.add(new BasicNameValuePair("houseId", houseId.toString()));
+        nvps.add(new BasicNameValuePair("acreage", acreage.toString()));
+        nvps.add(new BasicNameValuePair("rent", rent.toString()));
+
+        HttpPost httpPost;
+
+        if (isLbsDataExists(houseId))
+            httpPost = new HttpPost(BAIDU_POI_UPDATE);
+        else
+            httpPost = new HttpPost(BAIDU_POI_CREATE);
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+            HttpResponse response = httpClient.execute(httpPost);
+            String result = EntityUtils.toString(response.getEntity());
+            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK){
+                logger.error("Error to update lbs data for response", result);
+                return false;
+            }else {
+                JsonNode jsonNode = objectMapper.readTree(result);
+                if (jsonNode.get("status").asInt() != 0) {
+                    logger.error("Error to update lbs data for houseId{} with status {}, message {}", houseId, jsonNode.get("status").asInt(), jsonNode.get("message").asText());
+                    return false;
+                }
+                else
+                    return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isLbsDataExists(Integer houseId){
+        HttpClient httpClient = HttpClients.createDefault();
+
+        StringBuilder sb = new StringBuilder(BAIDU_POI_LIST);
+        sb.append("geotable_id=206952").append("&").append("ak=").append(BAIDU_MAP_KEY).append("&").append("houseId=").append(houseId).append(',').append(houseId);
+        HttpGet httpGet = new HttpGet(sb.toString());
+        HttpResponse response = null;
+        try {
+            response = httpClient.execute(httpGet);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String result = null;
+        try {
+            result = EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (response.getStatusLine().getStatusCode()!=HttpStatus.SC_OK) {
+            logger.error("Error to create lbs data for request{}", result);
+            return false;
+        }else {
+            try {
+                JsonNode jsonNode = objectMapper.readTree(result);
+                if (jsonNode.get("status").asInt() != 0) {
+                    logger.error("Error to create lbs data for houseId{} with status {}, message {}", houseId, jsonNode.get("status").asInt(), jsonNode.get("message").asText());
+                    return false;
+                } else{
+                    if (jsonNode.get("size").asLong()==0)
+                        return false;
+                    else return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+    }
+
+    @Override
+    public boolean removeLbs(Integer houseId){
+        HttpClient httpClient = HttpClients.createDefault();
+
+        List<NameValuePair> nvps = new ArrayList<>();
+        nvps.add(new BasicNameValuePair("geotable_id", "206952"));
+        nvps.add(new BasicNameValuePair("ak", BAIDU_MAP_KEY));
+        nvps.add(new BasicNameValuePair("houseId", String.valueOf(houseId)));
+
+        HttpPost delete = new HttpPost(BAIDU_POI_DELETE);
+
+
+        try {
+            delete.setEntity(new UrlEncodedFormEntity(nvps, "UTF-8"));
+            HttpResponse response = httpClient.execute(delete);
+            String result = EntityUtils.toString(response.getEntity(), "UTF-8");
+            if (response.getStatusLine().getStatusCode()!=HttpStatus.SC_OK) {
+                logger.error("Error to delete lbs data for request{}", result);
+                return false;
+            }
+            JsonNode jsonNode = objectMapper.readTree(result);
+            if (jsonNode.get("status").asInt() != 0) {
+                logger.error("Error to delete lbs data for houseId{} with status {}, message {}", houseId, jsonNode.get("status").asInt(), jsonNode.get("message").asText());
+                return false;
+            } else{
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            return false;
+    }
+
 }

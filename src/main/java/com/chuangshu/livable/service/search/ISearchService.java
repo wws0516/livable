@@ -1,6 +1,7 @@
 package com.chuangshu.livable.service.search;
 
 import com.chuangshu.livable.dto.HouseBucketDTO;
+import com.chuangshu.livable.utils.esUtil.MapSearch;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,11 @@ public interface ISearchService {
      * 获取补全建议关键词
      */
     List<String> suggest(String prefix);
+
+    /**
+     * 精确地图范围内的房源查询
+     */
+    List<Integer> mapQuery(MapSearch mapSearch);
 
 
 }

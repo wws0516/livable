@@ -23,7 +23,6 @@ public class UserDTO extends BaseDTO {
         /**
          * 用户ID
          */
-        @Column(name = "user_id")
         private String userId;
         /**
          * 姓名

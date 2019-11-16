@@ -1,5 +1,6 @@
 package com.chuangshu.livable.utils.esUtil;
 
+import com.chuangshu.livable.entity.Feature;
 import lombok.Data;
 
 /**
@@ -14,9 +15,9 @@ public class RentSearch {
     private String priceBlock;
     private String acreageBlock;
     private String rentWay;
-    private String feature;
+    private String rentType;
+    private Feature feature;
     private String keywords;
-    private String toward;
     private String orderBy = "rent";
     private String orderDirection = "desc";
     private int start = 0;

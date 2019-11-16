@@ -1,5 +1,6 @@
 # ip:port
-serverIp: 47.106.247.251:8081
+#serverIp: 47.106.247.251:8081
+serverIp: 127.0.0.1:8081
 
 
 spring:
@@ -54,10 +55,14 @@ spring:
     template.default-topic: house
     #指定listener 容器中的线程数，用于提高并发量
     listener:
-      concurrency: 3
+      concurrency: 5
       #指定默认消费者group id
     consumer:
       group-id: livable
+      enable-auto-commit: false
+      properties:
+        session.timeout.ms: 15000
+        max_poll_interval_ms: 300000
 #  thymeleaf:
 #    prefix: classpath:/templates/
 #    suffix: .html

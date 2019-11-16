@@ -31,7 +31,7 @@ public class ElasticSearchConfig {
                 .build();
 
         TransportAddress master = new TransportAddress(
-                InetAddress.getByName("127.0.0.1"), 9300);
+                InetAddress.getByName("localhost"), 9300);
 
         TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(master);

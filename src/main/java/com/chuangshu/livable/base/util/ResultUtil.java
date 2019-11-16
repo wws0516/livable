@@ -1,4 +1,4 @@
-package com.chuangshu.livable.base;
+package com.chuangshu.livable.base.util;
 
 
 import com.chuangshu.livable.base.dto.ResultDTO;

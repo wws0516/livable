@@ -1,6 +1,6 @@
 package com.chuangshu.livable.controller;
 
-import com.chuangshu.livable.base.ResultUtil;
+import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.service.LandlordHouseRelationService;
@@ -8,7 +8,6 @@ import com.chuangshu.livable.service.LandlordInformationService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.UserIdSource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
