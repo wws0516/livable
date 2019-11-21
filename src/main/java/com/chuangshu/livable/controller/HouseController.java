@@ -214,6 +214,10 @@ public class HouseController {
     public ResultDTO deleteHouse(Integer houseID){
         try {
             houseService.deleteById(houseID);
+            LandlordHouseRelation l = new LandlordHouseRelation();
+            l.setHouseId(houseID);
+            Integer relationId = landlordHouseRelationService.findByParams(l).get(0).getRelationId();
+            landlordHouseRelationService.deleteById(relationId);
             //删除es索引
             searchService.remove(houseID);
         } catch (Exception e) {
