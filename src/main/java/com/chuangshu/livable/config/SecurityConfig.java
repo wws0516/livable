@@ -65,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
-
         http
 //                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
 //                .formLogin()

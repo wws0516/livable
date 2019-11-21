@@ -1,6 +1,7 @@
 package com.chuangshu.livable.service.address;
 
 import com.chuangshu.livable.LivableApplicationTests;
+import com.chuangshu.livable.service.SearchServiceTests;
 import com.chuangshu.livable.utils.baiduMapUtil.BaiduMapLocation;
 import com.chuangshu.livable.service.AddressService;
 import org.junit.Assert;
@@ -22,6 +23,6 @@ public class AddressServiceTests extends LivableApplicationTests {
 
         Assert.assertTrue(serviceResult.getLongitude() > 0 );
         Assert.assertTrue(serviceResult.getLatitude() > 0 );
-
+        SearchServiceTests searchServiceTests = new SearchServiceTests();
     }
 }

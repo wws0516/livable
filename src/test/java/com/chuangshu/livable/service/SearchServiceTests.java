@@ -72,7 +72,6 @@ public class SearchServiceTests extends LivableApplicationTests {
 
     @Test
     public void testIndex() throws Exception {
-
 //        System.out.println(featureService);
         House house = houseService.get(3);
 //        Address address = addressService.get(440106);

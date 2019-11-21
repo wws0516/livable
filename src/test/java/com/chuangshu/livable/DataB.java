@@ -18,5 +18,5 @@ import java.io.Serializable;
 public class DataB {
 
     private Integer username;
-
+    
 }

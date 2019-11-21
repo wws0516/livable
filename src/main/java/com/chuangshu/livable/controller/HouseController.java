@@ -148,23 +148,32 @@ public class HouseController {
     @ApiOperation(value = "搜索房源信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "city", dataType = "String", required = true, value = "城市"),
-            @ApiImplicitParam(paramType = "query", name = "region", dataType = "String", required = true, value = "地区"),
-            @ApiImplicitParam(paramType = "query", name = "priceBlock", dataType = "String", required = true, value = "价格区间"),
-            @ApiImplicitParam(paramType = "query", name = "acreageBlock", dataType = "String", required = true, value = "面积区间"),
-            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String", required = true, value = "方式"),
-            @ApiImplicitParam(paramType = "query", name = "keyWords", dataType = "String", required = true, value = "关键字"),
-            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String", required = true, value = "朝向"),
-            @ApiImplicitParam(paramType = "query", name = "orderBy", dataType = "String", required = true, value = "排序字段"),
-            @ApiImplicitParam(paramType = "query", name = "orderDirection", dataType = "String", required = true, value = "排序方向"),
-            @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索开始位置"),
-            @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = true, value = "搜索个数")
+            @ApiImplicitParam(paramType = "query", name = "region", dataType = "String", required = false, value = "地区"),
+            @ApiImplicitParam(paramType = "query", name = "priceBlock", dataType = "String", required = false, value = "价格区间"),
+            @ApiImplicitParam(paramType = "query", name = "acreageBlock", dataType = "String", required = false, value = "面积区间"),
+            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String", required = false, value = "方式"),
+            @ApiImplicitParam(paramType = "query", name = "keyWords", dataType = "String", required = false, value = "关键字"),
+            @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String", required = false, value = "朝向"),
+            @ApiImplicitParam(paramType = "query", name = "independentBathroom", dataType = "Integer",required = true, value = "独立卫浴"),
+            @ApiImplicitParam(paramType = "query", name = "independentBalcony", dataType = "Integer",required = true, value = "独立阳台"),
+            @ApiImplicitParam(paramType = "query", name = "smartSock", dataType = "Integer",required = true, value = "智能锁"),
+            @ApiImplicitParam(paramType = "query", name = "selfDecorating", dataType = "Integer",required = true, value = "可自行装修"),
+            @ApiImplicitParam(paramType = "query", name = "firstRent", dataType = "Integer",required = true, value = "首次出租"),
+            @ApiImplicitParam(paramType = "query", name = "fullyFurnished", dataType = "Integer",required = true, value = "拎包入住"),
+            @ApiImplicitParam(paramType = "query", name = "nearbySubway", dataType = "Integer",required = true, value = "地铁十分钟"),
+            @ApiImplicitParam(paramType = "query", name = "anyTimeToSee", dataType = "Integer",required = true, value = "随时看房"),
+            @ApiImplicitParam(paramType = "query", name = "checkInAtOnce", dataType = "Integer",required = true, value = "随时入住"),
+            @ApiImplicitParam(paramType = "query", name = "orderBy", dataType = "String", required = false, value = "排序字段"),
+            @ApiImplicitParam(paramType = "query", name = "orderDirection", dataType = "String", required = false, value = "排序方向"),
+            @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = false, value = "搜索开始位置"),
+            @ApiImplicitParam(paramType = "query", name = "size", dataType = "Integer", required = false, value = "搜索个数")
     })
-    public ResultDTO searchHouses(@ModelAttribute RentSearch rentSearch, Model model, HttpSession session, RedirectAttributes redirectAttributes){
-
+    public ResultDTO searchHouses(RentSearch rentSearch, HttpSession session){
+        System.out.println(rentSearch);
         if (rentSearch.getCity() == null){
             String cityNameInSession = (String) session.getAttribute("cityName");
             if (cityNameInSession == null){
-                return ResultUtil.Error("123", "请选择城市！");
+                return ResultUtil.Error("202", "请选择城市！");
             }else {
                 rentSearch.setCity(cityNameInSession);
             }
@@ -173,7 +182,6 @@ public class HouseController {
         }
 
         AddressDTO city = addressService.findCity(rentSearch.getCity());
-        model.addAttribute("currentCity", city);
 
         List<AddressDTO> regions = addressService.findAllRegionsByCityName(rentSearch.getCity());
 //        if (regions == null || regions.size() < 1) {
