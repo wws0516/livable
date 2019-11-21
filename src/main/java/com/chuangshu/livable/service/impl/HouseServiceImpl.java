@@ -68,7 +68,8 @@ public class HouseServiceImpl extends BaseServiceImpl<HouseMapper, House> implem
                     mapping++;
                 }
                 modelMapper.validate();
-                modelMapper.map(house, HouseDTO.class);
+                HouseDTO houseDTO = modelMapper.map(house, HouseDTO.class);
+                houseDTOS.add(houseDTO);
             } catch (Exception e) {
                 e.printStackTrace();
             }

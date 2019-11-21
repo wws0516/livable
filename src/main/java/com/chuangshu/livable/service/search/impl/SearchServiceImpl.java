@@ -527,7 +527,7 @@ public class SearchServiceImpl implements ISearchService {
 
     @Override
     public List<String> suggest(String prefix) {
-        CompletionSuggestionBuilder suggestion = SuggestBuilders.completionSuggestion("suggests").prefix(prefix).size(5);
+        CompletionSuggestionBuilder suggestion = SuggestBuilders.completionSuggestion("suggests").text(prefix).size(20);
         SuggestBuilder suggestBuilder = new SuggestBuilder();
         suggestBuilder.addSuggestion("autocomplete", suggestion);
 
@@ -558,7 +558,7 @@ public class SearchServiceImpl implements ISearchService {
             if (maxSuggest>5)
                 break;
         }
-        List<String> suggests = (List<String>) suggestSet;
+        List<String> suggests = new ArrayList<>(suggestSet);
         return suggests;
     }
 
