@@ -154,15 +154,15 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String", required = false, value = "方式"),
             @ApiImplicitParam(paramType = "query", name = "keyWords", dataType = "String", required = false, value = "关键字"),
             @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String", required = false, value = "朝向"),
-            @ApiImplicitParam(paramType = "query", name = "independentBathroom", dataType = "Integer",required = true, value = "独立卫浴"),
-            @ApiImplicitParam(paramType = "query", name = "independentBalcony", dataType = "Integer",required = true, value = "独立阳台"),
-            @ApiImplicitParam(paramType = "query", name = "smartSock", dataType = "Integer",required = true, value = "智能锁"),
-            @ApiImplicitParam(paramType = "query", name = "selfDecorating", dataType = "Integer",required = true, value = "可自行装修"),
-            @ApiImplicitParam(paramType = "query", name = "firstRent", dataType = "Integer",required = true, value = "首次出租"),
-            @ApiImplicitParam(paramType = "query", name = "fullyFurnished", dataType = "Integer",required = true, value = "拎包入住"),
-            @ApiImplicitParam(paramType = "query", name = "nearbySubway", dataType = "Integer",required = true, value = "地铁十分钟"),
-            @ApiImplicitParam(paramType = "query", name = "anyTimeToSee", dataType = "Integer",required = true, value = "随时看房"),
-            @ApiImplicitParam(paramType = "query", name = "checkInAtOnce", dataType = "Integer",required = true, value = "随时入住"),
+            @ApiImplicitParam(paramType = "query", name = "feature.independentBathroom", dataType = "Integer",required = true, value = "独立卫浴"),
+            @ApiImplicitParam(paramType = "query", name = "feature.independentBalcony", dataType = "Integer",required = true, value = "独立阳台"),
+            @ApiImplicitParam(paramType = "query", name = "feature.smartSock", dataType = "Integer",required = true, value = "智能锁"),
+            @ApiImplicitParam(paramType = "query", name = "feature.selfDecorating", dataType = "Integer",required = true, value = "可自行装修"),
+            @ApiImplicitParam(paramType = "query", name = "feature.firstRent", dataType = "Integer",required = true, value = "首次出租"),
+            @ApiImplicitParam(paramType = "query", name = "feature.fullyFurnished", dataType = "Integer",required = true, value = "拎包入住"),
+            @ApiImplicitParam(paramType = "query", name = "feature.nearbySubway", dataType = "Integer",required = true, value = "地铁十分钟"),
+            @ApiImplicitParam(paramType = "query", name = "feature.anyTimeToSee", dataType = "Integer",required = true, value = "随时看房"),
+            @ApiImplicitParam(paramType = "query", name = "feature.checkInAtOnce", dataType = "Integer",required = true, value = "随时入住"),
             @ApiImplicitParam(paramType = "query", name = "orderBy", dataType = "String", required = false, value = "排序字段"),
             @ApiImplicitParam(paramType = "query", name = "orderDirection", dataType = "String", required = false, value = "排序方向"),
             @ApiImplicitParam(paramType = "query", name = "start", dataType = "Integer", required = false, value = "搜索开始位置"),
@@ -194,7 +194,6 @@ public class HouseController {
             rentSearch.setRegion("*");
         }
         return ResultUtil.Success(houseDTOS);
-
     }
 
     @GetMapping("/getOneHouse")
