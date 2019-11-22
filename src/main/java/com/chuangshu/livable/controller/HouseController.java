@@ -128,7 +128,7 @@ public class HouseController {
     })
     public ResultDTO insert(House house, Allocation allocation, Feature feature,Integer userId){
         House saveHouse = null;
-        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
+        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
         try {
             int allocationId = allocationService.save(allocation).getId();
             int featureId = featureService.save(feature).getId();
@@ -270,7 +270,7 @@ public class HouseController {
 
         try {
             HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
-            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode()))
+            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode()))
                 searchService.index(houseDTO.getHouseId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -378,6 +378,24 @@ public class HouseController {
         likeHouse.setUserId(userId);
         List<LikeHouse> returnResult = likeHouseService.findByParams(likeHouse);
         return ResultUtil.Success(returnResult);
+    }
+
+    @GetMapping("/checkHouseSuccess")
+    public ResultDTO checkHouseSuccess(Integer houseId)throws Exception{
+        HouseCheckDTO house = new HouseCheckDTO();
+        house.setHouseId(houseId);
+        house.setStatus(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode());
+        houseService.updateDTO(house,House.class);
+        return ResultUtil.Success();
+    }
+
+    @GetMapping("/checkHouseFailure")
+    public ResultDTO checkHouseFailure(Integer houseId)throws Exception{
+        HouseCheckDTO house = new HouseCheckDTO();
+        house.setHouseId(houseId);
+        house.setStatus(HouseStatusCode.HOUSE_CHECKED_FAILURE.getCode());
+        houseService.updateDTO(house,House.class);
+        return ResultUtil.Success();
     }
 }
 
