@@ -23,7 +23,7 @@ public class LandlordInformationController {
 
     @ApiOperation("房东注册")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户ID"),
+            @ApiImplicitParam(paramType = "query", name = "landlordId", dataType = "Integer", required = true, value = "用户ID"),
             @ApiImplicitParam(paramType = "query", name = "idNumber", dataType = "Integer", required = true, value = "身份证号"),
             @ApiImplicitParam(paramType = "query", name = "idCardPictureF", dataType = "String", required = true, value = "身份证正面"),
             @ApiImplicitParam(paramType = "query", name = "idCardPictureR", dataType = "String", required = true, value = "身份证反面"),
