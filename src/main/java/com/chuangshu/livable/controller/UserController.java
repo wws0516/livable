@@ -89,7 +89,7 @@ public class UserController implements UserDetailsService {
         public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
             User user = new User();
-            user.setEmail(username);
+            user.setName(username);
             List<User> list = new ArrayList<>();
             try {
                 list = userService.findByParams(user);
@@ -102,5 +102,4 @@ public class UserController implements UserDetailsService {
             }
             return list.get(0);
         }
-
 }
