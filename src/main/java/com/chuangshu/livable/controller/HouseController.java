@@ -369,5 +369,16 @@ public class HouseController {
         }
 
     }
+
+    @GetMapping("/getLikeHouse")
+    @ApiOperation("查找收藏房源")
+    public ResultDTO getLikeHouse()throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        LikeHouse likeHouse = new LikeHouse();
+        likeHouse.setUserId(userId);
+        List<LikeHouse> returnResult = likeHouseService.findByParams(likeHouse);
+        return ResultUtil.Success(returnResult);
+    }
 }
 
