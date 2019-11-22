@@ -1,8 +1,10 @@
 package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.StatusCode.HouseStatusCode;
+import com.chuangshu.livable.StatusCode.LandlordStatusCode;
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
+import com.chuangshu.livable.dto.CheckLandlordDTO;
 import com.chuangshu.livable.entity.LandlordInformation;
 import com.chuangshu.livable.service.LandlordInformationService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -44,23 +46,34 @@ public class LandlordInformationController {
         return ResultUtil.Success(landlordInformation1);
     }
 
-    @ApiOperation("审批房东信息")
+    @ApiOperation("审批房东信息通过")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "landlordId", dataType = "Integer", required = true, value = "房东ID"),
-            @ApiImplicitParam(paramType = "query", name = "code", dataType = "String", required = true, value = "房东信息状态"),
     })
-    @GetMapping("/checkLandlord")
-    public ResultDTO checkLandlord(Integer landlordId,String code) {
-        LandlordInformation landlordInformation = new LandlordInformation();
-        landlordInformation.setLandlordId(landlordId);
-        if (code.equals("U")) {
-            landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
-
-        }else if(code.equals("C")){
-            landlordInformation.setStatus(HouseStatusCode.HOUSE_CHECKED.getCode().toString());
-        }
+    @GetMapping("/checkLandlordSuccess")
+    public ResultDTO checkLandlordSuccess(Integer landlordId) {
+        CheckLandlordDTO checkLandlordDTO = new CheckLandlordDTO();
+        checkLandlordDTO.setLandlordId(landlordId);
+        checkLandlordDTO.setStatus(LandlordStatusCode.LANDLORD_CHECKED_SUCCESS.getCode());
         try {
-            landlordInformationService.update(landlordInformation);
+            landlordInformationService.updateDTO(checkLandlordDTO,LandlordInformation.class);
+        } catch (Exception e) {
+            return ResultUtil.Error("500","意料之外的错误");
+        }
+        return ResultUtil.Success();
+    }
+
+    @ApiOperation("审批房东信息不通过")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "landlordId", dataType = "Integer", required = true, value = "房东ID"),
+    })
+    @GetMapping("/checkLandlordFailure")
+    public ResultDTO checkLandlordFailure(Integer landlordId) {
+        CheckLandlordDTO checkLandlordDTO = new CheckLandlordDTO();
+        checkLandlordDTO.setLandlordId(landlordId);
+        checkLandlordDTO.setStatus(LandlordStatusCode.LANDLORD_CHECKED_FAILURE.getCode());
+        try {
+            landlordInformationService.updateDTO(checkLandlordDTO,LandlordInformation.class);
         } catch (Exception e) {
             return ResultUtil.Error("500","意料之外的错误");
         }
