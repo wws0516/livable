@@ -17,8 +17,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -341,11 +344,11 @@ public class HouseController {
     @GetMapping("/addHouseToLike")
     @ApiOperation("收藏房源")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源id"),
-            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户id")
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源id")
     })
-    public ResultDTO addHouseToLike(Integer houseId,Integer userId)throws Exception{
-
+    public ResultDTO addHouseToLike(Integer houseId)throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
         if (houseService.get(houseId)!=null) {
             if (userService.get(userId)!=null) {
                 LikeHouse like = new LikeHouse();
@@ -358,12 +361,23 @@ public class HouseController {
                     return ResultUtil.Error("503","该用户已经收藏了该房源");
                 }
             }else{
-                return ResultUtil.Error("501","用户不存在");
+                return ResultUtil.Error("501","请先登录");
             }
         }else {
             return ResultUtil.Error("502","房源不存在");
         }
 
+    }
+
+    @GetMapping("/getLikeHouse")
+    @ApiOperation("查找收藏房源")
+    public ResultDTO getLikeHouse()throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        LikeHouse likeHouse = new LikeHouse();
+        likeHouse.setUserId(userId);
+        List<LikeHouse> returnResult = likeHouseService.findByParams(likeHouse);
+        return ResultUtil.Success(returnResult);
     }
 }
 
