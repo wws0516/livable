@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Enumeration;
 
 /**
  * @Author: wws
@@ -19,6 +20,7 @@ public class LivableAuthenticationSuccessHandle extends SavedRequestAwareAuthent
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        httpServletRequest.getSession().getAttributeNames();
         User principal = (User) authentication.getPrincipal();
         httpServletRequest.getSession().setAttribute("userID", principal.getUserId());
         super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);

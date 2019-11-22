@@ -44,7 +44,6 @@ public class ValidateCodeController {
     @GetMapping("/imageCode")
     @ApiOperation("生成图形验证码")
     public void createImageCode(HttpServletRequest request, HttpServletResponse response){
-
         ImageCode imageCode = (ImageCode) imageCodeGenerator.generator(new ServletWebRequest(request));
         sessionStrategy.setAttribute(new ServletWebRequest(request), SESSION_KEY+"IMAGE", imageCode);
         try {
