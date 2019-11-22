@@ -381,6 +381,10 @@ public class HouseController {
     }
 
     @GetMapping("/checkHouseSuccess")
+    @ApiOperation("审批房源通过")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源id")
+    })
     public ResultDTO checkHouseSuccess(Integer houseId)throws Exception{
         HouseCheckDTO house = new HouseCheckDTO();
         house.setHouseId(houseId);
@@ -390,6 +394,10 @@ public class HouseController {
     }
 
     @GetMapping("/checkHouseFailure")
+    @ApiOperation("审批房源不通过")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源id")
+    })
     public ResultDTO checkHouseFailure(Integer houseId)throws Exception{
         HouseCheckDTO house = new HouseCheckDTO();
         house.setHouseId(houseId);
