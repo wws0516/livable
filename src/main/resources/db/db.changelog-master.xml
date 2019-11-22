@@ -105,5 +105,68 @@
         <sql>
             alter table house change COlUMN house_id house_id int(11) NOT NULL AUTO_INCREMENT COMMENT '房源ID';
         </sql>
+
+
+    </changeSet>
+    <changeSet id="3" author="yesanqiu">
+        <!--        新增收藏表-->
+        <sql>
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for like
+            -- ----------------------------
+            DROP TABLE IF EXISTS `like`;
+            CREATE TABLE `like`  (
+            `id` int(11) NOT NULL AUTO_INCREMENT,
+            `user_id` int(11) NULL DEFAULT 0 COMMENT '用户id',
+            `house_id` int(11) NULL DEFAULT 0 COMMENT '房源id',
+            PRIMARY KEY (`id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+            SET FOREIGN_KEY_CHECKS = 1;
+
+        </sql>
+    </changeSet>
+    <changeSet id="4" author="yesanqiu">
+        <!--        修改looked\looking表-->
+
+        <sql>
+            drop table looked;
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for looked
+            -- ----------------------------
+            DROP TABLE IF EXISTS `looked`;
+            CREATE TABLE `looked`  (
+            `looked_id` int(11) NOT NULL AUTO_INCREMENT,
+            `looking_id` int(11) NULL DEFAULT NULL,
+            PRIMARY KEY (`looked_id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+            SET FOREIGN_KEY_CHECKS = 1;
+        </sql>
+        <sql>
+            DROP TABLE looking;
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for looking
+            -- ----------------------------
+            DROP TABLE IF EXISTS `looking`;
+            CREATE TABLE `looking`  (
+            `looking_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预约id',
+            `user_id` int(11) NOT NULL COMMENT '用户ID',
+            `house_id` int(11) NOT NULL COMMENT '房源ID',
+            `data` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '时间',
+            PRIMARY KEY (`looking_id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+            SET FOREIGN_KEY_CHECKS = 1;
+        </sql>
     </changeSet>
 </databaseChangeLog>
