@@ -36,7 +36,7 @@ public class LookingController {
     public ResultDTO insertLooking(Looking looking) throws Exception {
         Looking saveLooking = null;
         User user = new User();
-        user.setUserId(looking.getUserId().toString());
+        user.setUserId(looking.getUserId());
         House house = new House();
         house.setHouseId(looking.getHouseId());
         //修改redis中user的值

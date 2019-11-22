@@ -22,7 +22,7 @@ public class User implements UserDetails {
      */
     @Id
     @Column(name = "user_id")
-    private String userId;
+    private Integer userId;
     /**
      * 姓名
      */

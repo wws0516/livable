@@ -516,7 +516,7 @@ public class house {
     @Test
     public void test16()throws  Exception{
         User user = new User();
-        user.setUserId("1");
+        user.setUserId(1);
         List<Integer> strings = userRedisService.userGetRecommend(user);
         System.out.println(strings);
     }

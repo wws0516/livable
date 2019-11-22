@@ -174,7 +174,7 @@ public class HouseController {
         if (rentSearch.getCity() == null){
             String cityNameInSession = (String) session.getAttribute("cityName");
             if (cityNameInSession == null){
-                return ResultUtil.Error("202", "请选择城市！");
+                return ResultUtil.Error("411", "请选择城市！");
             }else {
                 rentSearch.setCity(cityNameInSession);
             }
@@ -186,11 +186,10 @@ public class HouseController {
 
         List<AddressDTO> regions = addressService.findAllRegionsByCityName(rentSearch.getCity());
 //        if (regions == null || regions.size() < 1) {
-//            return ResultUtil.Error("123", "请选择城市！");
+//            return ResultUtil.Error("411", "请选择城市！");
 //        }
 
         List<HouseDTO> houseDTOS = houseService.query(rentSearch);
-
         if (rentSearch.getRegion() == null) {
             rentSearch.setRegion("*");
         }
