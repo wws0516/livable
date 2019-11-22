@@ -174,4 +174,10 @@
             alter table user change column user_id user_id int(11) not null AUTO_INCREMENT COMMENT 'user_id';
         </sql>
     </changeSet>
+    <changeSet id="6" author="yesanqiu">
+        <sql>
+            alter table landlord_house_relation drop primary key;
+            alter table landlord_house_relation add column relation_id int(11) not null auto_increment primary key comment '关系id';
+        </sql>
+    </changeSet>
 </databaseChangeLog>

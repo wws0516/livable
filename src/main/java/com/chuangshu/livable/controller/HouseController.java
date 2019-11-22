@@ -88,12 +88,13 @@ public class HouseController {
     @ApiOperation(value = "新增房源信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "title", dataType = "String",required = true, value = "标题"),
-            @ApiImplicitParam(paramType = "query", name = "area", dataType = "String",required = true, value = "地区"),
+            @ApiImplicitParam(paramType = "query", name = "city", dataType = "String",required = true, value = "城市"),
+            @ApiImplicitParam(paramType = "query", name = "region", dataType = "String",required = true, value = "地区"),
             @ApiImplicitParam(paramType = "query", name = "address", dataType = "String",required = true, value = "地址"),
             @ApiImplicitParam(paramType = "query", name = "houseType", dataType = "String",required = true, value = "房型"),
             @ApiImplicitParam(paramType = "query", name = "rent", dataType = "String",required = true, value = "租金"),
             @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "租金付费方式"),
-            @ApiImplicitParam(paramType = "query", name = "rentWay", dataType = "String",required = true, value = "租房方式"),
+            @ApiImplicitParam(paramType = "query", name = "rentType", dataType = "String",required = true, value = "租房方式"),
             @ApiImplicitParam(paramType = "query", name = "numberOfPeople", dataType = "String",required = true, value = "租房人数"),
             @ApiImplicitParam(paramType = "query", name = "elevator", dataType = "String",required = true, value = "电梯"),
             @ApiImplicitParam(paramType = "query", name = "toward", dataType = "String",required = true, value = "朝向"),
@@ -126,10 +127,9 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
             @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer",required = true, value = "用户id"),
     })
-    public ResultDTO insert(House house, Allocation allocation, Feature feature,Integer userId){
+    public ResultDTO insert(House house, Allocation allocation, Feature feature,Integer userId)throws Exception{
         House saveHouse = null;
         house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
-        try {
             int allocationId = allocationService.save(allocation).getId();
             int featureId = featureService.save(feature).getId();
             house.setAllocationId(allocationId);
@@ -142,9 +142,6 @@ public class HouseController {
             houseRedisService.setHouseDTO(house,feature,allocation);
 //            //新增es索引
 //            searchService.index(house.getHouseId());
-        } catch (Exception e) {
-            ResultUtil.Error("500","新建房源信息失败："+e.getMessage());
-        }
         return ResultUtil.Success(saveHouse);
     }
 
@@ -270,7 +267,7 @@ public class HouseController {
 
         try {
             HouseDTO houseDTO = houseService.findByParams(updateHouseDto, HouseDTO.class).get(0);
-            if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode()))
+             if (houseDTO.getStatus().equals(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode()))
                 searchService.index(houseDTO.getHouseId());
         } catch (Exception e) {
             e.printStackTrace();

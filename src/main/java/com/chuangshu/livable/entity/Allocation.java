@@ -7,6 +7,7 @@ import lombok.Data;
 public class Allocation {
 
     @Id
+    @GeneratedValue(generator = "JDBC")
     private Integer id;
 
     /**
