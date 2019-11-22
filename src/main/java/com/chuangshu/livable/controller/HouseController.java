@@ -4,20 +4,15 @@ import com.chuangshu.livable.StatusCode.HouseStatusCode;
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.*;
-import com.chuangshu.livable.entity.Allocation;
-import com.chuangshu.livable.entity.Feature;
-import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.LandlordHouseRelation;
+import com.chuangshu.livable.entity.*;
 import com.chuangshu.livable.service.*;
 import com.chuangshu.livable.service.redis.HouseRedisService;
 import com.chuangshu.livable.utils.esUtil.MapSearch;
 import com.chuangshu.livable.service.search.ISearchService;
 import com.chuangshu.livable.utils.esUtil.RentSearch;
-import com.chuangshu.livable.utils.esUtil.RentValueBlock;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -61,6 +56,12 @@ public class HouseController {
     
     @Autowired
     HouseRedisService houseRedisService;
+
+    @Autowired
+    LikeHouseService likeHouseService;
+
+    @Autowired
+    UserService userService;
 
 
     /**
@@ -329,6 +330,41 @@ public class HouseController {
             result = ResultUtil.Success(houseDTOS);
         }
         return result;
+    }
+
+
+    /**
+     * @author 叶三秋
+     * @date    2019/11/22
+     * 收藏房源接口
+     *
+     */
+    @GetMapping("/addHouseToLike")
+    @ApiOperation("收藏房源")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源id"),
+            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户id")
+    })
+    public ResultDTO addHouseToLike(Integer houseId,Integer userId)throws Exception{
+
+        if (houseService.get(houseId)!=null) {
+            if (userService.get(userId)!=null) {
+                LikeHouse like = new LikeHouse();
+                like.setHouseId(houseId);
+                like.setUserId(userId);
+                if (likeHouseService.findByParams(like).size()==0) {
+                    LikeHouse returnResult = likeHouseService.save(like);
+                    return ResultUtil.Success(returnResult);
+                } else {
+                    return ResultUtil.Error("503","该用户已经收藏了该房源");
+                }
+            }else{
+                return ResultUtil.Error("501","用户不存在");
+            }
+        }else {
+            return ResultUtil.Error("502","房源不存在");
+        }
+
     }
 }
 
