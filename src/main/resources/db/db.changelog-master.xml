@@ -171,7 +171,7 @@
     </changeSet>
     <changeSet id="5" author="wws">
         <sql>
-            alter table user change user_id user_id NOT NULL AUTO_INCREMENT COMMENT 'user_id';
+            alter table user change column user_id user_id int(11) not null AUTO_INCREMENT COMMENT 'user_id';
         </sql>
     </changeSet>
 </databaseChangeLog>
