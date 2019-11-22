@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
 //                .loginPage("/requireAuthentication")
                 .loginProcessingUrl("/user/login")
-//                .successHandler(livableAuthenticationSuccessHandle)
+                .successHandler(livableAuthenticationSuccessHandle)
 //                .failureHandler(livableAuthenticationFailureHandle)
 //                .and()
 //                .rememberMe()
