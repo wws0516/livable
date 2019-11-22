@@ -1,7 +1,7 @@
 package com.chuangshu.livable.security;
 
+import com.chuangshu.livable.entity.User;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +19,8 @@ public class LivableAuthenticationSuccessHandle extends SavedRequestAwareAuthent
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        User principal = (User) authentication.getPrincipal();
+        httpServletRequest.getSession().setAttribute("userID", principal.getUserId());
         super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
     }
 }

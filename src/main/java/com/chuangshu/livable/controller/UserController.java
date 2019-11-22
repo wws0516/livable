@@ -10,6 +10,9 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
@@ -20,6 +23,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: wws
@@ -28,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/user")
 @RestController
-public class UserController {
+public class UserController implements UserDetailsService {
 
     @Autowired
     UserService userService;
@@ -74,4 +79,27 @@ public class UserController {
         return ResultUtil.Success();
     }
 
+        @Override
+        @PostMapping("/login")
+        @ApiOperation("获取用户信息")
+        @ApiImplicitParams({
+                @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名"),
+                @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码"),
+        })
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+            User user = new User();
+            user.setName(username);
+            List<User> list = new ArrayList<>();
+            try {
+                list = userService.findByParams(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (list.size()==0){
+                return null;
+            }
+            return list.get(0);
+        }
 }

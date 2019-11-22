@@ -36,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler livableAuthenticationSuccessHandle;
     @Autowired
     private AuthenticationFailureHandler livableAuthenticationFailureHandle;
-    @Qualifier("myUserDetailService")
+    @Qualifier("userController")
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -67,9 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
         http
 //                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-//                .formLogin()
+                .formLogin()
 //                .loginPage("/requireAuthentication")
-//                .loginProcessingUrl("/login")
+                .loginProcessingUrl("/user/login")
 //                .successHandler(livableAuthenticationSuccessHandle)
 //                .failureHandler(livableAuthenticationFailureHandle)
 //                .and()
@@ -83,13 +83,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .anyRequest()
 //                .authenticated()
 //                .and()
-                .csrf().disable()
+//                .csrf().disable()
 //                .apply(emailCodeAuthenticationSecurityConfig)
 //                .and()
 //                .apply(springSocialConfigurer)
 
                 //关闭验证
-//                .and()
+//                .and().
+                .and()
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
