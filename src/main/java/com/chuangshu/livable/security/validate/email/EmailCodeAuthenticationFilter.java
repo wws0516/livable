@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class EmailCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String CHUANG_SHU_FORM_EMAIL_KEY = "email";
-    private String emailParameter = "username";
+    private String emailParameter = "email";
     private boolean postOnly = true;
 
     public EmailCodeAuthenticationFilter() {

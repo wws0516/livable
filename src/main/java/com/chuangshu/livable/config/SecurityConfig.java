@@ -82,9 +82,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html", "/**").permitAll()
 //                .anyRequest()
 //                .authenticated()
-//                .and()
-//                .csrf().disable()
-//                .apply(emailCodeAuthenticationSecurityConfig)
+                .and()
+                .csrf().disable()
+                .apply(emailCodeAuthenticationSecurityConfig)
 //                .and()
 //                .apply(springSocialConfigurer)
 
