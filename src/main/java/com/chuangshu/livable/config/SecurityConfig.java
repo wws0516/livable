@@ -71,12 +71,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/requireAuthentication")
                 .loginProcessingUrl("/user/login")
                 .successHandler(livableAuthenticationSuccessHandle)
-//                .failureHandler(livableAuthenticationFailureHandle)
-//                .and()
-//                .rememberMe()
-//                .tokenRepository(persistentTokenRepository())
-//                .tokenValiditySeconds(3600)
-//                .userDetailsService(userDetailsService)
+                .failureHandler(livableAuthenticationFailureHandle)
+                .and()
+                    .rememberMe()
+                    .tokenRepository(persistentTokenRepository())
+                    .tokenValiditySeconds(3600)
+                    .userDetailsService(userDetailsService)
 //                .and()
 //                .authorizeRequests()
 //                .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html", "/**").permitAll()
@@ -94,10 +94,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().permitAll()
                 .and()
-                .logout().permitAll()
-        .and()
-        .csrf().disable();
+                .logout().permitAll();
 
     }
-
 }
