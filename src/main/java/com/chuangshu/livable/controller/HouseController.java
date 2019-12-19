@@ -13,8 +13,12 @@ import com.chuangshu.livable.utils.esUtil.RentSearch;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.catalina.connector.Request;
+import org.apache.catalina.core.ApplicationContext;
+import org.elasticsearch.action.get.GetRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -125,11 +129,18 @@ public class HouseController {
             @ApiImplicitParam(paramType = "query", name = "anyTimeToSee", dataType = "Integer",required = true, value = "随时看房"),
             @ApiImplicitParam(paramType = "query", name = "checkInAtOnce", dataType = "Integer",required = true, value = "随时入住"),
             @ApiImplicitParam(paramType = "query", name = "introduction", dataType = "String",required = true, value = "介绍"),
-            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer",required = true, value = "用户id"),
     })
-    public ResultDTO insert(House house, Allocation allocation, Feature feature,Integer userId)throws Exception{
+    public ResultDTO insert(House house, Allocation allocation, Feature feature)throws Exception{
         House saveHouse = null;
         house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
+        HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        try {
+            userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+
+        } catch (NumberFormatException e) {
+            return ResultUtil.Error("500","请先登录");
+        }
             int allocationId = allocationService.save(allocation).getId();
             int featureId = featureService.save(feature).getId();
             house.setAllocationId(allocationId);
