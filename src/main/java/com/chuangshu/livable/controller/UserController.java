@@ -86,10 +86,13 @@ public class UserController implements UserDetailsService {
                 @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名"),
                 @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码"),
         })
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 
             User user = new User();
-            user.setName(username);
+            if (s.endsWith(".com"))
+                user.setEmail(s);
+            else
+                user.setName(s);
             List<User> list = new ArrayList<>();
             try {
                 list = userService.findByParams(user);
