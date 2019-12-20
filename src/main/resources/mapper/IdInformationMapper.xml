@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.chuangshu.livable.mapper.IdInformationMapper" >
+  <resultMap id="BaseResultMap" type="com.chuangshu.livable.entity.IdInformation" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="id_card_type" property="idCardType" jdbcType="VARCHAR" />
+    <result column="id_number" property="idNumber" jdbcType="INTEGER" />
+    <result column="id_card_pic_z" property="idCardPicZ" jdbcType="VARCHAR" />
+    <result column="id_card_pic_f" property="idCardPicF" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

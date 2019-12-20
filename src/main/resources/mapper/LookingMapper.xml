@@ -5,7 +5,10 @@
     <!--
       WARNING - @mbg.generated
     -->
+    <result column="looking_id" property="lookingId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="house_id" property="houseId" jdbcType="INTEGER" />
+    <result column="data" property="data" jdbcType="VARCHAR" />
+    <result column="site" property="site" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

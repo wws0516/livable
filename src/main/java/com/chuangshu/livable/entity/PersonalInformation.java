@@ -29,6 +29,11 @@ public class PersonalInformation {
      */
     private String job;
 
+    /**
+     * 爱好
+     */
+    private String hobby;
+
     public static final String USER_ID = "userId";
 
     public static final String HEAD_PORTRAIT = "headPortrait";
@@ -36,4 +41,6 @@ public class PersonalInformation {
     public static final String AGE = "age";
 
     public static final String JOB = "job";
+
+    public static final String HOBBY = "hobby";
 }

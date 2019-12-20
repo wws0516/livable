@@ -180,4 +180,34 @@
             alter table landlord_house_relation add column relation_id int(11) not null auto_increment primary key comment '关系id';
         </sql>
     </changeSet>
+    <changeSet id="7" author="yesanqiu">
+        <sql>
+            alter table like_house add column date timestamp DEFAULT CURRENT_TIMESTAMP;
+        </sql>
+        <sql>
+            alter table looking add column site varchar(25) not null COMMENT '地点';
+        </sql>
+        <sql>
+            alter table personal_information add column hobby varchar(255) COMMENT '爱好';
+        </sql>
+        <sql>
+            SET NAMES utf8mb4;
+            SET FOREIGN_KEY_CHECKS = 0;
+
+            -- ----------------------------
+            -- Table structure for id_information
+            -- ----------------------------
+            DROP TABLE IF EXISTS `id_information`;
+            CREATE TABLE `id_information`  (
+            `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '预约id',
+            `user_id` int(11) NOT NULL COMMENT '用户ID',
+            `name` varchar(11) NOT NULL COMMENT '真实姓名',
+            `id_card_type` varchar(25) NOT NULL COMMENT '证件类型',
+            `id_number` int(25) NOT NULL COMMENT '证件号',
+            `id_card_pic_z` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '证件照正面',
+            `id_card_pic_f` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '证件照背面',
+            PRIMARY KEY (`id`) USING BTREE
+            ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+        </sql>
+    </changeSet>
 </databaseChangeLog>
