@@ -41,7 +41,7 @@ public class UserOpinionController {
         Integer userId = null;
         try {
             userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return ResultUtil.Error("500","请先登录再评论");
         }
         userOpinion.setUserId(userId);

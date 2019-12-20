@@ -137,8 +137,7 @@ public class HouseController {
         Integer userId = null;
         try {
             userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
-
-        } catch (NumberFormatException e) {
+        } catch (Exception e) {
             return ResultUtil.Error("500","请先登录");
         }
             int allocationId = allocationService.save(allocation).getId();
