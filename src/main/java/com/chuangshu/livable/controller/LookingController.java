@@ -31,7 +31,8 @@ public class LookingController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "userID", dataType = "Integer", required = true, value = "用户ID"),
             @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
-            @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间")
+            @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间"),
+            @ApiImplicitParam(paramType = "query", name = "site", dataType = "String", required = true, value = "地点")
     })
     public ResultDTO insertLooking(Looking looking) throws Exception {
         Looking saveLooking = null;
