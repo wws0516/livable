@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -85,5 +86,29 @@ public class PersonalInformationController {
             idInformationService.update(idInformation);
         }
         return ResultUtil.Success(returnIdInformation);
+    }
+
+    @GetMapping("/getHeadPortrait")
+    @ApiOperation("获取头像")
+    public ResultDTO getHeadPortrait() throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        PersonalInformation personalInformation = new PersonalInformation();
+        personalInformation.setUserId(userId);
+        String headPortraitPath = personalInformationService.findByParams(personalInformation).get(0).getHeadPortrait();
+        return ResultUtil.Success(headPortraitPath);
+    }
+
+    @GetMapping("/getPersonalInformation")
+    @ApiOperation("获取个人信息")
+    public ResultDTO getPersonalInformation() throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        PersonalInformation personalInformation = new PersonalInformation();
+        personalInformation.setUserId(userId);
+        PersonalInformation returnPersonalInformation = personalInformationService.findByParams(personalInformation).get(0);
+        return ResultUtil.Success(returnPersonalInformation);
     }
 }
