@@ -36,9 +36,7 @@ public class LikeHouseController {
         } catch (Exception e) {
             return ResultUtil.Error("500","请先登录");
         }
-        try {
-            houseService.get(houseId);
-        } catch (Exception e) {
+        if(houseService.get(houseId)==null){
             return ResultUtil.Error("500","无此房源");
         }
         LikeHouse likeHouse = new LikeHouse();
