@@ -5,6 +5,8 @@ import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.InsertUserDTO;
 import com.chuangshu.livable.dto.UpdateUserDTO;
 import com.chuangshu.livable.entity.User;
+import com.chuangshu.livable.entity.UserRole;
+import com.chuangshu.livable.service.UserRoleService;
 import com.chuangshu.livable.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -16,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.social.security.SocialUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,12 +42,15 @@ public class UserController implements UserDetailsService {
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    UserRoleService userRoleService;
+
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     @PostMapping("/register")
     @ApiOperation("新增用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "姓名"),
+            @ApiImplicitParam(paramType = "query", name = "name", dataType = "String", required = true, value = "姓名"),
             @ApiImplicitParam(paramType = "query", name = "gender", dataType = "String", required = true, value = "性别"),
             @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码")
@@ -54,6 +60,7 @@ public class UserController implements UserDetailsService {
 //        user.setUserId(UUID.randomUUID().toString());
         try {
             userService.save(user);
+            userRoleService.save(new UserRole(user.getUserId(), 3));
         }catch (Exception e){
             return ResultUtil.Error("500",e.getMessage());
         }
@@ -86,13 +93,13 @@ public class UserController implements UserDetailsService {
                 @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名"),
                 @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码"),
         })
-        public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
             User user = new User();
-            if (s.endsWith(".com"))
-                user.setEmail(s);
+            if (username.endsWith(".com"))
+                user.setEmail(username);
             else
-                user.setName(s);
+                user.setName(username);
             List<User> list = new ArrayList<>();
             try {
                 list = userService.findByParams(user);
@@ -103,6 +110,7 @@ public class UserController implements UserDetailsService {
             if (list.size()==0){
                 return null;
             }
-            return list.get(0);
+            User user1 = list.get(0);
+            return user1;
         }
 }

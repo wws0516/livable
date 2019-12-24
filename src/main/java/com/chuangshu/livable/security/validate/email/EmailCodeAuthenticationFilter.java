@@ -63,7 +63,7 @@ public class EmailCodeAuthenticationFilter extends AbstractAuthenticationProcess
     }
 
     public void setEmailParameter(String emailParameter) {
-        Assert.hasText(emailParameter, "Username parameter must not be empty or null");
+        Assert.hasText(emailParameter, "email parameter must not be empty or null");
         this.emailParameter = emailParameter;
     }
 

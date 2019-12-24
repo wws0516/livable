@@ -6,7 +6,9 @@ import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.CheckLandlordDTO;
 import com.chuangshu.livable.entity.LandlordInformation;
+import com.chuangshu.livable.entity.UserRole;
 import com.chuangshu.livable.service.LandlordInformationService;
+import com.chuangshu.livable.service.UserRoleService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -22,6 +24,9 @@ public class LandlordInformationController {
 
     @Autowired
     private LandlordInformationService landlordInformationService;
+
+    @Autowired
+    UserRoleService userRoleService;
 
     @ApiOperation("房东注册")
     @ApiImplicitParams({
@@ -57,6 +62,7 @@ public class LandlordInformationController {
         checkLandlordDTO.setStatus(LandlordStatusCode.LANDLORD_CHECKED_SUCCESS.getCode());
         try {
             landlordInformationService.updateDTO(checkLandlordDTO,LandlordInformation.class);
+            userRoleService.save(new UserRole(landlordId, 2));
         } catch (Exception e) {
             return ResultUtil.Error("500","意料之外的错误");
         }
