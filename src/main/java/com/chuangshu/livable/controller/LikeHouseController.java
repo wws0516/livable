@@ -2,6 +2,8 @@ package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.base.util.ResultUtil;
+import com.chuangshu.livable.dto.LikeHouseDTO;
+import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.LikeHouse;
 import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.LikeHouseService;
@@ -11,6 +13,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -76,7 +79,7 @@ public class LikeHouseController {
     }
 
     @GetMapping("/getAll")
-    public ResultDTO getAllLikeHouse(){
+    public ResultDTO getAllLikeHouse() throws  Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Integer userId = null;
         try {
@@ -92,7 +95,12 @@ public class LikeHouseController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ResultUtil.Success(returnList);
+        List<LikeHouseDTO> likeHouseDTOS = new ArrayList<>();
+        for(LikeHouse l:returnList){
+            House house = houseService.get(l.getHouseId());
+            likeHouseDTOS.add(new LikeHouseDTO(house.getPicture(),house.getAddress(),house.getRent(),l.getDate()));
+        }
+        return ResultUtil.Success(likeHouseDTOS);
 
     }
 }
