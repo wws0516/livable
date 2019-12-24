@@ -75,7 +75,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             e.printStackTrace();
         }
 
-        try {
             if (codeInSession == null) {
                 throw new ValidateCodeException("验证码不存在");
             }
@@ -88,9 +87,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
                 throw new ValidateCodeException("验证码不匹配");
             }
             sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeController.SESSION_KEY+loginType);
-        } catch (ValidateCodeException e) {
-            e.printStackTrace();
-        }
 
     }
 }

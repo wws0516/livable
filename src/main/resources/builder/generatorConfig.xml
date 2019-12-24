@@ -40,10 +40,13 @@
 <!--        <table tableName="address"/>-->
 <!--        <table tableName="feature"/>-->
 <!--        <table tableName="allocation"/>-->
-        <table tableName="like_house"/>
-        <table tableName="id_information"/>
-        <table tableName="looking"/>
+        <!--<table tableName="like_house"/>-->
+        <!--<table tableName="id_information"/>-->
+        <!--<table tableName="looking"/>-->
 
+        <!--<table tableName="role"/>-->
+        <!--<table tableName="permission"/>-->
+        <table tableName="user_role"/>
 
     </context>
 </generatorConfiguration>
