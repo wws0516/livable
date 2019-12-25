@@ -209,14 +209,19 @@ public class HouseController {
     @GetMapping("/getOneHouse")
     @ApiOperation("通过Id查房源信息")
     @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer",required = true, value = "房源ID")
-    public ResultDTO getOneHouse(Integer houseID){
+    public ResultDTO getOneHouse(Integer houseID)throws Exception{
         House house = null;
+        Feature feature = null;
+        Allocation allocation = null;
         try {
             house = houseService.get(houseID);
+            feature = featureService.get(house.getFeatureId());
+            allocation = allocationService.get(house.getAllocationId());
         } catch (Exception e) {
-            ResultUtil.Error("500","查无此房源："+e.getMessage());
+            ResultUtil.Error("500"," 查无此房源："+e.getMessage());
         }
-        return ResultUtil.Success(house);
+        HouseDTO returnHouse = new HouseDTO(house,feature,allocation);
+        return ResultUtil.Success(returnHouse);
     }
 
 
