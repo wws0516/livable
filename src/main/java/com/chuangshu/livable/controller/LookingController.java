@@ -6,6 +6,7 @@ import com.chuangshu.livable.dto.LookDTO;
 import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.Looking;
 import com.chuangshu.livable.entity.User;
+import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.LandlordHouseRelationService;
 import com.chuangshu.livable.service.LookingService;
 import com.chuangshu.livable.service.UserService;
@@ -36,6 +37,9 @@ public class LookingController {
     private UserService userService;
 
     @Autowired
+    private HouseService houseService;
+
+    @Autowired
     private LandlordHouseRelationService landlordHouseRelationService;
 
     @PostMapping("/insertLooking")
@@ -46,6 +50,9 @@ public class LookingController {
             @ApiImplicitParam(paramType = "query", name = "site", dataType = "String", required = true, value = "地点")
     })
     public ResultDTO insertLooking(Looking looking) throws Exception {
+        if(houseService.get(looking.getHouseId())==null){
+            return ResultUtil.Error("500","此房源不存在");
+        }
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Integer userId = null;
         userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
@@ -88,7 +95,7 @@ public class LookingController {
         List<Looking> lookingList = lookingService.findByParams(looking);
         List<LookDTO> lookDTOS = new ArrayList<>();
         for(Looking l: lookingList){
-            lookDTOS.add(new LookDTO(l,userService.get(userId).getName()));
+            lookDTOS.add(new LookDTO(l,userService.get(landlordHouseRelationService.get(l.getHouseId()).getUserId()).getName()));
         }
         return ResultUtil.Success(lookDTOS);
     }
