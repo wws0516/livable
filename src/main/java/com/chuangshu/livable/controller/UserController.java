@@ -6,6 +6,7 @@ import com.chuangshu.livable.dto.InsertUserDTO;
 import com.chuangshu.livable.dto.UpdateUserDTO;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.UserService;
+import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -34,6 +35,8 @@ public class UserController {
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    UserRedisService userRedisService;
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     @PostMapping("/register")
@@ -49,6 +52,7 @@ public class UserController {
 //        user.setUserId(UUID.randomUUID().toString());
         try {
             userService.save(user);
+            userRedisService.setNewUser(user);
         }catch (Exception e){
             return ResultUtil.Error("500",e.getMessage());
         }

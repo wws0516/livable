@@ -196,6 +196,7 @@ public class HouseController {
         House house = null;
         try {
             house = houseService.get(houseID);
+
         } catch (Exception e) {
             ResultUtil.Error("500","查无此房源："+e.getMessage());
         }
