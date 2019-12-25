@@ -29,7 +29,7 @@ public class Looking {
     /**
      * 时间
      */
-    @DateTimeFormat
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date data;
 
     /**

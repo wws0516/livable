@@ -42,17 +42,20 @@ public class LookingController {
     @PostMapping("/insertLooking")
     @ApiOperation("新增约看")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "userID", dataType = "Integer", required = true, value = "用户ID"),
             @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
             @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间"),
             @ApiImplicitParam(paramType = "query", name = "site", dataType = "String", required = true, value = "地点")
     })
     public ResultDTO insertLooking(Looking looking) throws Exception {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        looking.setUserId(userId);
         Looking saveLooking = null;
         User user = new User();
-        user.setUserId(looking.getUserId());
+        user.setUserId(userId);
         House house = new House();
-        house.setHouseId(looking.getHouseId());
+        house.setHouseId(userId);
         //修改redis中user的值
         userRedisService.userLookHouse(user,house);
         try {
