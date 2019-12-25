@@ -218,7 +218,7 @@ public class HouseController {
             feature = featureService.get(house.getFeatureId());
             allocation = allocationService.get(house.getAllocationId());
         } catch (Exception e) {
-            ResultUtil.Error("500"," 查无此房源："+e.getMessage());
+            return ResultUtil.Error("500"," 查无此房源："+e.getMessage());
         }
         HouseDTO returnHouse = new HouseDTO(house,feature,allocation);
         return ResultUtil.Success(returnHouse);
