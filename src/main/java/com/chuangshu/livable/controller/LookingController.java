@@ -41,7 +41,7 @@ public class LookingController {
     @PostMapping("/insertLooking")
     @ApiOperation("新增约看")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源ID"),
             @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间"),
             @ApiImplicitParam(paramType = "query", name = "site", dataType = "String", required = true, value = "地点")
     })
