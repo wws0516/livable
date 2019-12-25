@@ -2,9 +2,11 @@ package com.chuangshu.livable.config;
 
 import com.chuangshu.livable.security.validate.ValidateCodeFilter;
 import com.chuangshu.livable.security.validate.email.EmailCodeAuthenticationSecurityConfig;
+import com.chuangshu.livable.service.rbac.RbacService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +28,7 @@ import javax.sql.DataSource;
  */
 @EnableWebSecurity
 @Configuration
+//@ComponentScan(basePackages={"com.chuangshu.livable.service.rbac"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -36,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler livableAuthenticationSuccessHandle;
     @Autowired
     private AuthenticationFailureHandler livableAuthenticationFailureHandle;
-    @Qualifier("myUserDetailService")
+    @Qualifier("userController")
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -65,39 +68,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
-
         http
-//                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-//                .formLogin()
+                .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
 //                .loginPage("/requireAuthentication")
-//                .loginProcessingUrl("/login")
-//                .successHandler(livableAuthenticationSuccessHandle)
-//                .failureHandler(livableAuthenticationFailureHandle)
-//                .and()
-//                .rememberMe()
-//                .tokenRepository(persistentTokenRepository())
-//                .tokenValiditySeconds(3600)
-//                .userDetailsService(userDetailsService)
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html", "/**").permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-                .csrf().disable()
-//                .apply(emailCodeAuthenticationSecurityConfig)
+                .loginProcessingUrl("/user/login")
+                .successHandler(livableAuthenticationSuccessHandle)
+                .failureHandler(livableAuthenticationFailureHandle)
+                .and()
+                    .rememberMe()
+                    .tokenRepository(persistentTokenRepository())
+                    .tokenValiditySeconds(3600)
+                    .userDetailsService(userDetailsService)
+                .and()
+                    .authorizeRequests()
+//                    .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html", "/**").permitAll()
+                    .antMatchers("/house/insert", "/house/updateHouseByDto", "/house/deleteHouse", "/checkLandlordFailure", "checkLandlordSuccess").access("@rbacService.hasPermission(request, authentication)")
+//                    .anyRequest()
+//                    .authenticated()
+                .and()
+                    .csrf().disable()
+                    .apply(emailCodeAuthenticationSecurityConfig)
 //                .and()
 //                .apply(springSocialConfigurer)
 
-                //关闭验证
-//                .and()
-                .authorizeRequests()
-                .anyRequest().permitAll()
                 .and()
-                .logout().permitAll()
-        .and()
-        .csrf().disable();
-
+                    .logout().permitAll();
     }
-
 }

@@ -38,7 +38,12 @@ public class UserOpinionController {
     })
     public ResultDTO<UserOpinion> insertOneOpinion(UserOpinion userOpinion)throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
-        Integer userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        Integer userId = null;
+        try {
+            userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        } catch (Exception e) {
+            return ResultUtil.Error("500","请先登录再评论");
+        }
         userOpinion.setUserId(userId);
         userOpinionService.save(userOpinion);
         return ResultUtil.Success(userOpinionService.get(userId));

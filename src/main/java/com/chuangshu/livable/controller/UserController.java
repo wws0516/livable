@@ -5,15 +5,20 @@ import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.InsertUserDTO;
 import com.chuangshu.livable.dto.UpdateUserDTO;
 import com.chuangshu.livable.entity.User;
+import com.chuangshu.livable.entity.UserRole;
+import com.chuangshu.livable.service.UserRoleService;
 import com.chuangshu.livable.service.UserService;
-import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.social.security.SocialUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +26,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: wws
@@ -29,20 +36,21 @@ import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/user")
 @RestController
-public class UserController {
+public class UserController implements UserDetailsService {
 
     @Autowired
     UserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
-    UserRedisService userRedisService;
+    UserRoleService userRoleService;
+
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
     @PostMapping("/register")
     @ApiOperation("新增用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "姓名"),
+            @ApiImplicitParam(paramType = "query", name = "name", dataType = "String", required = true, value = "姓名"),
             @ApiImplicitParam(paramType = "query", name = "gender", dataType = "String", required = true, value = "性别"),
             @ApiImplicitParam(paramType = "query", name = "email", dataType = "String", required = true, value = "邮箱"),
             @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码")
@@ -52,7 +60,7 @@ public class UserController {
 //        user.setUserId(UUID.randomUUID().toString());
         try {
             userService.save(user);
-            userRedisService.setNewUser(user);
+            userRoleService.save(new UserRole(user.getUserId(), 3));
         }catch (Exception e){
             return ResultUtil.Error("500",e.getMessage());
         }
@@ -78,4 +86,31 @@ public class UserController {
         return ResultUtil.Success();
     }
 
+        @Override
+        @PostMapping("/login")
+        @ApiOperation("获取用户信息")
+        @ApiImplicitParams({
+                @ApiImplicitParam(paramType = "query", name = "username", dataType = "String", required = true, value = "用户名"),
+                @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "密码"),
+        })
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+            User user = new User();
+            if (username.endsWith(".com"))
+                user.setEmail(username);
+            else
+                user.setName(username);
+            List<User> list = new ArrayList<>();
+            try {
+                list = userService.findByParams(user);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            if (list.size()==0){
+                return null;
+            }
+            User user1 = list.get(0);
+            return user1;
+        }
 }

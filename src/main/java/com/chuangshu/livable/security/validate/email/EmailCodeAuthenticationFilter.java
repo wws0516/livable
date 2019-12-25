@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public class EmailCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     public static final String CHUANG_SHU_FORM_EMAIL_KEY = "email";
-    private String emailParameter = "username";
+    private String emailParameter = "email";
     private boolean postOnly = true;
 
     public EmailCodeAuthenticationFilter() {
@@ -63,7 +63,7 @@ public class EmailCodeAuthenticationFilter extends AbstractAuthenticationProcess
     }
 
     public void setEmailParameter(String emailParameter) {
-        Assert.hasText(emailParameter, "Username parameter must not be empty or null");
+        Assert.hasText(emailParameter, "email parameter must not be empty or null");
         this.emailParameter = emailParameter;
     }
 

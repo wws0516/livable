@@ -66,7 +66,7 @@ public class RecommendController {
             House house = houseService.get(houseID);
             /*System.out.println(i);
             House house = houseService.get(i);*/
-            if(house.getStatus().equals(HouseStatusCode.HOUSE_CHECKED.getCode().toString())) {
+            if(house.getStatus().equals(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode().toString())) {
                 Feature feature = featureService.get(house.getFeatureId());
                 Allocation allocation = allocationService.get(house.getAllocationId());
                 ReturnHouseDTO returnHouseDTO = new ReturnHouseDTO(house, feature, allocation);

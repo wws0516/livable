@@ -6,7 +6,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId"/>
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="gender" jdbcType="CHAR" property="gender" />
     <result column="email" jdbcType="VARCHAR" property="email" />

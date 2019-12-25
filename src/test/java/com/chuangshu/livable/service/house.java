@@ -516,7 +516,7 @@ public class house {
     @Test
     public void test16()throws  Exception{
         User user = new User();
-        user.setUserId("2");
+        user.setUserId(1);
         List<Integer> strings = userRedisService.userGetRecommend(user);
         System.out.println(strings);
     }
@@ -525,14 +525,5 @@ public class house {
     public void test17()throws  Exception{
         House house = houseService.get(14);
         System.out.println(house);
-    }
-
-    @Autowired
-    UserService userService;
-    @Test
-    public void test18() throws Exception {
-        User user = userService.get(3);
-        HouseRedisDTO houseRedisDTO = userRedisService.setNewUser(user);
-        System.out.println(houseRedisDTO);
     }
 }

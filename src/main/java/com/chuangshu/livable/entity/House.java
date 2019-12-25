@@ -9,7 +9,7 @@ public class House {
      * 房源ID
      */
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY,generator = "JDBC")
     @Column(name = "house_id")
     private Integer houseId;
 
