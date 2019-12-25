@@ -1,10 +1,9 @@
 package com.chuangshu.livable.controller;
 
-import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
+import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.dto.LookDTO;
 import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.entity.Looking;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.LandlordHouseRelationService;

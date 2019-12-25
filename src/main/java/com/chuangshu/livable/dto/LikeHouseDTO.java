@@ -9,13 +9,15 @@ import java.util.Date;
 
 @Data
 public class LikeHouseDTO extends BaseDTO {
+    private Integer houseId;
     private String picPath;
     private String address;
     private String price;
     @DateTimeFormat
     private Date date;
 
-    public LikeHouseDTO(String picPath, String address, String price, Date date) {
+    public LikeHouseDTO(Integer houseId,String picPath, String address, String price, Date date) {
+        this.houseId = houseId;
         this.picPath = picPath;
         this.address = address;
         this.price = price;

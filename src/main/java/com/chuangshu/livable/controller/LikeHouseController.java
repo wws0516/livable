@@ -96,7 +96,7 @@ public class LikeHouseController {
         List<LikeHouseDTO> likeHouseDTOS = new ArrayList<>();
         for(LikeHouse l:returnList){
             House house = houseService.get(l.getHouseId());
-            likeHouseDTOS.add(new LikeHouseDTO(house.getPicture(),house.getAddress(),house.getRent(),l.getDate()));
+            likeHouseDTOS.add(new LikeHouseDTO(l.getHouseId(),house.getPicture(),house.getAddress(),house.getRent(),l.getDate()));
         }
         return ResultUtil.Success(likeHouseDTOS);
 
