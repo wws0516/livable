@@ -65,8 +65,10 @@ public class LookingController {
         user.setUserId(userId);
         House house = new House();
         house.setHouseId(looking.getHouseId());
-
-        if(lookingService.findByParams(looking).size()==0) {
+        Looking looking1 = new Looking();
+        looking1.setUserId(userId);
+        looking1.setHouseId(looking.getHouseId());
+        if(lookingService.findByParams(looking1).size()==0) {
             //修改redis中user的值
             userRedisService.userLookHouse(user, house);
             try {
