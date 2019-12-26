@@ -14,6 +14,7 @@ import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/looking")
 public class LookingController {
@@ -63,6 +65,9 @@ public class LookingController {
         House house = new House();
         house.setHouseId(looking.getHouseId());
         //修改redis中user的值
+
+        log.info("userId:"+user.getUserId());
+        log.info("houseId:"+ house.getHouseId());
         userRedisService.userLookHouse(user,house);
         try {
             saveLooking = lookingService.save(looking);
