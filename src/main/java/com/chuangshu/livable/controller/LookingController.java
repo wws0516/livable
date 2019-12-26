@@ -76,6 +76,8 @@ public class LookingController {
             } catch (Exception e) {
                 ResultUtil.Error("500", "新增约看失败：" + e.getMessage());
             }
+        }else{
+            return ResultUtil.Error("500","新增约看失败");
         }
         return ResultUtil.Success(saveLooking);
     }
