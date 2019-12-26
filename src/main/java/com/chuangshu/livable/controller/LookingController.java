@@ -4,6 +4,7 @@ import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.dto.LookDTO;
 import com.chuangshu.livable.entity.House;
+import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.entity.Looking;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.HouseService;
@@ -100,7 +101,7 @@ public class LookingController {
         List<Looking> lookingList = lookingService.findByParams(looking);
         List<LookDTO> lookDTOS = new ArrayList<>();
         for(Looking l: lookingList){
-            lookDTOS.add(new LookDTO(l,userService.get(landlordHouseRelationService.get(l.getHouseId()).getUserId()).getName()));
+            lookDTOS.add(new LookDTO(l,userService.get(landlordHouseRelationService.findByParams(new LandlordHouseRelation(l.getHouseId())).get(0).getUserId()).getName()));
         }
         return ResultUtil.Success(lookDTOS);
     }

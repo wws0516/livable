@@ -22,4 +22,11 @@ public class LandlordHouseRelation {
      */
     @Column(name = "house_id")
     private Integer houseId;
+
+    public LandlordHouseRelation(Integer houseId){
+        this.houseId = houseId;
+    }
+
+    public LandlordHouseRelation(){}
+
 }
