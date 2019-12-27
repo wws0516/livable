@@ -89,7 +89,7 @@ public class LookingController {
         try {
             lookingService.deleteById(lookingID);
         } catch (Exception e) {
-            ResultUtil.Error("500","删除约看失败："+e.getMessage());
+            return ResultUtil.Error("500","删除约看失败："+e.getMessage());
         }
         return ResultUtil.Success();
     }

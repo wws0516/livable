@@ -12,6 +12,7 @@ public class Looking {
      * 预约id
      */
     @Column(name = "looking_id")
+    @Id
     private Integer lookingId;
 
     /**
