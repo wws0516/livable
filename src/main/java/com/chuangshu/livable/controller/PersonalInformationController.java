@@ -2,10 +2,13 @@ package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.base.util.ResultUtil;
+import com.chuangshu.livable.dto.PersonalInformationDTO;
 import com.chuangshu.livable.entity.IdInformation;
 import com.chuangshu.livable.entity.PersonalInformation;
+import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.service.IdInformationService;
 import com.chuangshu.livable.service.PersonalInformationService;
+import com.chuangshu.livable.service.UserService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +32,13 @@ public class PersonalInformationController {
     @Autowired
     private IdInformationService idInformationService;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/personalInformation")
     @ApiOperation("更新个人信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "headPortrait", dataType = "String", required = true, value = "头像"),
+            @ApiImplicitParam(paramType = "query", name = "phone", dataType = "String", required = true, value = "电话"),
             @ApiImplicitParam(paramType = "query", name = "age", dataType = "Integer", required = true, value = "年龄"),
             @ApiImplicitParam(paramType = "query", name = "job", dataType = "String", required = true, value = "职业"),
             @ApiImplicitParam(paramType = "query", name = "hobby", dataType = "String", required = true, value = "爱好")
@@ -48,6 +54,28 @@ public class PersonalInformationController {
         PersonalInformation personalInformation1 = new PersonalInformation();
         personalInformation1.setUserId(userId);
         PersonalInformation returnPersonalInformation = null;
+        if (personalInformationService.findByParams(personalInformation1).size()==0) {
+            personalInformation.setUserId(userId);
+            returnPersonalInformation = personalInformationService.save(personalInformation);
+        }else{
+            personalInformation.setUserId(userId);
+            personalInformationService.update(personalInformation);
+        }
+        return ResultUtil.Success(returnPersonalInformation);
+    }
+
+    public ResultDTO headPortrait(String headPortrait) throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        try {
+            userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        } catch (Exception e) {
+            return ResultUtil.Error("500","请先登录");
+        }
+        PersonalInformation personalInformation1 = new PersonalInformation();
+        personalInformation1.setUserId(userId);
+        PersonalInformation returnPersonalInformation = null;
+        PersonalInformation personalInformation = new PersonalInformation();
         if (personalInformationService.findByParams(personalInformation1).size()==0) {
             personalInformation.setUserId(userId);
             returnPersonalInformation = personalInformationService.save(personalInformation);
@@ -109,6 +137,8 @@ public class PersonalInformationController {
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setUserId(userId);
         PersonalInformation returnPersonalInformation = personalInformationService.findByParams(personalInformation).get(0);
-        return ResultUtil.Success(returnPersonalInformation);
+        User user = userService.get(userId);
+        PersonalInformationDTO personalInformationDTO = new PersonalInformationDTO(user,returnPersonalInformation);
+        return ResultUtil.Success(personalInformationDTO);
     }
 }

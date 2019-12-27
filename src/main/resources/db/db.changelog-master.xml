@@ -299,4 +299,10 @@
 
     </changeSet>
 
+    <changeSet id="10" author="yesanqiu">
+        <sql>
+            alter table personal_information add column phone varchar(25) not null COMMENT '电话';
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>

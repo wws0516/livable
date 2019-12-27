@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Table(name = "like_house")
 public class LikeHouse {
+    @Id
     private Integer id;
 
     /**
