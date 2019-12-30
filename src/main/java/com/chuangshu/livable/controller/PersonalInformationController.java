@@ -64,6 +64,11 @@ public class PersonalInformationController {
         return ResultUtil.Success(returnPersonalInformation);
     }
 
+    @PostMapping("/headPortrait")
+    @ApiOperation("更新头像")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "headPortrait", dataType = "String", required = true, value = "头像")
+    })
     public ResultDTO headPortrait(String headPortrait) throws Exception{
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Integer userId = null;
