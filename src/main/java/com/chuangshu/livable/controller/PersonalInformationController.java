@@ -81,6 +81,7 @@ public class PersonalInformationController {
         personalInformation1.setUserId(userId);
         PersonalInformation returnPersonalInformation = null;
         PersonalInformation personalInformation = new PersonalInformation();
+        personalInformation.setHeadPortrait(headPortrait);
         if (personalInformationService.findByParams(personalInformation1).size()==0) {
             personalInformation.setUserId(userId);
             returnPersonalInformation = personalInformationService.save(personalInformation);
