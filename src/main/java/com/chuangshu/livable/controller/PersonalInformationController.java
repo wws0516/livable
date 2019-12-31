@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 
 @RestController
@@ -146,5 +147,18 @@ public class PersonalInformationController {
         User user = userService.get(userId);
         PersonalInformationDTO personalInformationDTO = new PersonalInformationDTO(user,returnPersonalInformation);
         return ResultUtil.Success(personalInformationDTO);
+    }
+
+
+    @GetMapping("/getIDInformation")
+    @ApiOperation("获取个人信息")
+    public ResultDTO getIDInformation() throws Exception{
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        Integer userId = null;
+        userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
+        IdInformation idInformation = new IdInformation();
+        idInformation.setUserId(userId);
+        IdInformation returnIdInformation = idInformationService.findByParams(idInformation).get(0);
+        return ResultUtil.Success(returnIdInformation);
     }
 }
