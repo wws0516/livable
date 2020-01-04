@@ -29,7 +29,7 @@
                              type="XMLMAPPER"/>
 
 <!--        <table tableName="house"/>-->
-<!--        <table tableName="landlord_house_relation"/>-->
+        <table tableName="landlord_house_relation"/>
 <!--        <table tableName="landlord_information"/>-->
 <!--        <table tableName="looked"/>-->
 <!--        <table tableName="looking"/>-->
@@ -46,7 +46,7 @@
 
         <!--<table tableName="role"/>-->
         <!--<table tableName="permission"/>-->
-        <table tableName="personal_information"/>
+<!--        <table tableName="personal_information"/>-->
 
     </context>
 </generatorConfiguration>
