@@ -4,8 +4,10 @@ import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.dto.LookDTO;
 import com.chuangshu.livable.entity.House;
+import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.entity.Looking;
 import com.chuangshu.livable.entity.User;
+import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.LandlordHouseRelationService;
 import com.chuangshu.livable.service.LookingService;
 import com.chuangshu.livable.service.UserService;
@@ -13,6 +15,7 @@ import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -22,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/looking")
 public class LookingController {
@@ -36,16 +40,22 @@ public class LookingController {
     private UserService userService;
 
     @Autowired
+    private HouseService houseService;
+
+    @Autowired
     private LandlordHouseRelationService landlordHouseRelationService;
 
     @PostMapping("/insertLooking")
     @ApiOperation("新增约看")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer", required = true, value = "房源ID"),
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer", required = true, value = "房源ID"),
             @ApiImplicitParam(paramType = "query", name = "data", dataType = "datatime", required = true, value = "时间"),
             @ApiImplicitParam(paramType = "query", name = "site", dataType = "String", required = true, value = "地点")
     })
     public ResultDTO insertLooking(Looking looking) throws Exception {
+        if(houseService.get(looking.getHouseId())==null){
+            return ResultUtil.Error("500","此房源不存在");
+        }
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         Integer userId = null;
         userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
@@ -54,13 +64,20 @@ public class LookingController {
         User user = new User();
         user.setUserId(userId);
         House house = new House();
-        house.setHouseId(userId);
-        //修改redis中user的值
-        userRedisService.userLookHouse(user,house);
-        try {
-            saveLooking = lookingService.save(looking);
-        } catch (Exception e) {
-            ResultUtil.Error("500","新增约看失败："+e.getMessage());
+        house.setHouseId(looking.getHouseId());
+        Looking looking1 = new Looking();
+        looking1.setUserId(userId);
+        looking1.setHouseId(looking.getHouseId());
+        if(lookingService.findByParams(looking1).size()==0) {
+            //修改redis中user的值
+            userRedisService.userLookHouse(user, house);
+            try {
+                saveLooking = lookingService.save(looking);
+            } catch (Exception e) {
+                ResultUtil.Error("500", "新增约看失败：" + e.getMessage());
+            }
+        }else{
+            return ResultUtil.Error("500","新增约看失败");
         }
         return ResultUtil.Success(saveLooking);
     }
@@ -72,7 +89,7 @@ public class LookingController {
         try {
             lookingService.deleteById(lookingID);
         } catch (Exception e) {
-            ResultUtil.Error("500","删除约看失败："+e.getMessage());
+            return ResultUtil.Error("500","删除约看失败："+e.getMessage());
         }
         return ResultUtil.Success();
     }
@@ -88,7 +105,7 @@ public class LookingController {
         List<Looking> lookingList = lookingService.findByParams(looking);
         List<LookDTO> lookDTOS = new ArrayList<>();
         for(Looking l: lookingList){
-            lookDTOS.add(new LookDTO(l,userService.get(userId).getName()));
+            lookDTOS.add(new LookDTO(l,userService.get(landlordHouseRelationService.findByParams(new LandlordHouseRelation(l.getHouseId())).get(0).getUserId()).getName()));
         }
         return ResultUtil.Success(lookDTOS);
     }

@@ -9,6 +9,7 @@ public class IdInformation {
     /**
      * 预约id
      */
+    @Id
     private Integer id;
 
     /**

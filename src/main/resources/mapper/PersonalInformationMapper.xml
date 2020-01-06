@@ -10,5 +10,6 @@
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="job" property="job" jdbcType="VARCHAR" />
     <result column="hobby" property="hobby" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
   </resultMap>
 </mapper>

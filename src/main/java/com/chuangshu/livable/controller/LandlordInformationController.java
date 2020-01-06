@@ -5,8 +5,13 @@ import com.chuangshu.livable.StatusCode.LandlordStatusCode;
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.CheckLandlordDTO;
+import com.chuangshu.livable.dto.HouseTolandlordDTO;
+import com.chuangshu.livable.entity.House;
+import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.entity.LandlordInformation;
 import com.chuangshu.livable.entity.UserRole;
+import com.chuangshu.livable.service.HouseService;
+import com.chuangshu.livable.service.LandlordHouseRelationService;
 import com.chuangshu.livable.service.LandlordInformationService;
 import com.chuangshu.livable.service.UserRoleService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -17,6 +22,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,6 +31,12 @@ public class LandlordInformationController {
 
     @Autowired
     private LandlordInformationService landlordInformationService;
+
+    @Autowired
+    private LandlordHouseRelationService landlordHouseRelationService;
+
+    @Autowired
+    private HouseService houseService;
 
     @Autowired
     UserRoleService userRoleService;
@@ -119,5 +132,28 @@ public class LandlordInformationController {
         }
         return ResultUtil.Success(landlordInformationList);
     }
+
+
+    @GetMapping("/getAllHouse")
+    @ApiOperation("得到所有房源")
+    public ResultDTO getAllHouse(HttpServletRequest request) throws Exception{
+        List<HouseTolandlordDTO> houseTolandlordDTOList = new ArrayList<>();
+        Integer userId = null;
+        try {
+             userId = (Integer) request.getSession().getAttribute("userID");
+        } catch (Exception e) {
+            return ResultUtil.Error("501","请先登录");
+        }
+        LandlordHouseRelation landlordHouseRelation = new LandlordHouseRelation();
+        landlordHouseRelation.setUserId(userId);
+        List<LandlordHouseRelation> landlordInformationList = landlordHouseRelationService.findByParams(landlordHouseRelation);
+        for(LandlordHouseRelation l:landlordInformationList){
+            System.out.println(l);
+            House house = houseService.get(l.getHouseId());
+            houseTolandlordDTOList.add(new HouseTolandlordDTO(house.getHouseId(),house.getTitle(),l.getPublishTime()));
+        }
+        return ResultUtil.Success(houseTolandlordDTOList);
+    }
+
 
 }

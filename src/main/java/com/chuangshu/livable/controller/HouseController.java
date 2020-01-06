@@ -18,6 +18,7 @@ import org.apache.catalina.core.ApplicationContext;
 import org.elasticsearch.action.get.GetRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.autoconfigure.web.ResourceProperties;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 
@@ -60,6 +62,9 @@ public class HouseController {
 
     @Autowired
     LandlordHouseRelationService landlordHouseRelationService;
+
+    @Autowired
+    private LandlordInformationService landlordInformationService;
     
     @Autowired
     HouseRedisService houseRedisService;
@@ -140,6 +145,9 @@ public class HouseController {
         } catch (Exception e) {
             return ResultUtil.Error("500","请先登录");
         }
+        if(landlordInformationService.get(userId)==null){
+            return ResultUtil.Error("500","不是房东");
+        }
             int allocationId = allocationService.save(allocation).getId();
             int featureId = featureService.save(feature).getId();
             house.setAllocationId(allocationId);
@@ -148,6 +156,7 @@ public class HouseController {
             LandlordHouseRelation landlordHouseRelation = new LandlordHouseRelation();
             landlordHouseRelation.setUserId(userId);
             landlordHouseRelation.setHouseId(saveHouse.getHouseId());
+            landlordHouseRelation.setPublishTime(new Date());
             landlordHouseRelationService.save(landlordHouseRelation);
             houseRedisService.setHouseDTO(house,feature,allocation);
 //            //新增es索引
@@ -209,22 +218,23 @@ public class HouseController {
     @GetMapping("/getOneHouse")
     @ApiOperation("通过Id查房源信息")
     @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer",required = true, value = "房源ID")
-    public ResultDTO getOneHouse(Integer houseID){
+    public ResultDTO getOneHouse(Integer houseID)throws Exception{
         House house = null;
+        Feature feature = null;
+        Allocation allocation = null;
         try {
             house = houseService.get(houseID);
-
+            feature = featureService.get(house.getFeatureId());
+            allocation = allocationService.get(house.getAllocationId());
         } catch (Exception e) {
-            ResultUtil.Error("500","查无此房源："+e.getMessage());
+            return ResultUtil.Error("500"," 查无此房源："+e.getMessage());
         }
-        return ResultUtil.Success(house);
+        HouseDTO returnHouse = new HouseDTO(house,feature,allocation);
+        return ResultUtil.Success(returnHouse);
     }
 
 
 
-    public ResultDTO getHouseByParams(){
-        return ResultUtil.Success();
-    }
 
     @DeleteMapping("/deleteHouse")
     @ApiOperation("删除房源信息")

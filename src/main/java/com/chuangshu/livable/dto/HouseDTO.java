@@ -3,12 +3,19 @@ package com.chuangshu.livable.dto;
 import com.chuangshu.livable.base.dto.BaseDTO;
 import com.chuangshu.livable.entity.Allocation;
 import com.chuangshu.livable.entity.Feature;
+import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.utils.esUtil.HouseIndexTemplate;
 import lombok.Data;
+import org.apache.commons.beanutils.BeanUtils;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
+import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @author 叶三秋
+ * @date 2019/12/25
+ */
 @Data
 public class HouseDTO extends BaseDTO {
     /**
@@ -151,5 +158,11 @@ public class HouseDTO extends BaseDTO {
         this.houseProprietaryCertificate = houseIndexTemplate.getHouseProprietaryCertificate();
         this.picture = houseIndexTemplate.getPicture();
         this.introduction = houseIndexTemplate.getIntroduction();
+    }
+
+    public HouseDTO(House house, Feature feature, Allocation allocation) throws InvocationTargetException, IllegalAccessException {
+        BeanUtils.copyProperties(this,house);
+        this.feature = feature;
+        this.allocation = allocation;
     }
 }

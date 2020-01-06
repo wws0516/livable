@@ -34,6 +34,11 @@ public class PersonalInformation {
      */
     private String hobby;
 
+    /**
+     * 电话
+     */
+    private String phone;
+
     public static final String USER_ID = "userId";
 
     public static final String HEAD_PORTRAIT = "headPortrait";
@@ -43,4 +48,6 @@ public class PersonalInformation {
     public static final String JOB = "job";
 
     public static final String HOBBY = "hobby";
+
+    public static final String PHONE = "phone";
 }
