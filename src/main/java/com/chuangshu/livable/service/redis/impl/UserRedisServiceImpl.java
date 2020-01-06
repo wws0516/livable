@@ -70,7 +70,7 @@ public class UserRedisServiceImpl extends RedisServiceImpl implements UserRedisS
             Double houseData = (Double) houseFields[i].get(houseRedisDTO);
             for (int a =0; a<=5;a++){
                 Double userData = (Double) userFields[i].get(userRedisDTO);
-                Double newFieldData = userData - 0.2 * (userData - houseData);
+                Double newFieldData = userData - 0.05 * (userData - houseData);
                 houseFields[i].set(userRedisDTO , newFieldData);
             }
         }
