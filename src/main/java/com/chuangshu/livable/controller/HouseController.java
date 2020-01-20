@@ -354,11 +354,15 @@ public class HouseController {
     }
 
 
+    /**
+     * @author 叶三秋
+     * @date
+     * 查找所有房源接口
+     */
     @GetMapping("/getAllHouse")
     public ResultDTO getAllHouse()throws Exception{
         return ResultUtil.Success(houseService.findAll());
     }
-
 
    /**
      * @author 叶三秋
