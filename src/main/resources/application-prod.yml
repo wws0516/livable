@@ -11,7 +11,7 @@ spring:
     time-zone: GMT+8
   datasource:
     name: livable
-    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://114.115.156.4:${MYSQL_PORT:3306}/livable?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 123456
     # druid
@@ -39,7 +39,7 @@ spring:
     use-code-as-default-message: true
 
   redis:
-    host: localhost
+    host: 47.107.137.51
     password:
     port: 6379
     database: 0

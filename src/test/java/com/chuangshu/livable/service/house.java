@@ -1,9 +1,6 @@
 package com.chuangshu.livable.service;
 
-import com.chuangshu.livable.entity.Allocation;
-import com.chuangshu.livable.entity.Feature;
-import com.chuangshu.livable.entity.House;
-import com.chuangshu.livable.entity.User;
+import com.chuangshu.livable.entity.*;
 import com.chuangshu.livable.redis.HouseRedisDTO;
 import com.chuangshu.livable.service.redis.HouseRedisService;
 import com.chuangshu.livable.service.redis.RedisService;
@@ -276,7 +273,9 @@ public class house {
             Feature feature = featureService.get(house.getFeatureId());
             Allocation allocation = allocationService.get(house.getAllocationId());
             HouseRedisDTO houseRedisDTO = new HouseRedisDTO(house, feature, allocation);
-            redisService.set("house-"+house.getHouseId(),houseRedisDTO);
+            System.out.println(houseRedisDTO);
+            houseRedisService.setHouseDTO(house,feature,allocation);
+            //redisService.set("house-"+house.getHouseId(),houseRedisDTO);
         }
     }
 
@@ -525,5 +524,27 @@ public class house {
     public void test17()throws  Exception{
         House house = houseService.get(14);
         System.out.println(house);
+    }
+
+    @Test
+    public void test18()throws  Exception{
+        User user = new User();
+        user.setUserId(3);
+        userRedisService.setNewUser(user);
+    }
+
+    @Autowired
+    LookingService lookingService;
+
+    @Test
+    public void test19()throws  Exception{
+        List<Looking> all = lookingService.findAll();
+        for (Looking looking : all) {
+            User user = new User();
+            user.setUserId(looking.getUserId());
+            House house = new House();
+            house.setHouseId(looking.getHouseId());
+            userRedisService.userLookHouse(user,house);
+        }
     }
 }

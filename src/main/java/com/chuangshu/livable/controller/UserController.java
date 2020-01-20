@@ -8,6 +8,7 @@ import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.entity.UserRole;
 import com.chuangshu.livable.service.UserRoleService;
 import com.chuangshu.livable.service.UserService;
+import com.chuangshu.livable.service.redis.UserRedisService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +45,8 @@ public class UserController implements UserDetailsService {
     PasswordEncoder passwordEncoder;
     @Autowired
     UserRoleService userRoleService;
+    @Autowired
+    UserRedisService userRedisService;
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
@@ -61,6 +64,8 @@ public class UserController implements UserDetailsService {
         try {
             userService.save(user);
             userRoleService.save(new UserRole(user.getUserId(), 3));
+            userRedisService.setNewUser(user);
+
         }catch (Exception e){
             return ResultUtil.Error("500",e.getMessage());
         }
