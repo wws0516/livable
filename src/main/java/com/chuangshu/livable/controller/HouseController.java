@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -353,7 +354,13 @@ public class HouseController {
     }
 
 
-    /**
+    @GetMapping("/getAllHouse")
+    public ResultDTO getAllHouse()throws Exception{
+        return ResultUtil.Success(houseService.findAll());
+    }
+
+
+   /**
      * @author 叶三秋
      * @date    2019/11/22
      * 收藏房源接口
