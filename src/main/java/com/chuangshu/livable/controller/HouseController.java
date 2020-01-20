@@ -361,7 +361,13 @@ public class HouseController {
      */
     @GetMapping("/getAllHouse")
     public ResultDTO getAllHouse()throws Exception{
-        return ResultUtil.Success(houseService.findAll());
+        List<HouseDTO> houseDTOList = new ArrayList<>();
+        for(House h:houseService.findAll()){
+            Allocation allocation = allocationService.get(h.getAllocationId());
+            Feature feature = featureService.get(h.getFeatureId());
+            houseDTOList.add(new HouseDTO(h,feature,allocation));
+        }
+        return ResultUtil.Success(houseDTOList);
     }
 
    /**
