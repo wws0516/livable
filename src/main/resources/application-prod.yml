@@ -40,15 +40,16 @@ spring:
 
   redis:
     host: 47.107.137.51
-    password:
+    password: 678910
     port: 6379
     database: 0
     timeout: 1000
     pool:
-      max-active: 8
-      max-wait: -1
-      min-idle: 0
-      max-idle: 8
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait:
+        min-idle: 0
   kafka:
     bootstrap-servers: 127.0.0.1:9092
     #指定默认topic id
