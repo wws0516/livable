@@ -1,6 +1,5 @@
 # ip:port
 #serverIp: 47.106.247.251:8081
-serverIp: 127.0.0.1:8081
 
 
 spring:
