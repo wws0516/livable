@@ -2,8 +2,11 @@ package com.chuangshu.livable.controller;
 
 import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
+import com.chuangshu.livable.dto.RelationDTO;
+import com.chuangshu.livable.entity.House;
 import com.chuangshu.livable.entity.LandlordHouseRelation;
 import com.chuangshu.livable.entity.LandlordInformation;
+import com.chuangshu.livable.service.HouseService;
 import com.chuangshu.livable.service.LandlordHouseRelationService;
 import com.chuangshu.livable.service.LandlordInformationService;
 import io.swagger.annotations.ApiImplicitParam;
@@ -23,6 +26,9 @@ public class LandlordHouseRelationController {
 
     @Autowired
     private LandlordInformationService landlordInformationService;
+
+    @Autowired
+    private HouseService houseService;
 
     @GetMapping("/getRelationById")
     @ApiOperation("用id得到房源房东关系表")
@@ -56,17 +62,17 @@ public class LandlordHouseRelationController {
     @GetMapping("/getRelationByUserId")
     @ApiOperation("用用户id得到房源房东关系表")
     @ApiImplicitParam(paramType = "query", name = "userId", dataType = "Integer", required = true, value = "用户ID")
-    public ResultDTO getRelationByUserId(Integer userId){
+    public ResultDTO getRelationByUserId(Integer userId)throws Exception{
         List<LandlordHouseRelation> landlordHouseRelation = null;
         LandlordHouseRelation find = new LandlordHouseRelation();
-        find.setHouseId(userId);
-        try {
-            landlordHouseRelation = landlordHouseRelationService.findByParams(find);
-        } catch (Exception e) {
-            return ResultUtil.Error("500","意料之外的错误");
+        find.setUserId(userId);
+        landlordHouseRelation = landlordHouseRelationService.findByParams(find);
+        List<RelationDTO> list = new ArrayList<>();
+        for(LandlordHouseRelation l: landlordHouseRelation){
+            House h = houseService.get(l.getHouseId());
+            list.add(new RelationDTO(h.getTitle(),h.getHouseId(),l.getPublishTime()));
         }
-
-        return ResultUtil.Success(landlordHouseRelation);
+        return ResultUtil.Success(list);
     }
 }
 
