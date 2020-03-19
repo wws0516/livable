@@ -311,4 +311,10 @@
         </sql>
     </changeSet>
 
+    <changeSet id="12" author="yesanqiu">
+        <sql>
+            alter table personal_information alter column phone varchar(25) null;
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
