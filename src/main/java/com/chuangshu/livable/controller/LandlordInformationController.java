@@ -155,5 +155,17 @@ public class LandlordInformationController {
         return ResultUtil.Success(houseTolandlordDTOList);
     }
 
+    @GetMapping("/getLandlordState")
+    @ApiOperation("房东状态")
+    public ResultDTO getLandlordState(HttpServletRequest request)throws Exception{
+        Integer userId = null;
+        try {
+            userId = (Integer) request.getSession().getAttribute("userID");
+        } catch (Exception e) {
+            return ResultUtil.Error("501","请先登录");
+        }
+        return ResultUtil.Success(landlordInformationService.get(userId).getStatus());
+    }
+
 
 }
