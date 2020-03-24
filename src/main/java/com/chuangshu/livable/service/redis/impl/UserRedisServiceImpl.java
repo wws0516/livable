@@ -1,16 +1,23 @@
 package com.chuangshu.livable.service.redis.impl;
 
+import com.chuangshu.livable.dto.ReturnHouseDTO;
 import com.chuangshu.livable.entity.House;
+import com.chuangshu.livable.entity.LikeHouse;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.redis.HouseRedisDTO;
+import com.chuangshu.livable.service.LikeHouseService;
+import com.chuangshu.livable.service.UserService;
 import com.chuangshu.livable.service.redis.UserRedisService;
 import com.chuangshu.livable.utils.redisUtil.HouseRedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.tree.Tree;
 
+import java.awt.print.PrinterGraphics;
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @auther zhang
@@ -21,10 +28,14 @@ import java.util.*;
 @Service("UserRedisServiceImpl")
 public class UserRedisServiceImpl extends RedisServiceImpl implements UserRedisService {
 
-
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private RedisTemplate<String,Object> redisTemplate;
+
+    @Autowired
+    private LikeHouseService likeHouseService;
 
     @Override
     public HouseRedisDTO setNewUser(User user) throws Exception{
@@ -113,5 +124,41 @@ public class UserRedisServiceImpl extends RedisServiceImpl implements UserRedisS
         }
         return resultIdList;
 
+    }
+
+    @Override
+    public List<User> userGetRoomate(Integer userId, Integer houseId) throws Exception {
+        //回去看过房间的用户id
+        LikeHouse likeHouse = new LikeHouse();
+        likeHouse.setHouseId(houseId);
+        List<LikeHouse> likeHouseList = likeHouseService.findByParams(likeHouse);
+        List<Integer> userIdList = likeHouseList.stream().map(LikeHouse::getUserId).collect(Collectors.toList());
+        Set<String> keys = new HashSet<>();
+        for (Integer id : userIdList) {
+            keys.add("user-"+String.valueOf(id));
+        }
+        List<Object> objects = redisTemplate.opsForValue().multiGet(keys);
+        List tranfor = objects;
+        List<HouseRedisDTO> userRedisDTOList = tranfor;
+        //进行对比运算
+        Map<String, Double> distances = new TreeMap<>();
+        HouseRedisDTO user = (HouseRedisDTO) get("user-" + String.valueOf(userId));
+        for (int i = 0; i < userRedisDTOList.size(); i++) {
+            HouseRedisDTO houseRedisDTO = userRedisDTOList.get(i);
+            Double d = HouseRedisUtil.cosDistance(user, houseRedisDTO);
+            distances.put(String.valueOf(userIdList.get(i)),d);
+        }
+        List<Map.Entry<String,Double>> list = new ArrayList<Map.Entry<String,Double>>(distances.entrySet());
+        //排序
+        Collections.sort(list, new Comparator<Map.Entry<String, Double>>(){
+            public int compare(Map.Entry<String, Double> map1, Map.Entry<String,Double> map2) {
+                return ((map2.getValue() - map1.getValue() == 0) ? 0 : (map2.getValue() - map1.getValue() > 0) ? 1 : -1);
+            }
+        });
+        ArrayList<User> resultUserList = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : list) {
+            resultUserList.add(userService.get(entry.getKey()));
+        }
+        return  resultUserList;
     }
 }

@@ -36,6 +36,20 @@ spring:
     basename: i18n/abt_messages
     use-code-as-default-message: true
 
+
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    database: 0
+    timeout: 1000
+    pool:
+    jedis:
+      pool:
+        max-idle: 8
+        max-wait:
+        min-idle: 0
+
   kafka:
       bootstrap-servers: 127.0.0.1:9092
   #指定默认topic id

@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.social.security.SocialUser;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -118,4 +119,24 @@ public class UserController implements UserDetailsService {
             User user1 = list.get(0);
             return user1;
         }
+
+    @GetMapping("getRoommate")
+    @ApiOperation("获取推荐舍友")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "int", required = true, value = "用户id"),
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "int", required = true, value = "房源id"),
+    })
+    public ResultDTO<User> getRoommate(Integer userId, Integer houseId) throws Exception {
+        List<User> users = new ArrayList<>();
+        try {
+            users = userRedisService.userGetRoomate(userId, houseId);
+        }catch (Exception e){
+            return ResultUtil.Error("500",e.getMessage());
+        }
+        for (User user : users) {
+            user.setPassword(null);
+        }
+        return ResultUtil.Success(users);
+
+    }
 }
