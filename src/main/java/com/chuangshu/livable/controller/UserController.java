@@ -4,8 +4,10 @@ import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.InsertUserDTO;
 import com.chuangshu.livable.dto.UpdateUserDTO;
+import com.chuangshu.livable.entity.PersonalInformation;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.entity.UserRole;
+import com.chuangshu.livable.service.PersonalInformationService;
 import com.chuangshu.livable.service.UserRoleService;
 import com.chuangshu.livable.service.UserService;
 import com.chuangshu.livable.service.redis.UserRedisService;
@@ -20,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.social.security.SocialUser;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +50,8 @@ public class UserController implements UserDetailsService {
     UserRoleService userRoleService;
     @Autowired
     UserRedisService userRedisService;
+    @Autowired
+    PersonalInformationService personalInformationService;
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
@@ -118,4 +123,25 @@ public class UserController implements UserDetailsService {
             User user1 = list.get(0);
             return user1;
         }
+
+    @GetMapping("getRoommate")
+    @ApiOperation("获取推荐舍友")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", name = "userId", dataType = "int", required = true, value = "用户id"),
+            @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "int", required = true, value = "房源id"),
+    })
+    public ResultDTO<User> getRoommate(Integer userId, Integer houseId) throws Exception {
+        List<Integer> userIdList = new ArrayList<>();
+        try {
+            userIdList = userRedisService.userGetRoomate(userId, houseId);
+        }catch (Exception e){
+            return ResultUtil.Error("500",e.getMessage());
+        }
+        ArrayList<PersonalInformation> informationList = new ArrayList<>();
+        for (Integer id : userIdList) {
+            informationList.add(personalInformationService.get(id));
+        }
+        return ResultUtil.Success(informationList);
+
+    }
 }

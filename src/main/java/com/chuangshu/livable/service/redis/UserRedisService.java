@@ -37,4 +37,12 @@ public interface UserRedisService {
      */
     public List<Integer> userGetRecommend(User user)throws Exception;
 
+    /**
+     * 用户获取推荐舍友
+     * @param userId
+     * @param houseId
+     * @return
+     * @throws Exception
+     */
+    public List<Integer> userGetRoomate(Integer userId, Integer houseId)throws Exception;
 }
