@@ -33,7 +33,7 @@ public class IdInformation {
      * 证件号
      */
     @Column(name = "id_number")
-    private Long idNumber;
+    private String idNumber;
 
     /**
      * 证件照正面

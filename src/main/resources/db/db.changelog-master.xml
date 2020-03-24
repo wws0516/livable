@@ -321,5 +321,10 @@
             alter table landlord_information modify column id_number bigint(18) not null;
         </sql>
     </changeSet>
+    <changeSet id="14" author="yesanqiu">
+        <sql>
+            alter table landlord_information modify column id_number varchar(25) not null;
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>

@@ -12,7 +12,6 @@ import com.chuangshu.livable.utils.redisUtil.HouseRedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.tree.Tree;
 
 import java.awt.print.PrinterGraphics;
 import java.lang.reflect.Field;
