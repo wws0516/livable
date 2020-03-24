@@ -44,7 +44,7 @@ public class LandlordInformationController {
     @ApiOperation("房东注册")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "landlordId", dataType = "Integer", required = true, value = "用户ID"),
-            @ApiImplicitParam(paramType = "query", name = "idNumber", dataType = "Integer", required = true, value = "身份证号"),
+            @ApiImplicitParam(paramType = "query", name = "idNumber", dataType = "Long", required = true, value = "身份证号"),
             @ApiImplicitParam(paramType = "query", name = "idCardPictureF", dataType = "String", required = true, value = "身份证正面"),
             @ApiImplicitParam(paramType = "query", name = "idCardPictureR", dataType = "String", required = true, value = "身份证反面"),
             @ApiImplicitParam(paramType = "query", name = "alipayName", dataType = "String", required = true, value = "支付宝账户名"),
@@ -52,14 +52,10 @@ public class LandlordInformationController {
 
     })
     @PostMapping("/registerLandlord")
-    public ResultDTO registerLandlord(LandlordInformation landlordInformation){
+    public ResultDTO registerLandlord(LandlordInformation landlordInformation)throws Exception{
         LandlordInformation landlordInformation1 = null;
         landlordInformation.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode().toString());
-        try {
-            landlordInformation1 = landlordInformationService.save(landlordInformation);
-        } catch (Exception e) {
-            return ResultUtil.Error("500","意料之外的错误");
-        }
+        landlordInformation1 = landlordInformationService.save(landlordInformation);
 
         return ResultUtil.Success(landlordInformation1);
     }

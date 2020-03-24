@@ -23,7 +23,7 @@ public class LandlordInformation {
      * 身份证号
      */
     @Column(name = "id_number")
-    private Integer idNumber;
+    private Long idNumber;
     /**
      * 身份证正面
      */

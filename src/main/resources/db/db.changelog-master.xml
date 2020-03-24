@@ -316,5 +316,10 @@
             alter table personal_information modify column phone varchar(25) null;
         </sql>
     </changeSet>
+    <changeSet id="13" author="yesanqiu">
+        <sql>
+            alter table landlord_information modify column id_number bigint(18) not null;
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
