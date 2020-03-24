@@ -9,7 +9,7 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="id_card_type" property="idCardType" jdbcType="VARCHAR" />
-    <result column="id_number" property="idNumber" jdbcType="INTEGER" />
+    <result column="id_number" property="idNumber" jdbcType="BIGINT" />
     <result column="id_card_pic_z" property="idCardPicZ" jdbcType="VARCHAR" />
     <result column="id_card_pic_f" property="idCardPicF" jdbcType="VARCHAR" />
   </resultMap>
