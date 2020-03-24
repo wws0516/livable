@@ -22,6 +22,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/information")
@@ -158,7 +159,11 @@ public class PersonalInformationController {
         userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
         IdInformation idInformation = new IdInformation();
         idInformation.setUserId(userId);
-        IdInformation returnIdInformation = idInformationService.findByParams(idInformation).get(0);
+        List<IdInformation> ids = idInformationService.findByParams(idInformation);
+        if(ids.size() == 0){
+            return ResultUtil.Error("500","没有这个人的资料");
+        }
+        IdInformation returnIdInformation =ids.get(0);
         return ResultUtil.Success(returnIdInformation);
     }
 }
