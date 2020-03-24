@@ -4,8 +4,10 @@ import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import com.chuangshu.livable.dto.InsertUserDTO;
 import com.chuangshu.livable.dto.UpdateUserDTO;
+import com.chuangshu.livable.entity.PersonalInformation;
 import com.chuangshu.livable.entity.User;
 import com.chuangshu.livable.entity.UserRole;
+import com.chuangshu.livable.service.PersonalInformationService;
 import com.chuangshu.livable.service.UserRoleService;
 import com.chuangshu.livable.service.UserService;
 import com.chuangshu.livable.service.redis.UserRedisService;
@@ -48,6 +50,8 @@ public class UserController implements UserDetailsService {
     UserRoleService userRoleService;
     @Autowired
     UserRedisService userRedisService;
+    @Autowired
+    PersonalInformationService personalInformationService;
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
@@ -127,16 +131,17 @@ public class UserController implements UserDetailsService {
             @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "int", required = true, value = "房源id"),
     })
     public ResultDTO<User> getRoommate(Integer userId, Integer houseId) throws Exception {
-        List<User> users = new ArrayList<>();
+        List<Integer> userIdList = new ArrayList<>();
         try {
-            users = userRedisService.userGetRoomate(userId, houseId);
+            userIdList = userRedisService.userGetRoomate(userId, houseId);
         }catch (Exception e){
             return ResultUtil.Error("500",e.getMessage());
         }
-        for (User user : users) {
-            user.setPassword(null);
+        ArrayList<PersonalInformation> informationList = new ArrayList<>();
+        for (Integer id : userIdList) {
+            informationList.add(personalInformationService.get(id));
         }
-        return ResultUtil.Success(users);
+        return ResultUtil.Success(informationList);
 
     }
 }

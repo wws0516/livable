@@ -127,7 +127,7 @@ public class UserRedisServiceImpl extends RedisServiceImpl implements UserRedisS
     }
 
     @Override
-    public List<User> userGetRoomate(Integer userId, Integer houseId) throws Exception {
+    public List<Integer> userGetRoomate(Integer userId, Integer houseId) throws Exception {
         //回去看过房间的用户id
         LikeHouse likeHouse = new LikeHouse();
         likeHouse.setHouseId(houseId);
@@ -155,10 +155,11 @@ public class UserRedisServiceImpl extends RedisServiceImpl implements UserRedisS
                 return ((map2.getValue() - map1.getValue() == 0) ? 0 : (map2.getValue() - map1.getValue() > 0) ? 1 : -1);
             }
         });
-        ArrayList<User> resultUserList = new ArrayList<>();
+        ArrayList<Integer> resultUserIdList = new ArrayList<>();
         for (Map.Entry<String, Double> entry : list) {
-            resultUserList.add(userService.get(entry.getKey()));
+            resultUserIdList.add(Integer.valueOf(entry.getKey()));
+
         }
-        return  resultUserList;
+        return  resultUserIdList;
     }
 }

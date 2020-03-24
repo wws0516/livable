@@ -44,5 +44,5 @@ public interface UserRedisService {
      * @return
      * @throws Exception
      */
-    public List<User> userGetRoomate(Integer userId, Integer houseId)throws Exception;
+    public List<Integer> userGetRoomate(Integer userId, Integer houseId)throws Exception;
 }
