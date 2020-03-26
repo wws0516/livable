@@ -72,8 +72,8 @@ spring:
 #    servlet:
 #      content-type: text/html
 
-#  mvc:
-#    static-path-pattern: /**
+  mvc:
+    static-path-pattern: /**
 
 
 

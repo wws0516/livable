@@ -60,6 +60,8 @@ spring:
         #指定默认消费者group id
       consumer:
         group-id: livable
+  mvc:
+    static-path-pattern: /**
 
 
 #  thymeleaf:
@@ -70,6 +72,7 @@ spring:
 #    cache: false
 #    servlet:
 #      content-type: text/html
+
 
 sever:
   servlet:
