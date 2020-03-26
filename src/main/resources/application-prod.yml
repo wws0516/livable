@@ -76,7 +76,6 @@ spring:
   mvc:
     view:
       prefix: html/
-      suffix: .html
   resources:
     static-locations: classpath:static/
 
