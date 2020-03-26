@@ -74,10 +74,9 @@ spring:
 
 
   mvc:
-    view:
-      prefix: html/
+    static-path-pattern: /**
   resources:
-    static-locations: classpath:static/
+    static-locations: classpath:static/html/
 
 
 sever:
