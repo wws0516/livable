@@ -72,12 +72,15 @@ spring:
 #    servlet:
 #      content-type: text/html
 
-  mvc:
-    static-path-pattern: /**
-  resources:
-    static-locations: classpath:/
 
-    
+  mvc:
+    view:
+      prefix: html/
+      suffix: .html
+  resources:
+    static-locations: classpath:static/
+
+
 sever:
   servlet:
     session:
