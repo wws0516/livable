@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>HomePage</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+	<link rel="stylesheet" href="../css/HomePage.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+
+<body>
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+        <a class="" href="index.html">首页</a>
+        <a  href="findHome.html"> 租房</a>
+        <a class="aActive" href="HomePage.html">个人页面</a>
+        <a href="javascript:void(0)">发布房源</a>
+    </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a id="quit">退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+
+	<div class="container body">
+    <div class="row" >
+        <div class="col-md-4 col-lg-4 col-sm-4" >
+         <div class="person-mes">
+             <div class="person-css">
+                 <div class="img-css">
+                     <img id="img-src" src="../img/head_test.jpg">
+                 </div>
+                 <br/>
+		 <!--<button type="button" class="btn btn-warning btn-css">本地上传</button>	 -->
+         </div>
+		<div>
+		<ul class="ul-css">
+        <li class="font-css">
+            <a class="aActive" href="HomePage.html">个人资料</a>
+        </li>
+        <li class="font-css">
+            <a class="a" href="Seeing.html">我的约看</a>
+        </li>
+		<li class="font-css">
+		<a class="a" href="like.html">关注过的房源|看房记录</a>
+        </li></ul>
+		</div>
+		</div> 
+		</div>
+		
+		
+		 <div class="col-md-8 col-lg-8 col-sm-8" >
+		<div class="personal-in">
+            <ul class="ul-one">
+                <li class="li-one"><a class="a" href="HomePage.html">个人信息</a></li>
+                <li class="li-two"><a class="aActive" href="papers.html">证件信息</a></li>
+            </ul>
+			<form class="form-horizontal text" role="form">
+       <div class="form-group">
+      <label class="col-sm-4 control-label">真实姓名</label>
+    <div class="col-sm-6">
+      <input id="nich" type="text" class="form-control" placeholder="请输入姓名">
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-4 control-label">证件类型</label>
+    <div class="col-sm-6">
+      <input id="type" type="text" class="form-control"  placeholder="请输入证件类型">
+    </div>
+  </div>
+	<div class="form-group">
+    <label class="col-sm-4 control-label">证件号</label>
+    <div class="col-sm-6">
+      <input id="mark" type="text" class="form-control"  placeholder="请输入证件号"  maxlength="18">
+    </div>
+  </div>
+</form>
+	 <div class="form-group">
+	     <div class="bnt-style col-sm-offset-4 col-sm-3 col-md-3">
+			        <button class="btn btn-warning btn-css" data-toggle="modal" data-target="#myModal">证件照上传</button>
+<!-- 模态框（Modal） -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+							<form method="post" action="/TomcatTest/UploadServlet" enctype="multipart/form-data">
+							证件照正面:
+							<input id="fileUp" type="file" name="fileUp" />
+							证件照反面:
+							 <input id="fileUp1" value = '1' type="file" name="fileUp" />
+						   </form>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-warning" data-dismiss="modal">确定</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal -->
+				</div>	
+			 
+			 
+    </div>
+    <div class=" col-sm-4">
+     <button id="butt" type="button" class="btn btn-warning">保存</button>
+    </div>
+  </div>
+  <br/>
+  <br/>
+		</div> 
+		</div>
+		</div>
+		</div>
+
+<div class="foot row">
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-xs-4">
+        <div>
+            <embed class="footSvg" src="../svg/weixin.svg">
+            <embed class="footSvg" src="../svg/qq.svg">
+        </div>
+        <div>
+            <span class="text-muted">Copyright: </span>Guangdong Ocean University<br/>
+            <span class="text-muted">Development and Maintenance: </span>Creative Software Team
+        </div>
+    </div>
+    <div class="col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1">
+        <img class="footLogo" src="../img/logo.png">
+    </div>
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-4 col-xs-offset-1">
+        <div class="text-muted callPhone pull-right">
+            Contact us：<span >XXX-XXXXXXX</span>
+        </div>
+        <div class="pull-right">
+            <span class="text-muted">Contact email: </span> XXXXXXXXXXX@gmail.com<br/>
+            <span class="pull-right">About Us and Livable</span>
+        </div>
+    </div>
+</div>
+<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="../js/main.js"></script>
+<script src="../js/papers.js"></script>
+</body>
+</html>

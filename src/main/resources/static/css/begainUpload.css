@@ -1,0 +1,96 @@
+.mid{
+    width: 80%;
+    margin: auto;
+    margin-top: 9%;
+    position: relative;
+    padding: 0;
+}
+.mid div{
+    padding: 0;
+}
+.leftText{
+    background-color: #f4971e;
+    height: 300px;
+    z-index: 999;
+    transition:width 2s;
+}
+.text-Left{
+    color: white;
+    font-family: 宋体;
+    font-size: 18px;
+    margin-left: 20%;
+    margin-top: 6%;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+.text-Left>div:nth-child(1){
+    font-size: 37px;
+    font-family: Arial;
+}
+.rightText{
+    height: 300px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    float: right;
+    background: url("../img/onload.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.rightText>img{
+    width: 100%;
+    height: 100%;
+    float: left;
+}
+.rightText>div:nth-child(1){
+    color: white;
+    text-align: center;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    font-weight: lighter;
+    margin-top: 120px;
+    font-size: 20px;
+}
+.rightText>div:nth-child(1)>div{
+    font-size: 22px;
+    font-family: Arial;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.rightText>div:nth-child(2){
+    color: white;
+    z-index: 999;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+}
+
+.upLoad{
+    color: white;
+    width: 180px;
+    height: 30px;
+    position: absolute;
+    text-align: center;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    background-color: #f4971e;
+    border-radius: 3px;
+    margin-bottom: 70px;
+    font-size: 20px;
+    font-weight: 200;
+    cursor: pointer;
+    display: block;
+}
+.upLoad:hover{
+    background-color:#f68b01 ;
+    text-decoration: none;
+    color: white;
+}

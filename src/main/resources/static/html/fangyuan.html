@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=rCN6PAQ5GSf8yw0RFuyH5Cno7zVtNoEW"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
+    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
+    <meta charset="UTF-8">
+    <title>房源信息</title>
+<!--    <meta name="viewport" content="width=1,initial-scale=1,maximum-scale=1,minimum-scale=1, user-scalable=no" />-->
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/fangyuan-main.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../css/calendar.min.css">
+
+
+</head>
+<body>
+
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="aActive" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="begainUpload.html">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a id="quit">退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+
+    <div class="container-fluid look   fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="lookTitle">同城约看</div>
+        <div class="lookLine container-fluid">
+            <div class="col-xs-4 col-md-4 col-lg-4 col-sm-4 lookName">
+                时间：
+            </div>
+            <div class="col-xs-8 col-lg-8 col-md-8 col-sm-8 lookIpt">
+                <input id="time" class="form-control" placeholder="打开日历">
+            </div>
+        </div>
+        <div class="lookLine container-fluid">
+            <div class="col-xs-4 col-md-4 col-lg-4 col-sm-4 lookName">
+                地点：
+            </div>
+            <div class="col-xs-8 col-lg-8 col-md-8 col-sm-8 lookIpt">
+                <input  class="form-control" id="site">
+            </div>
+        </div>
+        <div class="lookButton" data-dismiss="modal">发送约看</div><a id="lookClose"data-dismiss="modal">关闭</a>
+    </div>
+    <div class="mid container">
+
+                <div class="alLeft col-lg-7 col-xs-7">
+                <div class="Left " >
+                    <div class="exa">
+                        <div class="conllect">
+                            我喜欢
+                            <span class="glyphicon glyphicon-heart-empty"></span>
+                            <span class="glyphicon glyphicon-heart change"></span>
+                        </div>
+                    </div>
+
+                    <div id="myCarousel" class="carousel slide">
+                        <!-- 轮播（Carousel）指标 -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                        </ol>
+                        <!-- 轮播（Carousel）项目 -->
+                        <div class="carousel-inner imageShow">
+                            <div class="item active ">
+                                <img src="" alt="First slide" id="img1">
+                            </div>
+                        </div>
+                        <!-- 轮播（Carousel）导航 -->
+                        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+
+
+                    <div class="sayFirst" id="say1">
+                        <table>
+                            <tr>
+                                <td class="ownerSay">房东说</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="name1">房东昵称：</div><div class="name2">围开哥哥</div><div href="#" class="connet">联系房东</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="eval1">共</div><div class="eval2">12</div><div class="eval1">条评价</div><img src="../img/authen.png" class="authen" /><div class="eval3"> 已认证</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ownerSayText">房源两室两居南北通透的两居室，主卧朝南，可以沐浴在阳光享受美好的生活,大大的落地窗，采光绝对没得说，楼上直接看到JFS和春晚。</div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="say">
+                        <div class="ownerSay">房源布局</div>
+                        <div id="layout">
+                            <img src="../img/layout.png">
+                        </div>
+                    </div>
+                    <div class="say" id="say2">
+                        <div class="ownerSay">配套设施</div>
+                        <div class="facilities">
+                            <div class="gas"><img src="../img/gas.png"></div>
+                            <div class="HairDrierr"> <img src="../img/HairDrier.png"></div>
+                            <div class="HeatingCooling"><img src="../img/HeatingCooling.png"></div>
+                            <div class="TV"><img src="../img/TV.png"></div>
+                            <div class="WashSupplies"> <img src="../img/WashSupplies.png"></div>
+                            <div class="wifi"> <img src="../img/wifi.png"></div>
+                        </div>
+                    </div>
+                    <div class="say" id="say3">
+                        <div class="ownerSay">评价</div>
+                        <div>
+                            <table>
+                                <tr>
+                                <td><div class="glyphicon glyphicon-star star"></div></td>
+                                <td><div class="glyphicon glyphicon-star star"></div></td>
+                                <td><div class="glyphicon glyphicon-star star"></div></td>
+                                <td><div class="glyphicon glyphicon-star star"></div></td>
+                                <td><div class="glyphicon glyphicon-star star"></div></td>
+                                <td><div class="userEval">7条用户评价</div></td>
+                                </tr>
+                            </table>
+                            <div class="user1">
+                                <img src="../img/houseOwner.png">
+                                <div class="name3">用户昵称</div>
+                                <div>2019年6月</div>
+                            </div>
+                            <div class="userText">
+                                位置挺不错，房东人很好，但是厕所有异味。
+                            </div>
+                            <div class="user1">
+                                <img src="../img/houseOwner.png">
+                                <div class="name3">用户昵称</div>
+                                <div>2019年6月</div>
+                            </div>
+                            <div class="userText">
+                                周围有很多小吃店超市等，很方便。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="say4" id="say4">
+                        <div class="ownerSay">周边情况</div>
+                        <div class="Position"><span class="glyphicon glyphicon-map-marker Position"></span></div><div>中国·湛江</div>
+                        <table class="Situation">
+                            <tr>
+                                <td class="Situation">学校</td>
+                                <td class="SituatText">兴隆中心小学（6.69公里）湛江市兴隆幼儿园附近（3.45公里）万宁市民族中学（7.78公里）</td>
+                            </tr>
+                            <tr>
+                                <td class="Situation">购物</td>
+                                <td class="SituatText">美肤宝（侨香路）（1.35公里）奥特莱斯（3.95公里）美的（1.35公里）</td>
+                            </tr>
+                            <tr>
+                                <td class="Situation">医院</td>
+                                <td class="SituatText">东和医院（7.4公里）</td>
+                            </tr>
+                            <tr>
+                                <td class="Situation">娱乐</td>
+                                <td class="SituatText">古乐园（1.2公里）红艺人演出中心（6.1公里）三角梅主题公园（1.14公里）</td>
+                            </tr>
+                            <tr>
+                                <td class="Situation">餐厅</td>
+                                <td class="SituatText">老巴刹新加坡餐厅（560米）兴欣阁（1公里）</td>
+                            </tr>
+                        </table>
+                        <div class="map" id="map">
+                        </div>
+
+                    </div>
+                </div>
+                </div>
+                <div class="alright col-lg-6">
+                    <div class="alinfo">
+                        <div class="position2">
+                            <div class="see" data-toggle="modal" data-target="#myModal">我要约看</div>
+                            <h2 class="H1" id="title">碧桂园城邦花园</h2>
+                            <div class="color">[公寓]</div>
+                            <p class="weizhi">广东省湛江市麻章区海大路一号广东海洋大学</p>
+                        </div>
+                        <div class="imfo">
+                            <div class="position container-fluid">
+                                <h4 class="H1">碧桂园城邦花园</h4>
+                                <div class="color">[公寓]</div>
+                                <p class="weizhi">广东省湛江市麻章区海大路一号广东海洋大学</p>
+                            </div>
+                            <div class="money">￥1080/月</div>
+                            <div>
+                                <table>
+                                    <tr id="serve">
+                                        <td><img src="../img/Authentication.png" class="Authentication"></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table>
+                                <tr><div class="glyphicon glyphicon-star star"></div></tr>
+                                <tr><div class="glyphicon glyphicon-star star"></div></tr>
+                                <tr><div class="glyphicon glyphicon-star star"></div></tr>
+                                <tr><div class="glyphicon glyphicon-star star"></div></tr>
+                                <tr><div class="glyphicon glyphicon-star star"></div></tr>
+                                <tr><a href="#" class="EvalJomp">7条用户评价</a></tr>
+                            </table>
+                            <table class="tb1" width=100%>
+                                <tr class="tr1">
+                                    <td>
+                                        <div  id="houseType">2房一厅</div>
+                                        <br><p class="tr2">户型
+                                    </td>
+                                    <td>
+                                        <div id="acreage">32m</div>
+                                        <br><p class="tr2">面积
+                                    </td>
+                                    <td>
+                                        <div  id="rentType">半年起</div>
+
+                                        <br><p class="tr2">租金
+                                    </td>
+                                </tr>
+
+                                <tr class="tr1">
+                                    <td><div id="elevator">高层</div>
+                                        <br><p class="tr2">楼层
+                                    </td>
+                                    <td>
+                                        <div id="toward">南朝北</div>
+                                        <br><p class="tr2">朝向
+                                    </td>
+                                    <td>
+                                        <br><p class="tr2">
+                                    </td>
+                                </tr>
+                            </table>
+                            <input type="button" id="order" class="btn btn-warning col-lg-12 myBtn col-md-12 col-sm-12 col-xs-12" value="立即预订">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <div class="lastSay">
+        <div class="ownerSay2">推荐舍友</div>
+            <div class="container-fluid " id="roommate">
+            </div>
+    </div>
+
+    <div class="foot row alFoot">
+                <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-xs-4">
+                    <div>
+                        <embed class="footSvg" src="../svg/weixin.svg">
+                        <embed class="footSvg" src="../svg/qq.svg">
+                    </div>
+                    <div>
+                        <span class="text-muted">Copyright: </span>Guangdong Ocean University<br/>
+                        <span class="text-muted">Development and Maintenance: </span>Creative Software Team
+                    </div>
+                </div>
+                <div class="col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1">
+                    <img class="footLogo" src="../img/logo.png">
+                </div>
+                <div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-4 col-xs-offset-1">
+                    <div class="text-muted callPhone pull-right">
+                        Contact us：<span >XXX-XXXXXXX</span>
+                    </div>
+                    <div class="pull-right">
+                        <span class="text-muted">Contact email: </span> XXXXXXXXXXX@gmail.com<br/>
+                        <span class="pull-right">About Us and Livable</span>
+                    </div>
+                </div>
+            </div>
+
+</body>
+<script type="text/javascript" src="../js/map.js"></script>
+<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script rel="script" src="../js/main.js"></script>
+<script src="../js/fangyuan.js"></script>
+<script src="../js/calendar.min.js"></script>
+</html>

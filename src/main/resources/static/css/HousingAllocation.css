@@ -1,0 +1,90 @@
+.headLogo{
+    left: 0;
+    margin-left: 141px;
+}
+.headNav{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+.headNav>div:nth-child(2)>div:nth-child(3){
+    color: #e88500;
+}
+.headNav>div:nth-child(1){
+    font-family: 黑体;
+    font-size: 32px;
+    color: gray;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.headNav>div:nth-child(2){
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: inline-block;
+}
+.headNav>div:nth-child(2)>div{
+    float: left;
+    font-size: 16px;
+    margin-right: 20px;
+}
+.rentalHead{
+    text-align: center;
+}
+.mid{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: absolute;
+    font-size: 20px;
+    border-top: solid 2px gainsboro;
+    padding-top: 20px;
+}
+.nextStep{
+    background-color: #f4981d;
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 150px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 50px;
+}
+.turnBack{
+    color: #f4981d;
+    position: absolute;
+    font-size: 17px;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-top: 50px;
+}
+.turnBack:hover{
+    color: #e88500;
+    text-decoration: none;
+}
+.turnBack>div{
+    display: inline;
+}
+.nextStep:hover{
+    background-color: #e88500;
+    text-decoration: none;
+    color: white;
+}
+.nextStep:visited{
+    color: white;
+    text-decoration: none;
+}
+.FOOT{
+    margin-bottom: 110px;
+    bottom: 0;
+}
+.mid>div:nth-child(1){
+    margin-bottom: 20px;
+}

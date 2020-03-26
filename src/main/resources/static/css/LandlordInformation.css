@@ -1,0 +1,196 @@
+.mid{
+    margin-top: 80px;
+}
+.leftText{
+    width: 30%;
+    float: left;
+    position: relative;
+}
+.hobby{
+    display: inline;
+}
+#hobby{
+    margin-left: 30px;
+    width: 387px;
+    height: 80px;
+}
+.rightText{
+    width: 70%;
+    right: 0;
+    position: absolute;
+}
+.leftText>div{
+    width: 250px;
+    padding-bottom: 20px;
+    position: absolute;
+    right: 0;
+    box-shadow: 10px 10px 20px #737c7f;
+    border-radius: 15px;
+}
+.leftText>div>div{
+    text-align: center;
+    margin-top: 20px;
+}
+.leftText>div>div>div:nth-child(1){
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.leftText>div>div>div:nth-child(2)>img{
+    width: 70px;
+    height: 70px;
+}
+.leftText>div>div>a:nth-child(3){
+    position: relative;
+    width: 110px;
+    background-color: #f4971e;
+    color: white;
+    margin: auto;
+    padding: 5px;
+    border-radius: 2px;
+    margin-top: 15px;
+    margin-bottom: 30px;
+    display: block;
+}
+.leftText>div>div>a:nth-child(3):hover{
+    background-color:#f68b01 ;
+    cursor: pointer;
+    text-decoration: none;
+}
+/*.leftText>div>div>div:nth-child(4){*/
+/*    color: #f4971e;*/
+/*    font-size: 18px;*/
+/*    margin: 11px;*/
+/*}*/
+/*.leftText>div>div>div:nth-child(5){*/
+/*    font-size: 18px;*/
+/*    margin: 11px;*/
+/*}*/
+/*.leftText>div>div>div:nth-child(6){*/
+/*    font-size: 18px;*/
+/*    margin: 11px;*/
+/*}*/
+.rightText>div{
+    width: 500px;
+}
+.leftHover{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    font-size: 18px;
+    line-height: 35px;
+}
+.leftHover>a:nth-child(4){
+    color: #f68b01;
+}
+.leftHover>a{
+    display: block;
+    color: black;
+}
+.leftHover>a:hover{
+    color: #f68b01;
+    text-decoration: none;
+    cursor: pointer;
+}
+.rightText>div:nth-child(1){
+    width: 80%;
+    height: 500px;
+    box-shadow: 10px 10px 20px #737c7f;
+    margin-left: 80px;
+    border-radius: 15px;
+    padding-top: 30px;
+}
+.rightText>div>a:nth-child(1){
+    text-align: center;
+}
+.textTop>a{
+    font-size: 25px;
+    display: inline;
+    margin: 50px;
+    color: black;
+}
+.textTop{
+    text-align: center;
+    border-bottom: solid 1px #9d9d9d;
+    padding-bottom: 20px;
+
+}
+.textTop>a:hover{
+    color: #f68b01;
+    cursor: pointer;
+    text-decoration: none;
+}
+.textTop>a:nth-child(1){
+    color:#f68b01 ;
+}
+.textBottom>div{
+    font-size: 18px;
+}
+.name{
+    float: left;
+}
+.phone>div{
+    display: inline;
+}
+.age{
+    float: left;
+    margin-right: 20px;
+}
+#habbit{
+    float: left;
+    margin-right: 0;
+}
+.habbit>input{
+    width: 60%;
+    height: 100px;
+    margin-left: 30px;
+}
+.textBottom>div>div>input{
+    width: 150px;
+    margin-left: 30px;
+}
+.textBottom>div:nth-child(1)>div{
+    margin-right: 20px;
+}
+.textBottom>div{
+    margin: 10px;
+}
+.phone>div{
+    color: #f68b01;
+    cursor: pointer;
+}
+.phone>input{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.textBottom{
+    margin-left:19%;
+    margin-top: 50px;
+}
+.preservat{
+    background-color:#f4971e;;
+    width: 100px;
+    height: 40px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    text-align: center;
+    color: white;
+    padding-top: 1%;
+    border-radius: 5px;
+    margin-top: 40px;
+    display: block;
+}
+.preservat:hover{
+    background-color: #f68b01;
+    cursor: pointer;
+    color: white;
+}
+
+
+.upImg{
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    opacity: 0;
+}

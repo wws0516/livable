@@ -34,29 +34,40 @@ $(document).ready(function () {
         }
     }
     CreateFeedbackFunction.prototype.Feedback=function(value,element) {
-        let formdata=new FormData();
-        formdata.append('detail',value);
-        formdata.append('img',element.files);
-        console.log(formdata);
-        $.ajax({
-            type: 'post',
-            url: URL + '/Feedback',
-            contentType: false,
-            processData:false,
-            dataType: 'json',
-            async: true,
-            data:formdata,
-            success: function (result) {
-                if(result.code=='200'){
-                    PromptBox.displayPromptBox('注册成功');
-                    window.location='index.html'
-                }
-                else PromptBox.displayPromptBox(result.msg);
+        let img=new FormData();
+        // formdata.append('detail',value);
+        img.append('file',element.files[0]);
+
+        new Interactive({
+            childPath:'/oss/uploadFile',
+            method:'PUT',
+            detail:img,
+            isFile:true,
+            successCallback:function (result) {
+                let formdata=new FormData();
+                formdata.append('userId',1);
+                formdata.append('opinion',value);
+                formdata.append('picture',result.httpUrl);
+                new Interactive({
+                    childPath:'/opinion/insertOneOpinion',
+                    method:'PUT',
+                    detail:formdata,
+                    successCallback:function (result) {
+                        PromptBox.displayPromptBox('非常感谢您对我们的意见，将为您跳转至主页');
+                        setTimeout(function () {
+                            location.href='index.html';
+                        },3000);
+                    },
+                    errorCallback:function () {
+                        
+                    },
+                }).init();
             },
-            error: function () {
-                PromptBox.displayPromptBox('服务器开小差啦');
-            }
-        })
+            errorCallback:function () {
+                
+            },
+        }).init();
+
     }
     CreateFeedbackFunction.prototype.DetectionImg=function (value){
         if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(value)) {
@@ -85,7 +96,7 @@ $(document).ready(function () {
         FeedbackFunction.AllowFeedback[2]=FeedbackFunction.AllowFeedback[2]||FeedbackFunction.checkDetail(document.getElementsByClassName('Feedback')[0].getElementsByTagName('textarea')[0].value);
         FeedbackFunction.AllowFeedback[3]=FeedbackFunction.AllowFeedback[3]||FeedbackFunction.checkImg(document.getElementById('FeedbackImg'));
         if (FeedbackFunction.AllowFeedback[1]&&FeedbackFunction.AllowFeedback[2]&&FeedbackFunction.AllowFeedback[3]) {
-            FeedbackFunction.Feedback(document.getElementsByClassName('Feedback')[0].getElementsByTagName('textarea').value,document.getElementById('FeedbackImg'));
+            FeedbackFunction.Feedback(document.getElementsByClassName('Feedback')[0].getElementsByTagName('textarea')[0].value,document.getElementById('FeedbackImg'));
         }else {
             for (let i=0;i<3;i++){
                 FeedbackFunction.AllowFeedback[i]=false;

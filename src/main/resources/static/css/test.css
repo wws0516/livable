@@ -1,0 +1,107 @@
+#container{
+    position: relative;
+    height: 500px;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: silver 1px solid;
+    border-radius: 5px;
+
+
+}
+.bgLine{
+    background: linear-gradient(90deg, rgba(100, 100, 100, 0.1) 5%, transparent 0),
+    linear-gradient(rgba(100, 100, 100, 0.1) 5%, transparent 0);
+    background-size: 20px 20px;
+}
+/*#container>div:first-child{*/
+    /*position: absolute;*/
+    /*height: 150px;*/
+    /*width: 150px;*/
+    /*margin: 30px;*/
+/*}*/
+/*#container>div:nth-child(2){*/
+    /*position: absolute;*/
+    /*height: 100px;*/
+    /*width: 100px;*/
+    /*margin: 30px;*/
+/*}*/
+/*#container>div:first-child{*/
+    /*border: greenyellow 2px solid;*/
+    /*left: 50px;*/
+    /*top: 10px;*/
+/*}*/
+
+/*#container>div:nth-child(2){*/
+    /*border: rgba(104,114,108,0.7) 2px solid;*/
+    /*left: 150px;*/
+    /*top: 80px;*/
+/*}*/
+.defaultDiv{
+    position: absolute;
+    height: 100px;
+    width: 100px;
+    margin: 30px;
+    border: rgba(104,114,108,0.7) 2px solid;
+    left: 30px;
+    top: 30px;
+}
+/*______________________________________通用设计______________________________________________*/
+
+.midText,
+.leftText,
+.rightText,
+.bottomText,
+.topText{
+    position: absolute;
+    height: 25px;
+    text-align: center;
+    width: 80%;
+}
+
+.midText{
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto 10%;
+}
+.leftText{
+     left: -66px;
+     transform: rotate(-90deg);
+
+}
+.rightText{
+    bottom: 0;
+    right: -37px;
+    transform: rotate(90deg);
+}
+.topText{
+    top: -37px;
+}
+.bottomText{
+    bottom: -37px;
+}
+
+.display{
+    display: inline;
+    width: 12px;
+    height: 12px;
+    border: #e5e5e5 1px solid;
+    margin-left: 5px;
+}
+
+.styleBlue{
+    background-color: #9acccd;
+    border:none;
+}
+.styleOringe{
+    background-color: #ffcc9a;
+    border:none;
+}
+.stylePink{
+    background-color: #ffcccb;
+    border:none;
+}

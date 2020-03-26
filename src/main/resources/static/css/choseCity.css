@@ -86,7 +86,8 @@ select {
     font-weight: normal;
 }
 #addr-wrap li:hover{
-    background-color: rgba(102,209,242,0.7);
+    background-color: #ff9966;
+    color: white;
 }
 
 /*方法三样式部分*/
@@ -129,7 +130,6 @@ select {
 }
 
 #data-show a:hover{
-    color: #000;
     background-color: #A5D2D5;
     border-radius: 4px;
     cursor: pointer;

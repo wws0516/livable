@@ -15,36 +15,34 @@
 
 $(document).ready(function () {
 
-    let CreateRegistFunction=function () {
+    let CreateRegistFunction=function (allId) {
         this.AllowRegistration=[false,false,false,false,false,false];
-
+        this.time=0;
+        this.id=allId||[];
     };
-    CreateRegistFunction.prototype.time=0;
     CreateRegistFunction.prototype.regist=function() {
-        $.ajax({
-            type: 'post',
-            url: URL + '/regist',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            async: true,
-            data: {
-                userName:document.getElementById('Name').value,
-                userSex:document.getElementById('Sex').value,
-                userPassword:document.getElementById('Password').value,
-                userEmail:document.getElementById('Email').value,
-                emailKey:document.getElementById('EmailKey').value,
+        let formdata=new FormData();
+        formdata.append('name',$('#Name').val());
+        formdata.append('gender',$('#Sex').val());
+        formdata.append('password',$('#Password').val());
+        formdata.append('email',$('#Email').val());
+        formdata.append('emailCode',$('#EmailKey').val());
+        new Interactive({
+            childPath:'/user/register',
+            method:'POST',
+            detail:formdata,
+            successCallback:function (result) {
+                PromptBox.displayPromptBox('注册成功');
+                setTimeout(function () {
+                    window.location='login.html'
+                },3000)
+
             },
-            success: function (result) {
-                if(result.code=='200'){
-                    PromptBox.displayPromptBox('注册成功');
-                    window.location='index.html'
-                }
-                else PromptBox.displayPromptBox(result.msg);
+            errorCallback:function () {
+
             },
-            error: function () {
-                PromptBox.displayPromptBox('服务器开小差啦');
-            }
-        })
+        }).init();
+
     }
     CreateRegistFunction.prototype.DetectionSymbol=function (value) {
         let regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
@@ -76,45 +74,38 @@ $(document).ready(function () {
         return reg.test(str);
     }
     CreateRegistFunction.prototype.getEmailKey=function(){
-        console.log()
-        if (RegistFunction.DetectionEmail(document.getElementById('EmailKey').value) && CreateRegistFunction.prototype.time==0){
-            $('#GetEmailKey').removeClass('btn-success');
-            $('#GetEmailKey').addClass('disabled');
 
-            (function () {
-                CreateRegistFunction.prototype.time=30;
-              let IntvId=setInterval(function () {
-                  if (CreateRegistFunction.prototype.time>0){
-                      CreateRegistFunction.prototype.time--;
-                      document.getElementById('GetEmailKey').value=CreateRegistFunction.prototype.time;
-                  }else {
-                      $('#GetEmailKey').removeClass('disabled');
-                      $('#GetEmailKey').addClass('btn-success');
-                      document.getElementById('GetEmailKey').value='获取验证码';
-                      window.clearInterval(IntvId);
-                  }
-              },1000)
-            })()
-            $.ajax({
-                type: 'post',
-                url: URL + '/regist',
-                contentType: 'application/x-www-form-urlencoded',
-                dataType: 'json',
-                async: true,
-                data: {
-                    userEmail:document.getElementById('Email').value,
-                },
-                success: function (result) {
-                    if(result.code=='200'){
-                        PromptBox.displayPromptBox('验证码已发送，请前往登陆邮箱查收');
+        if (RegistFunction.DetectionEmail($('#Email').val()) && this.time==0){
+            console.log($('#Email').val());
+            let form=new FormData();
+            form.append('email',$('#Email').val());
+            new Interactive({
+                childPath:'/emailCode',
+                method:'GET',
+                detail:form,
+                successCallback:function (result) {
+                    $('#GetEmailKey').removeClass('btn-success');
+                    $('#GetEmailKey').addClass('disabled');
 
-                    }
-                    else PromptBox.displayPromptBox(result.msg);
+                    (function () {
+                        this.time=30;
+                        let IntvId=setInterval(function () {
+                            if (CreateRegistFunction.prototype.time>0){
+                                CreateRegistFunction.prototype.time--;
+                                document.getElementById('GetEmailKey').value=CreateRegistFunction.prototype.time;
+                            }else {
+                                $('#GetEmailKey').removeClass('disabled');
+                                $('#GetEmailKey').addClass('btn-success');
+                                document.getElementById('GetEmailKey').value='获取验证码';
+                                window.clearInterval(IntvId);
+                            }
+                        },1000)
+                    })()
                 },
-                error: function () {
-                    PromptBox.displayPromptBox('服务器开小差啦');
-                }
-            })
+                errorCallback:function () {
+                },
+            }).init();
+
         }else {
             if (!RegistFunction.DetectionEmail(document.getElementById('EmailKey').value)){
                 PromptBox.displayPromptBox('请填写邮箱');
@@ -123,68 +114,81 @@ $(document).ready(function () {
             }
         }
     }
-    let RegistFunction=new CreateRegistFunction();
+    CreateRegistFunction.prototype.DetectionAll=function(id,innervalue,alert){
+        switch (id) {
+            case 'Name':(function () {
+                if (innervalue.length>1&&innervalue.length<5&& RegistFunction.DetectionSymbol(innervalue)){
+                    RegistFunction.AllowRegistration[0]=true;
+                } else {
+                    RegistFunction.AllowRegistration[0]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('请输入正确的姓名');
+                }
+            })();break;
+            case 'Sex':(function () {
+                console.log(innervalue);
+                if (innervalue){
+                    RegistFunction.AllowRegistration[1]=true;
+                } else {
+                    RegistFunction.AllowRegistration[1]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('请选择性别');
+                }
+            })();break;
+            case 'Password':(function () {
+                if (RegistFunction.DetectionSymbol(innervalue)&&RegistFunction.DetectionNum(innervalue)){
+                    RegistFunction.AllowRegistration[2]=true;
+                } else {
+                    RegistFunction.AllowRegistration[2]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('请输入正确的密码');
+                }
+            })();break;
+            case 'Passwords':(function () {
+                if (document.getElementById('Password').value==document.getElementById('Passwords').value){
+                    RegistFunction.AllowRegistration[3]=true;
+                } else {
+                    RegistFunction.AllowRegistration[3]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('两次密码不一致');
+                }
+            })();break;
+            case 'Email':(function () {
+                console.log(innervalue);
+                if (RegistFunction.DetectionEmail(innervalue)){
+                    RegistFunction.AllowRegistration[4]=true;
+                } else {
+                    RegistFunction.AllowRegistration[4]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('请输入正确的邮箱');
+                }
+            })();break;
+            case 'EmailKey':(function () {
+                if (innervalue){
+                    RegistFunction.AllowRegistration[5]=true;
+                } else {
+                    RegistFunction.AllowRegistration[5]=false;
+                    !alert?void (0):PromptBox.displayPromptBox('请输入验证码');
+                }
+            })();break;
+        }
+    }
+    let RegistFunction=new CreateRegistFunction(['Name','Sex','Email','Password','Passwords','EmailKey']);
 
     (function main() {
 
         $('.RegistInput').blur(function () {
             let innervalue=event.path[0].value;
             console.log(event.path[0].id);
-            switch (event.path[0].id) {
-                case 'Name':(function () {
-                    if (innervalue>0&&innervalue<5&& RegistFunction.DetectionSymbol(innervalue)){
-                        RegistFunction.AllowRegistration[0]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[0]=false;
-                        PromptBox.displayPromptBox('请输入正确的姓名');
-                    }
-                })();break;
-                case 'Sex':(function () {
-                    if (innervalue){
-                        RegistFunction.AllowRegistration[1]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[1]=false;
-                        PromptBox.displayPromptBox('请选择性别');
-                    }
-                })();break;
-                case 'Password':(function () {
-                    if (RegistFunction.DetectionSymbol(innervalue)&&RegistFunction.DetectionNum(innervalue)){
-                        RegistFunction.AllowRegistration[2]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[2]=false;
-                        PromptBox.displayPromptBox('请输入正确的密码');
-                    }
-                })();break;
-                case 'Passwords':(function () {
-                    if (document.getElementById('Password').value==document.getElementById('Passwords').value){
-                        RegistFunction.AllowRegistration[3]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[3]=false;
-                        PromptBox.displayPromptBox('两次密码不一致');
-                    }
-                })();break;
-                case 'Email':(function () {
-                    if (RegistFunction.DetectionEmail(innervalue)){
-                        RegistFunction.AllowRegistration[4]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[4]=false;
-                        PromptBox.displayPromptBox('请输入正确的邮箱');
-                    }
-                })();break;
-                case 'EmailKey':(function () {
-                    if (innervalue){
-                        RegistFunction.AllowRegistration[5]=true;
-                    } else {
-                        RegistFunction.AllowRegistration[5]=false;
-                        PromptBox.displayPromptBox('请输入验证码');
-                    }
-                })();break;
-            }
+            RegistFunction.DetectionAll(event.path[0].id,innervalue,true);
+
         })
         $('#ToRegist').click(function () {
             let Status=true;
-            for (let i=0;i<6;i++,Status=Status&RegistFunction.AllowRegistration[i]);
+            for (let i=0;i<6;i++ ){
+                RegistFunction.DetectionAll(RegistFunction.id[i],$('#'+RegistFunction.id[i]).val(),false);
+            }
+            for (let i of RegistFunction.AllowRegistration){
+                Status=Status && i;
+                console.log(Status);
+            }
             $('#ToRegist').addClass('rubberBand');
+
             if (Status){
                 RegistFunction.regist();
                 $('#ToRegist').on('animationend',function () {
@@ -197,7 +201,9 @@ $(document).ready(function () {
                 })
             }
         })
-        $('#GetEmailKey').click(RegistFunction.getEmailKey)
+        $('#GetEmailKey').click(function (){
+            RegistFunction.getEmailKey.call(RegistFunction);
+        })
         $('.registInnerBody>div>input').on('keypress',function () {
             if (event.keyCode==13){
                 $('#ToRegist').click();

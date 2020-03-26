@@ -1,0 +1,244 @@
+.headNav{
+    text-align: center;
+    margin-right: 300px;
+    margin-left: 300px;
+    padding-bottom: 15px;
+}
+.headNav>div:nth-child(2)>div:nth-child(1){
+    color: #e88500;
+}
+.headNav>div:nth-child(1){
+    font-size: 30px;
+    color: gray;
+    margin-bottom: 7px;
+}
+.headNav>div:nth-child(2)>div{
+    display: inline;
+    margin-right: 25px;
+}
+
+#nav>div{
+    cursor: pointer;
+}
+.midImg{
+    width: 80%;
+    margin-left: 60px;
+    position: absolute;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.5)));
+}
+
+
+.mid{
+    border-top: solid 1px gainsboro;
+    margin-left: 150px;
+    margin-right: 150px;
+    padding-top: 30px;
+    font-size: 17px;
+    display: none;
+}
+.name{
+    text-align: right;
+    line-height: 25px;
+}
+.input{
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+.positionInput{
+    width: 30%;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+.line{
+    margin-bottom: 50px;
+}
+.textarea{
+    resize:none;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid silver;
+    height: 100px;
+}
+.fileSend{
+    text-align: center;
+    border: dashed 2px silver;
+    border-radius: 10px;
+    padding-top: 30px;
+    font-size: 14px;
+    color: #2f937d;
+    padding-bottom: 30px;
+    position: relative;
+}
+.fileSend>div{
+    margin-bottom: 15px;
+}
+.fileSend>div:nth-child(3){
+    color: black;
+    margin-top: 60px;
+    margin-bottom: 0px;
+}
+.button{
+    color: white;
+    background-color: #2f937d;
+    width: 70px;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    border-radius: 3px;
+    padding: 3px;
+}
+.fileSearch{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 500;
+    top: 0;
+    opacity: 0;
+}
+.imgShow{
+    width: 87%;
+    overflow: hidden;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 100%;
+    border-radius: 10px;
+}
+.imgShow>img{
+    width: 100%;
+}
+.upload{
+    float: right;
+    margin-top: 10px;
+}
+.control{
+    position: relative;
+}
+.next{
+    color: white;
+    background-color: #f4981d;
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    width: 100px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+    text-align: center;
+}
+.next:hover{
+    background-color: #e88500;
+    cursor: pointer;
+}
+
+
+
+.roomType{
+    width: 200px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    color: #504c49;
+    padding: 14px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    cursor: pointer;
+    margin-right: 50px;
+}
+.roomType:hover{
+    background-color: #d4d4d4;
+}
+.roomType>div>img{
+    width: 40px;
+    display: inline;
+    vertical-align: sub;
+}
+.roomType>div{
+    margin-top: 5px;
+    font-size: 17px;
+    line-height: 40px;
+    letter-spacing: 2px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.roomType>div>div:nth-child(2){
+    display: inline;
+}
+.first{
+    float: left;
+    margin-right: 40px;
+}
+.check{
+    margin-left: 150px;
+    color: #f4981d;
+    display: none;
+}
+.RmInIpt{
+    width: 30%;
+    border-radius: 5px;
+    border: 1px solid silver;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.romTyp{
+    width: 10%;
+    border-radius: 5px;
+    border: 1px solid silver;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.center{
+    /*text-align:  center;*/
+}
+.sMid{
+    border-top: solid 1px gainsboro;
+    margin-left: 350px;
+    margin-right: 350px;
+    padding-top: 30px;
+    font-size: 17px;
+    display: none;
+}
+.furniture{
+    color: #9d9d9d;
+    border: 1px solid #9d9d9d;
+    text-align: center;
+    border-radius: 3px;
+    width: auto;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+.title{
+    color: #f4981d;
+}
+
+#1{
+    display: none;
+}
+.active{
+    display: block;
+}
+
+.furnitureAdd{
+    color: #f4981d;
+    border: #f4981d 1px solid;
+}
+
+.choseCity{
+    position: absolute;
+    background-color: white;
+    z-index: 999;
+    border-radius: 10px;
+    border: solid 1px rgba(0,0,0,0.1);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.2);
+}

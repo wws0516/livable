@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    let PromptBox = new CreatPromptBox();
+
     let information = function () {
         this.nowSort = '综合排序';
         this.condition = {
@@ -14,26 +14,20 @@ $(document).ready(function () {
     }
 
     information.prototype.getNewSort = function () {
-        $.ajax({
-            type: 'post',
-            url: URL + '/sort',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            async: true,
-            data: {
-                sortType: this.nowSort
+        let information=new FormData();
+        information.append('city',city);
+        information.append('city',city);
+        new Interactive({
+            childPath:'/house/search',
+            method:'POST',
+            detail:information,
+            successCallback:function (result) {
+                console.log(result);
             },
-            success: function (result) {
-                if (result.code == '200') {
-                    PromptBox.displayPromptBox('获取成功');
-                    this.displayHome(result.homeInf)
-                }
-                else PromptBox.displayPromptBox(result.msg);
+            errorCallback:function () {
+                console.log('服务器出现未知错误');
             },
-            error: function () {
-                PromptBox.displayPromptBox('服务器开小差啦');
-            }
-        })
+        }).init();
     }
     information.prototype.resetTypeValue = function (target) {
         $("[name='whole']")[0].src = '../img/whole.png';
@@ -43,26 +37,24 @@ $(document).ready(function () {
         $(target).addClass('chosed');
     }
     information.prototype.findByKey = function (key) {
-        $.ajax({
-            type: 'post',
-            url: URL + '/findByKey',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            async: true,
-            data: {
-                key: key
-            },
-            success: function (result) {
-                if (result.code == '200') {
-                    PromptBox.displayPromptBox('获取成功');
-                    this.displayHome(result.homeInf)
+        console.log(key);
+        let mykey=new FormData();
+        mykey.append('prefix',key);
+        new Interactive({
+            childPath:'/house/rent/autocomplete',
+            method:'get',
+            detail:mykey,
+            successCallback:function (result) {
+                let str='';
+                for (let i of result){
+                    str+='<li class="list-group-item">'+i+'</li>';
                 }
-                else PromptBox.displayPromptBox(result.msg);
+                $('.searchPromptBox>ul').html(str);
+                $('.searchPromptBox').removeClass('hidden')
             },
-            error: function () {
-                PromptBox.displayPromptBox('服务器开小差啦');
-            }
-        })
+            errorCallback:function () {
+            },
+        }).init();
     }
     information.prototype.displayHome = function (homeInf) {
         $('#homeNumber')[0].innerHTML = homeInf.length;
@@ -93,6 +85,7 @@ $(document).ready(function () {
     }
     information.prototype.creatTag = function () {
         let inner = '';
+        let that=this;
         for (let i in this.condition) {
             console.log(this.condition.time)
             if (i != 'tag' && this.condition[i]) {
@@ -104,27 +97,156 @@ $(document).ready(function () {
         findHomeInf.condition.tag.forEach(value => inner += "<label class=\"label screeningConditions\">" + value + "<span class=\"glyphicon glyphicon-remove\"></span></label>");
         $('.tagList>div:last-child').append(inner);
 
+        let tag=new FormData();
+        tag.append('city','广州市');
+        tag.append('feature.independentBathroom','0');
+        tag.append('feature.independentBalcony','0');
+        tag.append('feature.smartSock','0');
+        tag.append('feature.selfDecorating','0');
+        tag.append('feature.firstRent','0');
+        tag.append('feature.fullyFurnished','0');
+        tag.append('feature.nearbySubway','0');
+        tag.append('feature.anyTimeToSee','0');
+        tag.append('feature.checkInAtOnce','0');
+        console.log(this.condition);
+        for (let i in this.condition){
+            if (this.condition[i]!='') {
+                switch (i) {
+                    case 'lie':;break;
+                    case 'time':;break;
+                    case 'price':switch (this.condition[i]) {
+                        case '1000元以下':tag.append('priceBlock','*-1000');break;
+                        case '1000-2000元':tag.append('priceBlock','1000-2000');break;
+                        case '2000-3000元':tag.append('priceBlock','2000-3000');break;
+                        case '3000元以上':tag.append('priceBlock','3000-*');break;
+                    };break;
+                    case 'area':switch (this.condition[i]) {
+                        case '50m2以下':tag.append('acreageBlock','*-50');break;
+                        case '50-80m2':tag.append('acreageBlock','50-80');break;
+                        case '80-100m2':tag.append('acreageBlock','80-100');break;
+                        case '100-120m2':tag.append('acreageBlock','100-120');break;
+                        case '120m2以上':tag.append('acreageBlock','120-*');break;
+                    };break;
+                    case 'key':tag.append('keyWords',this.condition[i]);break;
+                    case 'type':tag.append('rentWay',this.condition[i]);break;
+                    case 'tag':for (let x of this.condition.tag){
+                            tag.set('feature.'+this.tagInterpret(x.replace(' ','')),'1');break;
+                    }
+                }
+            }
+        }
+        new Interactive({
+            childPath:'/house/search',
+            method:'POST',
+            detail:tag,
+            successCallback:function (result) {
+                $('.homeDeatil').eq(0).html('<div class="col-lg-12 ">\n' +
+                    '                <div>已为您找到<span id="homeNumber">26</span>套房</div>\n' +
+                    '                <div class="">\n' +
+                    '                    <button class="sort chosedSort">综合排序</button>\n' +
+                    '                    <button class="sort">评价最高</button>\n' +
+                    '                    <button class="sort">价格<img src="../img/priceSort.png"></button>\n' +
+                    '                </div>\n' +
+                    '            </div>');
+                let str='';
+                for (let i of result.data){
+                    let tag='';
+                    for (let d in i.feature) {
+                        i.feature[d]&&that.tagInterpret(d)?tag+='                        <label>'+that.tagInterpret(d)+'</label>\n':void(0);
+                    }
+                    str+='<div class=" margin-top-md homeCard col-lg-10 col-md-10 col-sm-12 animated bounceInLeft " id="'+i.houseId+'">\n' +
+                        '                <div class="col-lg-12 col-sm-12 aboutHouserOwner">\n' +
+                        '                    <div class="pull-left">\n' +
+                        '                        <img class="" src="../img/houseOwner.png">\n' +
+                        '                    </div>\n' +
+                        '                    <div class="pull-left">\n' +
+                        '                        <span>房东昵称</span><br/>\n' +
+                        '                        90后 | 白羊座 | 设计师\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '                <img class="pull-left" src="'+i.picture+'">\n' +
+                        '                <div class="pull-left col-lg-6">\n' +
+                        '                    <h4>'+i.title+' <img class="love pull-right animated" src="../img/love.png"></h4>\n' +
+                        '                    <h5 class="margin-top-md">'+i.region+' | '+i.acreage+'m<sup>2</sup> | '+i.toward+' | '+i.houseType+' </h5>\n' +
+                        '                    <p class="text-muted margin-top-sm">发布时间:<span> 2019.09.07</span></p>\n' +
+                        '                    <div class="pull-left col-lg-7 margin-top-md tag">\n' +
+                                             tag +
+                        '                    </div>\n' +
+                        '                    <div class="pull-right col-lg-5 margin-top-md money"><span>'+i.rent+'/月</span></div>\n' +
+                        '\n' +
+                        '\n' +
+                        '                </div>\n' +
+                        '            </div>';
+                }
+                $('.homeDeatil').eq(0).append(str);
+                $('.love').click(function () {
+                    that.loved($(event.path[3]).attr('id'));
+                })
+                $('.homeCard').click(function () {
+                    if (!/love/.test($(event.target).attr('class'))){
+                        for (let i of event.path){
+                            if (/homeCard/.test($(i).attr('class'))) {
+                                that.toDetail($(i).attr('id'));
+                            }
+                        }
+                    }
+
+                })
+            },
+            errorCallback:function () {
+                console.log('服务器出现未知错误');
+            },
+        }).init();
     }
     information.prototype.loved = function (homeId) {
-        $.ajax({
-            type: 'post',
-            url: URL + '/loved',
-            contentType: 'application/x-www-form-urlencoded',
-            dataType: 'json',
-            async: true,
-            data: {
-                homeId: homeId
+        let information=new FormData();
+        information.append('houseId',homeId);
+        // information.append('userId','1');
+        // $.click('userId')
+        new Interactive({
+            childPath:'/house/addHouseToLike',
+            method:'GET',
+            detail:information,
+            isFile:true,
+            successCallback:function (result) {
+                let aim = event.target;
+                aim.src = '../img/loved.png';
+                $(aim).addClass('rubberBand');
+                $('.love').on('animationend', function () {
+                    $(aim).removeClass('rubberBand');
+                })
             },
-            success: function (result) {
-                if (result.code == '200') {
-                    PromptBox.displayPromptBox('收藏成功');
-                }
-                else PromptBox.displayPromptBox(result.msg);
+            errorCallback:function () {
+
             },
-            error: function () {
-                PromptBox.displayPromptBox('服务器开小差啦');
-            }
-        })
+        }).init();
+    }
+    information.prototype.tagInterpret=function(value){
+        switch (value) {
+            case '独立卫浴':return 'independentBathroom';
+            case '独立阳台':return 'independentBalcony';
+            case '智能锁':return 'smartSock';
+            case '可自行装修':return 'selfDecorating';
+            case '首次出租':return 'firstRent';
+            case '可立即入住':return 'fullyFurnished';
+            case '地铁十分钟':return 'independentBathroom';
+            case '随时看房':return 'anyTimeToSee';
+            case '随时入住':return 'checkInAtOnce';
+            case 'independentBathroom':return '独立卫浴';
+            case 'independentBalcony':return '独立阳台';
+            case 'smartSock':return '智能锁';
+            case 'selfDecorating':return '可自行装修';
+            case 'firstRent':return '首次出租';
+            case 'fullyFurnished':return '拎包入住';
+            case 'independentBathroom':return '地铁十分钟';
+            case 'anyTimeToSee':return '随时看房';
+            case 'checkInAtOnce':return '随时入住';
+        }
+    }
+    information.prototype.toDetail=function(id){
+        // $.cookie('houseId',id);
+        // window.location.href='fangyuan.html';
+        location.href='../html/fangyuan.html?'+'id=' + id;
     }
     let findHomeInf = new information();
 
@@ -133,19 +255,34 @@ $(document).ready(function () {
         if (event.target.classList[0] != 'sort'&&event.target.innerText!='地图找房') {
             console.log(event)
             if ($(event.path[2]).children('div').eq(0).text() != '出租类型' && $(event.path[3]).children('div').eq(0).text() != '出租类型') {
-                $(event.path[1]).children('button').removeClass('chosed')
-                $(event.target).addClass('chosed');
+                if(/chosed/.test($(event.target).attr('class'))){
+                    $(event.path[1]).children('button').removeClass('chosed')
+                    switch ($(event.target).parent().prev().text()) {
+                        case '价格':
+                            findHomeInf.condition.price = '';
+                            findHomeInf.creatTag();
+                            break;
+                        case '面积':
+                            findHomeInf.condition.area = '';
+                            findHomeInf.creatTag();
+                            break;
+                    }
+                }else {
+                    $(event.path[1]).children('button').removeClass('chosed');
+                    $(event.target).addClass('chosed');
+                    switch ($(event.target).parent().prev().text()) {
+                        case '价格':
+                            findHomeInf.condition.price = event.target.innerText;
+                            findHomeInf.creatTag();
+                            break;
+                        case '面积':
+                            findHomeInf.condition.area = event.target.innerText;
+                            findHomeInf.creatTag();
+                            break;
+                    }
+                };
                 console.log($(event.target).parent().prev().text());
-                switch ($(event.target).parent().prev().text()) {
-                    case '价格':
-                        findHomeInf.condition.price = event.target.innerText;
-                        findHomeInf.creatTag();
-                        break;
-                    case '面积':
-                        findHomeInf.condition.area = event.target.innerText;
-                        findHomeInf.creatTag();
-                        break;
-                }
+
             } else {
                 let target;
                 event.target.tagName == 'IMG' ? target = event.path[1] : target = event.target;
@@ -179,8 +316,9 @@ $(document).ready(function () {
         }
 
     })
-    $('#findByKey').click(function () {
-        findHomeInf.findByKey($('#findByKey').parent().children().val());
+    $('#findByKey').parent().click(function () {
+        findHomeInf.condition.key=$('[name="findByKey"]').val();
+        findHomeInf.creatTag();
     })
     $(".queryCriteria>div:nth-last-child(2)").click(function () {
         if (event.target.tagName == 'INPUT') {
@@ -198,23 +336,28 @@ $(document).ready(function () {
             // key?findHomeInf.condition.tag[0]?findHomeInf.condition.tag.push(val):findHomeInf.condition.tag[0]=val:void(0);
             console.log(event.target, findHomeInf.condition.tag);
             findHomeInf.creatTag();
+            console.log(findHomeInf);
         }
 
-    })
-    $('.love').click(function () {
-        let aim = event.target;
-        aim.src = '../img/loved.png';
-        $(aim).addClass('rubberBand');
-        $('.love').on('animationend', function () {
-
-            $(aim).removeClass('rubberBand');
-        })
-        findHomeInf.loved(event.path[2].id)
     })
     $('#starttime').change(function () {
 
         findHomeInf.condition.time=$('#starttime').val();
         findHomeInf.creatTag();
+    })
+    $('[name="findByKey"]').bind("input propertychange", function(){
+        findHomeInf.findByKey($(event.target).val());
+    });
+    $('[name="findByKey"]').blur(function () {
+        $('.searchPromptBox').addClass('hidden');
+    })
+    $('[name="findByKey"]').focus(function () {
+        $('.searchPromptBox').removeClass('hidden');
+    })
+    $('.searchPromptBox>ul').mousedown(function () {
+        console.log(event);
+        $('[name="findByKey"]').val($(event.target).text());
+        $('.searchPromptBox').addClass('hidden');
     })
 
     $.fn.datetimepicker.dates['zh'] = {
@@ -251,5 +394,4 @@ $(document).ready(function () {
         //bootcssVer: 3,
 
     })
-
 })

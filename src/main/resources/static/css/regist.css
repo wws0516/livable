@@ -59,10 +59,12 @@ body{
 .margin-xs{
     margin: 10px 5px!important;
 }
-.RegistInput{
+.RegistInput,.RegistInput-haveLeft{
     display: inline;
     font-weight: normal;
     font-size: small;
+}
+.RegistInput{
     border-left: none;
 }
 .Registlabel{

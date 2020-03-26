@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>发布租房信息</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/homeSend.css">
+    <link rel="stylesheet" href="../css/choseCity.css">
+    <link href="../css/test.css" rel="stylesheet">
+</head>
+<body>
+<div class="rentalHead container-fluid">
+    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3">
+        <img src="../img/headLogo.png" class="headLogo">
+    </div>
+</div>
+<div class="container-fluid Nav">
+    <div class="headNav">
+        <div>发布租房消息</div>
+        <div id="nav">
+            <div id="page_1">房源描述、布局与图片</div>
+            <div id="page_2">基础信息</div>
+            <div id="page_3">房源配置</div>
+        </div>
+    </div>
+</div>
+<div id="mid">
+    <div id="0" class="mid active container-fluid">
+        <div class="col-lg-7 col-xs-7 col-sm-7 col-md-7 alLeft">
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房源名称
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <input class="input form-control" id="title">
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房产证url
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <input class="input form-control" id="houseProprietaryCertificate">
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房源地址
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <input id="choseCity" class="form-control" type="text" placeholder="请输入城市">
+                    <div class="col-lg-12">
+                        <div class="col-lg-offset-2 choseCity hidden">
+                            <fieldset>
+                                <legend>按级选中省市县/区</legend>
+                                <label for="addr-show02" class="hidden">您选择的是：
+                                    <input type="text" id="addr-show02">
+                                </label>
+                                <div id="addr-choice">
+                                    <ul id="title-wrap">
+                                        <li value="0">省份</li>
+                                        <li value="1">城市</li>
+                                        <li value="2">县区</li>
+                                    </ul>
+                                    <div id="show-panel">
+                                        <ul id="addr-wrap">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn met2 pull-right">确定</button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房源详细位置
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <textarea class="textarea form-control" placeholder="具体到房门号" id="address" ></textarea>
+                </div>
+            </div>
+            <div class="container-fluid row">
+                <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 name">
+                    为房源添加照片、视频
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 upload">
+                    <div class=" fileSend">
+                        <div>上传房源平面图</div>
+                        <div class="button">上传照片</div>
+                        <div>直接将图片从桌面拖入</div>
+                    </div>
+                    <div class="imgShow">
+                        <img id="imgShow">
+                    </div>
+                    <input type="file" class="fileSearch" id="upImg" onchange="changepic(this)">
+                </div>
+                <div class="col-lg-5 col-xs-5 col-sm-5 col-md-5 upload">
+                    <div class=" fileSend">
+                        <div>上传房源视频</div>
+                        <div class="button">上传视频</div>
+                        <div>直接将图片从桌面拖入</div>
+                    </div>
+                    <div class="imgShow">
+                        <img id="videoShow">
+                    </div>
+                    <input type="file" class="fileSearch" id="upVideo">
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房源布局
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <div id="container">
+
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid row line">
+                <div class="col-lg-3 col-xs-3 col-sm-3 col-md-3 name">
+                    房源描述
+                </div>
+                <div class="col-lg-9 col-xs-9 col-sm-9 col-md-9">
+                    <textarea class="textarea form-control" id="introduction"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-5 col-xs-5 col-md-5 col-sm-5 right">
+            <img src="../img/HomeRental.jpg" class="midImg"/>
+        </div>
+    </div>
+    <div id="1" class="container-fluid sMid">
+        <div class="container-fluid line">
+            <div class="roomType col-lg-6 col-xs-6 col-sm-6 col-md-6" id="hold">
+                <div class="first">
+                    <img src="../img/home.png">
+                    <div>整租</div>
+                    <div>房客独享整个房源，</div>
+                    <div>无需和您他人共住。</div>
+                    <div class="glyphicon glyphicon-ok check active" id="checkFirst"></div>
+                </div>
+            </div>
+            <div class="roomType col-lg-6 col-xs-6 col-sm-6 col-md-6" id="cooperate">
+                <div class="first">
+                    <img src="../img/share.png">
+                    <div>合租</div>
+                    <div>房客住在与他人共用</div>
+                    <div>的卧室或公共区域。</div>
+                    <div class="glyphicon glyphicon-ok check" id="checkSecond"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                房源面积<input class="RmInIpt" type="number" id="acreage">㎡
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                房源楼层<input class="RmInIpt" type="number">楼
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                车位数量
+                <select class="RmInIpt" id="carport">
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+                个
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                房源朝向
+                <select class="RmInIpt" id="toward">
+                    <option>东</option>
+                    <option>西</option>
+                    <option>南</option>
+                    <option>北</option>
+
+                </select>
+                向
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                容纳房客
+                <select class="RmInIpt" id="numberOfPeople">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                位
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                电梯个数
+                <select class="RmInIpt" id="elevator">
+                    <option>1</option>
+                    <option>2</option>
+                </select>
+                个
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                房源户型
+                <input class="romTyp" placeholder="1" id="room">室
+                <input class="romTyp" placeholder="1" id="living">厅
+                <input class="romTyp" placeholder="1" id="bath">卫
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                电梯数量
+                <select class="RmInIpt">
+                    <option>0</option>
+                    <option>1</option>
+                </select>
+                个
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                房源租金
+                <input class="RmInIpt" type="number" id="rent">
+                元
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                付费方式
+                <select class="RmInIpt" id="rentWay">
+                    <option>月</option>
+                    <option>年</option>
+                </select>
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                用电
+                <select class="RmInIpt" id="energyCharge">
+                    <option>免费</option>
+                    <option>实时计时</option>
+                </select>
+            </div>
+            <div class="col-xs-6 col-lg-6 col-md-6 col-sm-6 center">
+                用水
+                <select class="RmInIpt" id="waterCharge">
+                    <option>免费</option>
+                    <option>实时计时</option>
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div id="2" class="container-fluid mid">
+        <div class="container-fluid line">
+            <div class="title">勾选房源现有家具（可多选）</div>
+            <div id="furniture">
+                    <div class="furniture" id="tv">
+                        电视
+                    </div>
+                    <div class="furniture" id="refrigerator">
+                        冰箱
+                    </div>
+                    <div class="furniture" id="washingMachine">
+                        洗衣机
+                    </div>
+                    <div class="furniture" id="airCondition">
+                        空调
+                    </div>
+                    <div class="furniture" id="wifi">
+                        WI-FI
+                    </div>
+                    <div class="furniture" id="beds">
+                        床
+                    </div>
+                    <div class="furniture" id="waterHeater">
+                        热水器
+                    </div>
+                    <div class="furniture" id="chest">
+                        衣柜
+                    </div>
+                    <div class="furniture" id="desk">
+                        书桌
+                    </div>
+                    <div class="furniture" id="cooking">
+                        烹饪
+                    </div>
+            </div>
+        </div>
+        <div class="container-fluid line">
+            <div class="title">勾选房源特点（可多选）</div>
+            <div id="charact">
+                    <div class="furniture" id="independentBathroom">
+                        独立卫浴
+                    </div>
+                    <div class="furniture" id="independentBalcony">
+                        独立阳台
+                    </div>
+                    <div class="furniture" id="smartSock">
+                        智能锁
+                    </div>
+                    <div class="furniture" id="selfDecorating">
+                        可自行装修
+                    </div>
+                    <div class="furniture" id="firstRent">
+                        首次出租
+                    </div>
+                    <div class="furniture" id="fullyFurnished">
+                        拎包入住
+                    </div>
+                    <div class="furniture" id="nearbySubway">
+                        地铁十分钟
+                    </div>
+                    <div class="furniture" id="anyTimeToSee">
+                        随时看房
+                    </div>
+                    <div class="furniture" id="checkInAtOnce">
+                        随时入住
+                    </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container-fluid line control">
+    <div class="next">下一步</div>
+</div>
+</body>
+<script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script rel="script" src="../js/jquery.cookie.js"></script>
+<script rel="script" src="../js/bootstrap.js"></script>
+<script rel="script" src="../js/bootstrap-datetimepicker.min.js"></script>
+<script rel="script" src="../js/main.js"></script>
+<script rel="script" src="../js/homeSendCity.js"></script>
+<script src="../js/homeSend.js"></script>
+<script src="../js/BootstrapMenu.min.js"></script>
+<script src="../js/test.js"></script>
+</html>

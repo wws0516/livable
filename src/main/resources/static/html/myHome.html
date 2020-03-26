@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>房东系统</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/myHome.css">
+
+</head>
+<body>
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="javascript:void(0)">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a  id="quit">退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+<div class="mid">
+    <div class="leftText">
+        <div>
+            <div>
+                <div>房东系统</div>
+                <div><img class="headImg img-circle" src="../img/head_test.jpg" id="headImg"></div>
+                <a>本地上传
+                    <input type="file" id="upImg" onchange="upFile()" class="upImg">
+                </a>
+                <div class="leftHover">
+                    <a href="LandlordInformation.html">个人资料</a>
+                    <a href="Certificates.html">证件资料</a>
+                    <a>我的房源</a>
+                    <a href="begainUpload.html">发布房源</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightText">
+        <div>
+            <div class="textTop">
+                <a href="LandlordInformation.html">个人资料</a>
+                <a href="Certificates.html">证件资料</a>
+                <a>我的房源</a>
+            </div>
+            <div class="textBottom">
+                <div class="container-fluid" id="container">
+                    <div class="row line title">
+                        <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><img src="../img/pen.png" class="sImg">房源名称</div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 col-xs-3"><img src="../img/clock.png" class="sImg">发布时间</div>
+                    </div>
+                </div>
+                <!--<table id="container">-->
+                    <!--<tr>-->
+                        <!--<td><div class="tdTwo">房源ID</div></td>-->
+                        <!--<td><div class="tdTwo"><img src="../img/pen.png" >房源名称</div></td>-->
+                        <!--<td><div class="tdFour"><img src="../img/clock.png">发布时间</div></td>-->
+                        <!--<td><div href="#"></div></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td><div class="tdTwo">1</div></td>-->
+                        <!--<td><div class="tdTwo">拎包入住</div></td>-->
+                        <!--<td><div class="tdFour">2020-3-12</div></td>-->
+                        <!--<td><a href="#" class="tdOne">删除</a></td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<!--<script src="../js/bootstrap.js"></script>-->
+<script src="../js/jquery.cookie.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="../js/main.js"></script>
+<script src="../js/myHome.js"></script>
+
+
+</html>

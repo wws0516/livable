@@ -1,0 +1,142 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        #allmap {width: 100%;height: 500px;overflow: hidden;margin-top:10px;font-family:"微软雅黑";}
+        #controller{width: 800px;height: 120px;overflow: hidden;margin-top:10px;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=rCN6PAQ5GSf8yw0RFuyH5Cno7zVtNoEW"></script> //Configure your key here
+    <title>百度地图综合demo</title>
+</head>
+<body>
+<div id="controller"><table border='1'>
+
+    <tr><th>功能</th><th>数据</th><th>事件</th></tr>
+    <tr><td>我的位置</td><td></td><td><button οnclick="myPosition()">我的位置</button></td></tr>
+    <tr>
+        <td>查找周边店铺</td><td><input type="text" placeholder="请输入你要查询的周边内容" id="selectInfo"/></td><td><button οnclick="search()">查询</button></td>
+    </tr>
+    <tr><td>点位追踪</td><td><input type="text" placeholder="请输入经度" id="lng"/>  <input type="text" placeholder="请输入纬度" id="lat"/> </td><td><button οnclick="searchPosition()">查询</button></td></tr>
+</table></div>
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+
+    // 百度地图API功能  Baidu maps API features
+    var map = new BMap.Map("allmap");
+    var lng,lat;
+    var point = new BMap.Point(116.331398,39.897445);
+    map.centerAndZoom(point,12);
+    var geolocation = new BMap.Geolocation();
+    alert('正在定位，请稍后...');
+    geolocation.getCurrentPosition(function(r){
+        if(this.getStatus() == BMAP_STATUS_SUCCESS){
+            startOper(map,r);
+            //alert('您的位置：'+r.point.lng+','+r.point.lat);
+        }
+        else {
+            alert('failed'+this.getStatus());
+        }
+    },{enableHighAccuracy: true})
+
+    setTimeout(function(){
+        map.setZoom(14);
+    }, 2000);  //2秒后放大到14级
+    map.enableScrollWheelZoom(true);
+
+    //查找我的位置 Find my place
+    function myPosition(){
+        alert("正在查找我的位置，请稍后！");
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+
+                startOper(map,r);
+            }
+            else {
+                alert('failed'+this.getStatus());
+            }
+        },{enableHighAccuracy: true})
+    }
+    //启动定位操作  Boot location operation
+    function startOper(map,r){
+        //使用新图标替换原始图标
+        var myIcon = new BMap.Icon("fox.gif", new BMap.Size(300,157));
+        var mk = new BMap.Marker(r.point,{icon:myIcon});
+        mk.enableDragging(); //设置其可拖拽
+        mk.addEventListener("dragend", function(e){
+            addressAnalysis(e.point,mk);
+        });
+        var label = new BMap.Label("我在这",{offset:new BMap.Size(110,70)});
+        map.addOverlay(mk);
+        mk.setLabel(label);
+        map.panTo(r.point);
+        lng=r.point.lng;
+        lat=r.point.lat;
+        alert("查找完成");
+        addressAnalysis(r.point);
+    }
+    //店铺寻找  Shop looking
+    function search(){
+        var allOverlay = map.getOverlays();
+        for (var i = 0; i < allOverlay.length -1; i++){
+            try{
+                if(allOverlay[i].getLabel().content  == "搜索到这里"||allOverlay[i].getLabel().content  == "我在这"){
+
+                }
+                else{
+                    map.removeOverlay(allOverlay[i]);
+                }
+            }catch(e){
+                map.removeOverlay(allOverlay[i]);
+            }
+
+        }
+        var selectInfo=document.getElementById("selectInfo").value;
+        map.centerAndZoom(new BMap.Point(lng, lat), 11);
+        //alert('当前点：'+lng+','+lat);
+        var local = new BMap.LocalSearch(map, {
+            renderOptions:{map: map, autoViewport:true}
+        });
+        local.searchNearby(selectInfo, "附近");
+
+    }
+
+    //寻找点位  Find point
+    function searchPosition(){
+
+        lng=document.getElementById("lng").value;
+        lat=document.getElementById("lat").value;
+        //alert('当前点：'+lng+','+lat);
+        var searchPoint = new BMap.Point(lng,lat);
+        var marker = new BMap.Marker(searchPoint);
+        var label = new BMap.Label("搜索到这里",{offset:new BMap.Size(0,0)});
+        map.addOverlay(marker);
+        marker.setLabel(label);
+        map.panTo(searchPoint);
+        addressAnalysis(searchPoint,marker);
+        //var infoWindow = new BMap.InfoWindow("你查找的位置在这里",opts);  // 创建信息窗口对象
+        //map.openInfoWindow(infoWindow,searchPoint); //开启信息窗口
+    }
+
+    //地址解析器  Address parser
+    function addressAnalysis(point,marker){
+        var gc = new BMap.Geocoder();
+        gc.getLocation(point, function(rs)
+        {
+            var opts = {
+                width : 250,     // 信息窗口宽度
+                height: 30,     // 信息窗口高度
+                //title : "此为自定义信息窗口" , // 信息窗口标题
+                enableMessage:true//设置允许信息窗发送短息
+            };
+            var addComp = rs.addressComponents;
+            var adr="你处于 " + addComp.city + ", " + addComp.district + ", " + addComp.street+"附近";
+            //创建信息窗口，点击标注时显示标注对应的车牌号码以及当前地址
+            var infoWindow1 = new BMap.InfoWindow(adr,opts);
+            //marker.addEventListener("click", function(){map.openInfoWindow(infoWindow1,point);});
+            map.openInfoWindow(infoWindow1,point);
+        });
+    }
+</script>

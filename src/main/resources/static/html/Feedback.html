@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>意见反馈</title>
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/main.css" rel="stylesheet">
-    <link href="../css/Feedback.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/Feedback.css">
 </head>
 <body>
 <div class="head row">
@@ -27,7 +27,7 @@
     <div class="col-lg-4 col-md-3 col-sm-5">
         <div class="center-block">
             <a class="" href="index.html">首页</a>
-            <a class="" href="findHome.html"> 租房</a>
+            <a class="aActive" href="findHome.html"> 租房</a>
             <a href="myself.html">个人页面</a>
             <a href="javascript:void(0)">发布房源</a>
         </div>
@@ -37,12 +37,12 @@
 
         <div class=" pull-right">
             <a class="surround">用户</a>
-            <a>退出</a>
+            <a id="quit">退出</a>
         </div>
         <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
     </div>
 </div>
-
+<form enctype="application/x-www-form-urlencoded"></form>
 <div class="col-lg-offset-3 col-lg-6 Feedback container">
     <h4>尊敬的用户您好!</h4>
     <p>&nbsp;&nbsp;&nbsp;&nbsp;非常感谢您对我们提出宝贵的意见和建议，我们会认真对待您的反馈，感谢您的关注和支持，我们将参考您的建议来改善我们的服务，我们诚挚的希望您上传相关图片以便我们更好的改善和处理。</p>
@@ -52,13 +52,13 @@
     </div>
 
     <div class="col-lg-10 col-lg-offset-1">
-        <span class="pull-left"><span class="text-red">*</span>添加图片：<input class="hide" id="FeedbackImg" multiple="multiple" type="file">
-        </span><img class="FeedbackImg" onclick="choseImg()" src="../img/add.png">
+        <span class="pull-left"><span class="text-red">*</span>添加图片：<input id="FeedbackImg" class="hide" type="file" >
+        </span><img class="FeedbackImg" src="../img/add.png" onclick="choseImg()">
         <div class="CoverImg"></div>
 
     </div>
 
-    <div class="row"><button class="btn btn-success center-block margin-bottom-sm margin-top-sm" id="upFeedback">提交建议</button></div>
+    <div class="row"><button id="upFeedback" class="btn btn-success center-block margin-bottom-sm margin-top-sm">提交建议</button></div>
 </div>
 
 <div class="foot row">
@@ -87,8 +87,11 @@
 </div>
 
 <script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
 <script rel="script" src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script rel="script" src="../js/main.js"></script>
 <script rel="script" src="../js/Feedback.js"></script>
+<script rel="script" src="../js/choseCity.js"></script>
 </body>
 </html>

@@ -40,7 +40,7 @@ body{
 .head>div:first-child>div:last-child{
     display: inline;
     vertical-align: bottom;
-    font-size: 14px;
+    font-size: 13px;
     border-radius: 20px;
     border: 1px solid #e0e0e0;
     padding: 5px 10px;
@@ -161,6 +161,8 @@ body{
     border-top: #e5e5e5 solid 1px;
 }
 
+
+
 @media screen and (max-width: 1000px) {
     .head>div:nth-child(2) a{
         font-size:20px;
@@ -202,6 +204,7 @@ body{
     padding-top: 0px;
     text-align: center;
     padding: 5px;
+    z-index: 999;
 }
 /*---------------------------------自制特效-----------------------------------------*/
 .surround{

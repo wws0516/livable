@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>房东系统</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/Certificates.css">
+
+
+</head>
+<body>
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="javascript:void(0)">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a id="quit">退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+<div class="mid">
+    <div class="leftText">
+        <div>
+            <div>
+                <div>房东系统</div>
+                <div><img class="headImg img-circle" src="../img/head_test.jpg" id="headImg"></div>
+                <a>本地上传
+                    <input type="file" id="upImg" onchange="upImgFile()" class="upImg">
+                </a>
+                <div class="leftHover">
+                    <a href="LandlordInformation.html">个人资料</a>
+                    <a>证件资料</a>
+                    <a href="myHome.html">我的房源</a>
+                    <a href="begainUpload.html">发布房源</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rightText">
+        <div>
+            <div class="textTop">
+                <a href="LandlordInformation.html">个人资料</a>
+                <a>证件资料</a>
+                <a href="myHome.html">我的房源</a>
+            </div>
+            <div class="container-fluid hold">
+                <div class="row line">
+                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">身份证号码：</div>
+                    <input class="col-lg-7 col-md-7 col-sm-7 col-xs-7 infoIpt" id="idNumber">
+                </div>
+                <div class="row line">
+                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">支付宝账号：</div>
+                    <input class="col-lg-7 col-md-7 col-sm-7 col-xs-7 infoIpt" id="alipayAccount">
+                </div>
+                <div class="row line">
+                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">支付宝姓名：</div>
+                    <input class="col-lg-7 col-md-7 col-sm-7 col-xs-7 infoIpt" id="alipayName">
+                </div>
+                <div class="row line">
+                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">身份证正面：</div>
+                    <div class="trueIpt col-xs-9 col-lg-9 col-md-9 col-sm-9 imgInp">
+                        <div id="addTrue">+</div>
+                        <input type="file" class="imgUp" onchange="upFile(this)" id="imgTrue">
+                        <img id="trueShow">
+                    </div>
+                </div>
+                <div class="row line">
+                    <div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">身份证反面：</div>
+                    <div class="falseIpt col-xs-9 col-lg-9 col-md-9 col-sm-9 imgInp">
+                        <div id="addFalse">+</div>
+                        <input type="file" class="imgUp" onchange="upfFile(this)" id="imgFalse">
+                        <img id="falseShow">
+                    </div>
+                </div>
+                <!--<div class="row line">-->
+                    <!--<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name">身份证背面：</div>-->
+                    <!--<div class="infoIpt col-xs-9 col-lg-9 col-md-9 col-sm-9 imgInp">-->
+                        <!--+-->
+                        <!--<input type="file" class="imgUp" onchange="upFile()" id="imgFalse">-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="row line" id="imgFalseShow">-->
+                    <!--<div class="col-xs-3 col-lg-3 col-md-3 col-sm-3 name"></div>-->
+                    <!--<div class="infoIpt col-xs-9 col-lg-9 col-md-9 col-sm-9 imgInp">-->
+                        <!--<img>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <a class="preservat">保  存</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="../js/main.js"></script>
+<script src="../js/Certificate.js"></script>
+</html>

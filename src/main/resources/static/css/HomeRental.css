@@ -1,0 +1,210 @@
+.headLogo{
+    float: left;
+}
+.headNav{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: absolute;
+    margin-top: 40px;
+}
+.headNav>div:nth-child(2)>div:nth-child(1){
+    color: #e88500;
+}
+.headNav>div:nth-child(1){
+    font-family: 黑体;
+    font-size: 32px;
+    color: gray;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.headNav>div:nth-child(2){
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: inline-block;
+}
+.headNav>div:nth-child(2)>div{
+    float: left;
+    font-size: 16px;
+    margin-right: 20px;
+}
+.midImg{
+    height: 100%;
+    width: 70%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: block;
+    margin-top: 10%;
+    -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), to(rgba(250, 250, 250, 0.5)));
+    margin-left: 100px;
+}
+.rentalHead{
+    text-align: center;
+}
+.mid{
+    margin-top: 60px;
+    border-top: solid 2px gainsboro;
+}
+
+.alLeft>input{
+    width: 100%;
+    display: inline;
+}
+.homeName{
+    font-size: 20px;
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 30px;
+}
+.homeName tr td:first-child{
+    width: 18%;
+}
+.homeName tr td input{
+    width: 100%;
+    border: 1px solid silver;
+    border-radius: 7px;
+}
+.textSecOne{
+    display: inline;
+}
+.textSecTwo{
+    height: 200px;
+    width: 100%;
+    resize: none;
+    border-radius: 7px;
+}
+.textThird{
+    font-size: 20px;
+}
+.textForth{
+    border: silver dashed 3px;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 50px;
+    margin-top: 30px;
+    height: 200px;
+    margin-bottom: 40px;
+    overflow: hidden;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.textForth>img{
+    width: 100%;
+}
+.textForth>div{
+    top: 0;
+    bottom: 0;
+    margin: 0 auto;
+    margin-top: 40px;
+    margin-bottom: 45px;
+}
+.textForth>div>div:nth-child(1){
+    color: #2f937d;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+.textForth>div>div{
+    margin-top: 25px;
+}
+.button{
+    color: white;
+    background-color: #2f937d;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 6px;
+    border-radius: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+.button:hover{
+    text-decoration: none;
+    color: white;
+    background-color: #236a5a;
+}
+.button:visited{
+    text-decoration: none;
+    color: white;
+}
+.nextStep{
+    background-color: #f4981d;
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 150px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 80px;
+    margin-top: 50px;
+    cursor: pointer;
+}
+.nextStep:hover{
+    background-color: #e88500;
+    text-decoration: none;
+    color: white;
+}
+.nextStep:visited{
+    color: white;
+    text-decoration: none;
+}
+.textFifth{
+    font-size: 20px;
+}
+.textFifth>div:nth-child(1){
+    margin-bottom: 5px;
+}
+.textSixth{
+    width: 100%;
+    resize: none;
+    border-radius: 7px;
+}
+.input[type="file"] {
+
+}
+.checkImg{
+    padding: 4px 10px;
+    position: relative;
+    cursor: pointer;
+    color: white;
+    background: #2f937d;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+.checkImg>input{
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    cursor: pointer
+}
+.checkImg:hover{
+    text-decoration: none;
+    color: white;
+    background-color: #236a5a;
+}
+.imgShow{
+    display: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+.videoShow{
+    width: 100%;
+    display: none;
+    height: 100%;
+    border-radius: 5px;
+}
+

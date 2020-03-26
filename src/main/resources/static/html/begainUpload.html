@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>发布房源</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/begainUpload.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+
+</head>
+<body>
+<div class="head row">
+    <div class="col-lg-3 col-md-4 col-sm-4 col-lg-offset-1 col-md-offset-1 container">
+        <div class="pull-left">
+            <img class="" src="../img/logo.png">
+        </div>
+        <div class="pull-left">
+            <span>宜居</span><br/>
+            悦 | 享 | 生 | 活
+        </div>
+        <div class="pull-left findCity">
+            <div class="pull-left " id="getLocation">
+                <span class="glyphicon glyphicon-map-marker"></span>
+                <span id="city"></span>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-3 col-sm-5">
+        <div class="center-block">
+            <a class="" href="index.html">首页</a>
+            <a class="" href="findHome.html"> 租房</a>
+            <a href="myself.html">个人页面</a>
+            <a href="javascript:void(0)">发布房源</a>
+        </div>
+
+    </div>
+    <div class=" signed col-lg-3 col-md-3 col-sm-3">
+
+        <div class=" pull-right">
+            <a class="surround">用户</a>
+            <a id="quit">退出</a>
+        </div>
+        <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
+    </div>
+</div>
+<div class="mid container-fluid">
+    <div class="leftText col-sm-7 col-md-7 col-lg-7 col-xs-7">
+        <div class="text-Left">
+            <div>
+                此刻
+                <br>
+                Enjoy quality life.
+                <br>
+                ——
+            </div>
+            发布房源不将就！
+            <br>
+            开启你的房东之旅。 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>>>>>
+        </div>
+    </div>
+    <div class="rightText col-xs-5 col-md-5 col-sm-5 col-lg-5">
+        <div>分享优质房源，品味精彩生活</div>
+        <div>宜租，优质房源发布平台</div>
+        <!--<div>-->
+            <!--<div>分享优质房源，品味精彩生活</div>-->
+            <!--宜租，优质房源发布平台-->
+        <!--</div>-->
+        <a class="upLoad" id="upload">发布房源</a>
+
+    </div>
+</div>
+
+</body>
+<script src="../js/jquery-3.3.1.js"></script>
+<script src="../js/jquery.cookie.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="../js/main.js"></script>
+<script src="../js/begainUpload.js"></script>
+
+</html>

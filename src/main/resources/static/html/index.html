@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>宜居</title>
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/main.css" rel="stylesheet">
-    <link href="../css/index.css" rel="stylesheet">
-    <link href="../css/choseCity.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/choseCity.css">
 </head>
 <body>
 <div class="hidden" id="horizontalScreenTips"></div>
@@ -31,14 +32,15 @@
         <div class="pull-left col-lg-3 col-sm-5 col-lg-offset-2 ">
             <a href="index.html">首页</a>
             <a href="findHome.html">租房</a>
-            <a>个人主页</a>
-            <a>发布房源</a>
+            <a href="HomePage.html">个人主页</a>
+            <a onclick="homeSend()">发布房源</a>
         </div>
 
         <div class="col-lg-2 col-sm-2">
-            <a href="login.html">登陆</a>
-            <span>|</span>
-            <a href="regist.html">注册</a>
+            <a class="hLogin">欢迎您</a>
+            <a href="login.html" class="login">登陆</a>
+            <span class="login">|</span>
+            <a href="regist.html" class="login">注册</a>
         </div>
     </div>
 
@@ -57,20 +59,20 @@
         </div>
         <div class="input-group pull-left col-lg-3 col-sm-4 col-xs-4 col-lg-offset-2 col-sm-offset-1 col-xs-offset-1">
             <span class="input-group-addon glyphicon glyphicon-map-marker"></span>
-            <input class="form-control" id="choseCity" placeholder="请输入目的地、城市、景点" type="text">
+            <input id="choseCity" class="form-control" type="text" placeholder="请输入目的地、城市、景点">
         </div >
         <div class="input-group pull-left col-lg-3 col-sm-4 col-xs-4">
             <span class="input-group-addon glyphicon glyphicon-time"></span>
-            <input class="form-control" placeholder="入住日期-退房日期" type="text">
+            <input class="form-control" type="text" placeholder="入住日期-退房日期" id="time">
         </div>
 
-        <input class="pull-left btn animated" id="toFindHome" type="button" value="开始找房">
+        <input id="toFindHome" class="pull-left btn animated" type="button" value="开始找房">
         <div class="col-lg-12">
             <div class="col-lg-offset-2 choseCity hidden">
                 <fieldset>
                     <legend>按级选中省市县/区</legend>
-                    <label class="hidden" for="addr-show02">您选择的是：
-                        <input id="addr-show02" type="text">
+                    <label for="addr-show02" class="hidden">您选择的是：
+                        <input type="text" id="addr-show02">
                     </label>
                     <div id="addr-choice">
                         <ul id="title-wrap">
@@ -83,7 +85,7 @@
                             </ul>
                         </div>
                     </div>
-                    <button class="btn met2 pull-right" type="button">确定</button>
+                    <button type="button" class="btn met2 pull-right">确定</button>
                 </fieldset>
             </div>
         </div>
@@ -91,24 +93,49 @@
     </div>
 </div>
 
-<div class="indexBody row">
-    <div class="displayImg col-lg-12 animated bounceInLeft">
-        <img class="col-lg-2 col-sm-3 col-xs-3 col-lg-offset-2 col-sm-offset-1 col-xs-offset-1 pull-left" src="../img/indexFoot1.jpg">
+<!--<div class="indexBody row">-->
+    <!--<div class="displayImg col-lg-12 animated bounceInLeft">-->
+        <!--<img class="col-lg-2 col-sm-3 col-xs-3 col-lg-offset-2 col-sm-offset-1 col-xs-offset-1 pull-left" src="../img/indexFoot1.jpg">-->
 
-        <div class="col-lg-2 col-sm-4 col-xs-4 col-lg-offset-1">
-            <img class="col-lg-12 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" src="../img/indexFoot2.jpg">
-        </div>
+        <!--<div class="col-lg-2 col-sm-4 col-xs-4 col-lg-offset-1">-->
+            <!--<img class="col-lg-12 col-sm-10 col-sm-offset-1 col-xs-10 col-xs-offset-1" src="../img/indexFoot2.jpg">-->
+        <!--</div>-->
 
-        <img class="col-lg-2 col-sm-3 col-xs-3 col-lg-offset-1 " src="../img/indexFoot3.jpg">
-    </div>
-</div>
-
+        <!--<img class="col-lg-2 col-sm-3 col-xs-3 col-lg-offset-1 " src="../img/indexFoot3.jpg">-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="foot row alFoot">-->
+    <!--<div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-xs-4">-->
+        <!--<div>-->
+            <!--<embed class="footSvg" src="../svg/weixin.svg">-->
+            <!--<embed class="footSvg" src="../svg/qq.svg">-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<span class="text-muted">Copyright: </span>Guangdong Ocean University<br/>-->
+            <!--<span class="text-muted">Development and Maintenance: </span>Creative Software Team-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-1 col-lg-offset-2 col-md-1 col-md-offset-2 col-sm-2 col-sm-offset-1 col-xs-2 col-xs-offset-1">-->
+        <!--<img class="footLogo" src="../img/logo.png">-->
+    <!--</div>-->
+    <!--<div class="col-lg-3 col-lg-offset-1 col-md-3 col-md-offset-1 col-sm-4 col-sm-offset-1 col-xs-4 col-xs-offset-1">-->
+        <!--<div class="text-muted callPhone pull-right">-->
+            <!--Contact us：<span >XXX-XXXXXXX</span>-->
+        <!--</div>-->
+        <!--<div class="pull-right">-->
+            <!--<span class="text-muted">Contact email: </span> XXXXXXXXXXX@gmail.com<br/>-->
+            <!--<span class="pull-right">About Us and Livable</span>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 
 </body>
 <script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script rel="script" src="../js/jquery.cookie.js"></script>
 <script rel="script" src="../js/bootstrap.js"></script>
 <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script rel="script" src="../js/bootstrap-datetimepicker.min.js"></script>
 <script rel="script" src="../js/main.js"></script>
 <script rel="script" src="../js/index.js"></script>
 <script rel="script" src="../js/choseCity.js"></script>

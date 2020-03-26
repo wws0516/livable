@@ -1,0 +1,193 @@
+
+.headLogo{
+    left: 0;
+    margin-left: 141px;
+    position: absolute;
+    top: 0;
+}
+.headNav{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+.headNav>div:nth-child(2)>div:nth-child(2){
+    color: #e88500;
+}
+.headNav>div:nth-child(1){
+    font-family: 黑体;
+    font-size: 32px;
+    color: gray;
+    font-weight: bolder;
+    margin-bottom: 10px;
+}
+.headNav>div:nth-child(2){
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: inline-block;
+}
+.headNav>div:nth-child(2)>div{
+    float: left;
+    font-size: 16px;
+    margin-right: 20px;
+}
+.rentalHead{
+    text-align: center;
+}
+.basicInfo{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    position: absolute;
+    margin-top: 40px;
+}
+
+.text{
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 60%;
+    border-top: solid 2px gainsboro;
+    padding-top: 40px;
+}
+.text>div:nth-child(3){
+    float: left;
+}
+.hold{
+    width: 200px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+    color: #504c49;
+    padding: 14px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+.hold:hover{
+    background-color: #d4d4d4;
+}
+.hold>div>img{
+    width: 40px;
+    display: inline;
+    vertical-align: sub;
+}
+.hold>div{
+    margin-top: 5px;
+    font-size: 17px;
+    line-height: 40px;
+    letter-spacing: 2px;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.hold>div>div:nth-child(2){
+    display: inline;
+}
+.first{
+    float: left;
+    margin-right: 40px;
+}
+.roomInfo{
+    width: 250px;
+    color: #504c49;
+    font-size: 20px;
+    font-weight: 500;
+    float: none;
+    height: 30px;
+}
+.roomInfo>input{
+    width: 60px;
+    float: left;
+    height: 30px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.roomInfo>div:nth-child(1){
+    float: left;
+}
+.select{
+    width: 60px;
+    font-size: 22px;
+}
+.PlusAndMin{
+    color: #e88500;
+    border: solid #e88500 2px;
+    padding: 8px;
+    border-radius: 99px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-weight: lighter;
+    cursor: pointer;
+}
+.float{
+    float: left;
+}
+.number{
+    width: 170px;
+}
+.nextStep{
+    background-color: #f4981d;
+    color: white;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 150px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    font-size: 17px;
+    font-weight: 700;
+    margin-top: 50px;
+    cursor: pointer;
+}
+.turnBack{
+    color: #f4981d;
+    position: absolute;
+    left: 420px;
+    font-size: 17px;
+    font-weight: 700;
+    vertical-align: middle;
+    margin-top: 50px;
+}
+.turnBack:hover{
+    color: #e88500;
+    text-decoration: none;
+}
+.turnBack>div{
+    display: inline;
+}
+.nextStep:hover{
+    background-color: #e88500;
+    text-decoration: none;
+    color: white;
+}
+.nextStep:visited{
+    color: white;
+    text-decoration: none;
+}
+.FOOT{
+    margin-bottom: 110px;
+}
+.okFirst{
+    position: absolute;
+    right: 0;
+    font-size: 25px;
+    color: #e88500;
+    margin: 10px;
+    display: none;
+}
+.okSecond{
+    position: absolute;
+    right: 0;
+    font-size: 25px;
+    color: #e88500;
+    margin: 10px;
+    display: none;
+}
+

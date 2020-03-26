@@ -37,7 +37,29 @@
 
 
 
-
+.searchPromptBox{
+    position: absolute!important;
+    border-left: 2px solid #f6b55c!important;
+    border-right: 2px solid #f6b55c;
+    border-bottom:10px solid #f6b55c;
+    left: 0;
+    top: 47px;
+    z-index: 2;
+    background-color: white!important;
+}
+.searchPromptBox>ul{
+    list-style: none;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.searchPromptBox>ul>li{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border: none;
+}
+.searchPromptBox>ul>li:hover{
+    background-color: rgba(0, 0, 0, 0.035);
+}
 
 
 
@@ -227,6 +249,9 @@
 .homeCard{
     padding: 10px 5px;
 }
+.homeCard:hover{
+    background:linear-gradient(white,rgba(0,0,0,0.040),rgba(0,0,0,0.075));
+}
 .homeCard>img{
     width: 280px;
     height: 200px;
@@ -254,7 +279,7 @@
     font-size: small;
     font-weight: normal;
     margin-bottom: 15px;
-    margin-right: 10px;
+    margin-right: 6px;
 }
 .homeCard >div>div{
     color: #abb3d8;
@@ -305,6 +330,7 @@
 }
 .tag{
     padding-left: 0;
+    padding-right: 0;
 }
 .love{
     width: 30px!important;

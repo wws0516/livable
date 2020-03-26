@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>宜居-找房</title>
-    <link href="../css/bootstrap.css" rel="stylesheet">
-    <link href="../css/animate.css" rel="stylesheet">
-    <link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet">
-    <link href="../css/main.css" rel="stylesheet">
-    <link href="../css/findHmoe.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/findHmoe.css">
 </head>
 <body>
 
@@ -40,7 +40,7 @@
 
         <div class=" pull-right">
             <a class="surround">用户</a>
-            <a>退出</a>
+            <a id="quit">退出</a>
         </div>
         <img class="headImg img-circle pull-right" src="../img/head_test.jpg">
     </div>
@@ -56,9 +56,15 @@
                     </div>
 
                     <div class="input-group input-group-lg col-lg-5 col-md-6 col-sm-6 margin-top-lg">
-                        <input class="form-control" placeholder="搜索关键词"  tabindex="3" type="text">
+                        <input type="text" class="form-control"  placeholder="搜索关键词" tabindex="3" name="findByKey">
                         <span class="input-group-addon"> <img class="animated shake" id="findByKey"  src="../img/findHome.png"></span>
+
+                        <div class="col-lg-12 col-sm-12 searchPromptBox hidden">
+                            <ul class="list-group">
+                            </ul>
+                        </div>
                     </div>
+
                 </div>
             </div>
 
@@ -68,21 +74,21 @@
                         <img src="../img/lie.png">北京
                     </div>
 
-                    <button class="" id="findHomeByMap">地图找房</button>
+                    <button id="findHomeByMap" class="">地图找房</button>
                 </div>
 
 
                 <div class="pull-left col-lg-offset-1 col-sm-offset-2">
-                    <input class="pull-left" id="starttime"  name="starttime" placeholder="请选择日期" readonly="readonly">
+                    <input class="pull-left" name="starttime"  id="starttime" readonly="readonly" placeholder="请选择日期">
                     <span class="pull-left"><img src="../img/calendar.png"></span>
                 </div>
 
                 <div class="col-lg-8 col-sm-12">
                     <div class="pull-left col-lg-2 margin-top-sm">出租类型</div>
                     <div class="col-lg-10 type">
-                        <button class="btn col-lg-3"><img name="whole" src="../img/whole.png">整租</button>
-                        <button class="btn col-lg-3"><img name="bed" src="../img/bed.png">床位</button>
-                        <button class="btn col-lg-4"><img name="double" src="../img/double.png">合租<input max="4" maxlength="1" placeholder="2" type="text">人</button>
+                        <button class="btn col-lg-3"><img src="../img/whole.png" name="whole">整租</button>
+                        <button class="btn col-lg-3"><img src="../img/bed.png" name="bed">床位</button>
+                        <button class="btn col-lg-4"><img src="../img/double.png" name="double">合租<input type="text" maxlength="1" placeholder="2" max="4">人</button>
                     </div>
 
                 </div>
@@ -113,7 +119,7 @@
                     <div class="pull-left col-lg-1">特色</div>
                     <div class="pull-left col-lg-11 col-sm-11">
                         <label class="pull-left col-lg-3">
-                            <input class="" type="checkbox"><span class="glyphicon glyphicon-ok text-muted "></span>
+                            <input type="checkbox" class=""><span class="glyphicon glyphicon-ok text-muted "></span>
                             独立浴室
                         </label >
                         <label class="pull-left col-lg-3">
@@ -166,54 +172,7 @@
                     <button class="sort">价格<img src="../img/priceSort.png"></button>
                 </div>
             </div>
-            <div class=" margin-top-md homeCard col-lg-10 col-md-10 col-sm-12 animated bounceInLeft ">
-                <div class="col-lg-12 col-sm-12 aboutHouserOwner">
-                    <div class="pull-left">
-                        <img class="" src="../img/houseOwner.png">
-                    </div>
-                    <div class="pull-left">
-                        <span>房东昵称</span><br/>
-                        90后 | 白羊座 | 设计师
-                    </div>
-                </div>
-                <img class="pull-left" src="../img/background2.jpg">
-                <div class="pull-left col-lg-6">
-                    <h4>碧桂园城邦家园 <img class="love pull-right animated" src="../img/love.png"></h4>
-                    <h5 class="margin-top-md">麻章区 | 150m<sup>2</sup> | 东南 | 3室1厅2卫 </h5>
-                    <p class="text-muted margin-top-sm">发布时间:<span> 2019.09.07</span></p>
-                    <div class="pull-left col-lg-7 margin-top-md tag">
-                        <label>智能锁</label>
-                        <label>立即入住</label>
-                    </div>
-                    <div class="pull-right col-lg-5 margin-top-md money"><span>2000/月</span></div>
 
-
-                </div>
-            </div>
-
-            <div class=" margin-top-md homeCard col-lg-10 col-md-10 col-sm-12 animated bounceInLeft ">
-                <div class="col-lg-12 col-sm-12 aboutHouserOwner">
-                    <div class="pull-left">
-                        <img class="" src="../img/houseOwner.png">
-                    </div>
-                    <div class="pull-left">
-                        <span>房东昵称</span><br/>
-                        80后 | 狮子座 | 会计
-                    </div>
-                </div>
-                <img class="pull-left" src="../img/background2.jpg">
-                <div class="pull-left col-lg-6">
-                    <h4>万达广场 <img class="love pull-right animated " src="../img/love.png"></h4>
-                    <h5 class="margin-top-sm">武将区 | 80m<sup>2</sup> | 东南 | 2室1厅2卫 </h5>
-                    <p class="text-muted margin-top-sm">发布时间:<span> 2019.09.07</span></p>
-                    <div class="pull-left col-lg-7 margin-top-md tag">
-                        <label>智能锁</label>
-                        <label>立即入住</label>
-                    </div>
-                    <div class="pull-right col-lg-5 margin-top-md money"><span>2000/月</span></div>
-
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -246,6 +205,7 @@
 
 </body>
 <script rel="script" src="../js/jquery-3.3.1.js"></script>
+<script rel="script" src="../js/jquery.cookie.js"></script>
 <script rel="script" src="../js/bootstrap.js"></script>
 <script rel="script" src="../js/bootstrap-datetimepicker.min.js"></script>
 <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
