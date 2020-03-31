@@ -173,8 +173,10 @@ Interactive.prototype={
 $(".center-block").find('a').eq(3).click(function () {
     $(location).attr('href','../html/LandlordInformation.html')
 })
-document.getElementsByClassName("center-block")[0].children[2].href = '../html/HomePage.html'
 
+$(".center-block").find('a').eq(2).click(function () {
+    $(location).attr('href','../html/HomePage.html')
+})
 
 if ($.cookie('User')){
     var User = JSON.parse($.cookie('User'))
@@ -190,11 +192,19 @@ if ($.cookie('User')){
             $(".headImg").attr('src',res.data)
         }
     })
-}else {
-    $(".signed").children('div').children('a')[0].text = '登录'
-    $(".surround").click(function () {
-        $(location).attr('href','../html/login.html')
-    })
-
-    $(".signed").children('div').children('a')[1].text = ''
+}else{
+    if($(".signed").length>0){
+        console.log(1)
+        $(".signed").children('div').children('a')[0].text = '登录'
+        $(".surround").click(function () {
+            $(location).attr('href','../html/login.html')
+        })
+        $(".center-block").find('a').eq(2).css({
+            'display':'none'
+        })
+        $(".center-block").find('a').eq(3).css({
+            'display':'none'
+        })
+        $(".signed").children('div').children('a')[1].text = ''
+    }
 }

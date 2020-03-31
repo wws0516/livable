@@ -133,30 +133,16 @@ if ($.cookie('User')){
     $(".login").css({'display':'none'})
     $('.hLogin').append(' '+User.principal.name)
 } else{
+    $(".headTop").find("div").eq(3).find("a").eq(3).css({
+        'display':'none'
+    });
+    $(".headTop").find("div").eq(3).find("a").eq(2).css({
+        'display':'none'
+    })
     $(".hLogin").css({'display':'none'})
 }
 
 function homeSend() {
-    // $.ajax({
-    //     url: 'http://114.115.156.4:8001/getLandlordState',
-    //     type: 'get',
-    //     success(res){
-    //         if (res.data == 555){
-    //             PromptBox.displayPromptBox('未审核')
-    //
-    //         }
-    //         if (res.data == 566){
-    //             PromptBox.displayPromptBox('审核未通过，请重新审核')
-    //             setTimeout(function () {
-    //                 $(location).attr('href','../html/LandlordInformation.html')
-    //             },2000)
-    //         }
-    //         if (res.data == 567){
-    //                 $(location).attr('href','../html/homeSend.html')
-    //         }
-    //         console.log(res)
-    //     }
-    // })
     $(location).attr('href','../html/LandlordInformation.html')
 }
 
