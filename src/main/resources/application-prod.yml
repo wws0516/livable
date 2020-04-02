@@ -63,8 +63,6 @@ spring:
       properties:
         session.timeout.ms: 15000
         max_poll_interval_ms: 300000
-  resources:
-    static-locations: classpath:/static/
 #  thymeleaf:
 #    prefix: classpath:/templates/
 #    suffix: .html
@@ -77,9 +75,6 @@ spring:
 
   mvc:
     static-path-pattern: /**
-#    view:
-#      prefix:
-#      suffix:
 
 
 sever:

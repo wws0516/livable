@@ -105,7 +105,7 @@ $(".next").click(function () {
             data: data,
             dataType: 'json',
             success: function (res) {
-                if (code == 200){
+                if (res.code == 200){
                     PromptBox.displayPromptBox('发布成功')
                     setTimeout(function () {
                         $(location).attr('href','../html/myHome.html')

@@ -65,20 +65,15 @@ public class LookingController {
         user.setUserId(userId);
         House house = new House();
         house.setHouseId(looking.getHouseId());
-        Looking looking1 = new Looking();
-        looking1.setUserId(userId);
-        looking1.setHouseId(looking.getHouseId());
-        if(lookingService.findByParams(looking1).size()==0) {
-            //修改redis中user的值
-            userRedisService.userLookHouse(user, house);
-            try {
-                saveLooking = lookingService.save(looking);
-            } catch (Exception e) {
-                ResultUtil.Error("500", "新增约看失败：" + e.getMessage());
-            }
-        }else{
-            return ResultUtil.Error("500","新增约看失败");
+
+        //修改redis中user的值
+        userRedisService.userLookHouse(user, house);
+        try {
+            saveLooking = lookingService.save(looking);
+        } catch (Exception e) {
+            ResultUtil.Error("500", "新增约看失败：" + e.getMessage());
         }
+
         return ResultUtil.Success(saveLooking);
     }
 
