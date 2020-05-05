@@ -68,7 +68,7 @@ public class UserController implements UserDetailsService {
 //        user.setUserId(UUID.randomUUID().toString());
         try {
             userService.save(user);
-            userRoleService.save(new UserRole(user.getUserId(), 3));
+            userRoleService.save(new UserRole(user.getUserId(), 2));
             userRedisService.setNewUser(user);
 
         }catch (Exception e){

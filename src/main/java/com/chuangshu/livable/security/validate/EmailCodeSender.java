@@ -43,7 +43,7 @@ public class EmailCodeSender {
         // 得到邮差对象
         Transport transport = session.getTransport();
         // 连接自己的邮箱账户
-        transport.connect("1578494176@qq.com", "sdxsqkjaorkyijgd");// 密码为QQ邮箱开通的stmp服务后得到的客户端授权码
+        transport.connect("1578494176@qq.com", "rttloolijfbajiad");// 密码为QQ邮箱开通的stmp服务后得到的客户端授权码
         // 发送邮件
         transport.sendMessage(message, message.getAllRecipients());
         transport.close();
