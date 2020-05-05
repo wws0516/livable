@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         validateCodeFilter.setAuthenticationFailureHandler(livableAuthenticationFailureHandle);
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
-//                .loginPage("/requireAuthentication")
+                .loginPage("/html/login.html")
                 .loginProcessingUrl("/user/login")
                 .successHandler(livableAuthenticationSuccessHandle)
                 .failureHandler(livableAuthenticationFailureHandle)
@@ -81,7 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userDetailsService(userDetailsService)
                 .and()
                     .authorizeRequests()
-                    .antMatchers("/requireAuthentication", "/login1.html", "/login.html", "/imageCode", "/emailCode", "/swagger-ui.html").permitAll()
+                    .antMatchers("/requireAuthentication", "/css/*", "/fonts/*", "/img/*", "/lib/*", "/js/*", "/svg/*", "/video/*", "/html/*", "/imageCode", "/emailCode", "/swagger-ui.html").permitAll()
                     .antMatchers("/house/insert", "/house/updateHouseByDto", "/house/deleteHouse", "/checkLandlordFailure", "checkLandlordSuccess").access("@rbacService.hasPermission(request, authentication)")
                     .anyRequest()
                     .authenticated()
