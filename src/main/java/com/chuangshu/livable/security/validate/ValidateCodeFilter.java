@@ -53,7 +53,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
                 return;
             }
         }
-        if (StringUtils.equals("/emailLogin", httpServletRequest.getRequestURI()) && StringUtils.equalsIgnoreCase(httpServletRequest.getMethod(), "post")){
+        if (StringUtils.equals("/user/register", httpServletRequest.getRequestURI()) && StringUtils.equalsIgnoreCase(httpServletRequest.getMethod(), "post")){
             try {
                 validate(new ServletWebRequest(httpServletRequest), "EMAIL");
             } catch (ValidateCodeException e) {

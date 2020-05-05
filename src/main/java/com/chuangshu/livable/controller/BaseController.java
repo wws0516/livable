@@ -39,14 +39,14 @@ public class BaseController {
             String targetUrl = savedRequest.getRedirectUrl();
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")){
                 try {
-                    response.sendRedirect("/login1.html");
+                    response.sendRedirect("/html/login.html");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
         try {
-            response.sendRedirect("/login.html");
+            response.sendRedirect("/html/login.html");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,13 +55,13 @@ public class BaseController {
 
     @RequestMapping("/")
     public String index(){
-        return "forward:html/index.html";
+        return "forward:/html/index.html";
 
     }
 
     @RequestMapping("/findHome")
     public String findHome(){
-        return "forward:html/findHome.html";
+        return "forward:/html/findHome.html";
 
     }
 }
