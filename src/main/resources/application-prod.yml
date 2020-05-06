@@ -72,15 +72,8 @@ spring:
 #    servlet:
 #      content-type: text/html
 
-#  resources:
-#    static-locations:
-#      - classpath:resources
-#      - classpath:static
-
-
   mvc:
     static-path-pattern: /**
-
 
 sever:
   servlet:
