@@ -4,6 +4,8 @@ import com.chuangshu.livable.base.util.ResultUtil;
 import com.chuangshu.livable.base.dto.ResultDTO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
@@ -19,12 +21,11 @@ import java.io.IOException;
  * @Date: 2019-07-13 12:23
  */
 
-//@RestController
-@Controller
+@RestController
 public class BaseController {
 
     private RequestCache requestCache = new HttpSessionRequestCache();
-
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     /**
      * 当需要身份认证时，跳转到这里
@@ -39,29 +40,25 @@ public class BaseController {
             String targetUrl = savedRequest.getRedirectUrl();
             if (StringUtils.endsWithIgnoreCase(targetUrl, ".html")){
                 try {
-                    response.sendRedirect("/html/login.html");
+                    redirectStrategy.sendRedirect(request, response, "/html/login.html");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        try {
-            response.sendRedirect("/html/login.html");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         return ResultUtil.Error(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "您还未进行身份认证，请访问登陆页！");
     }
 
-    @RequestMapping("/")
-    public String index(){
-        return "forward:/html/index.html";
-
-    }
-
-    @RequestMapping("/findHome")
-    public String findHome(){
-        return "forward:/html/findHome.html";
-
-    }
+//    @RequestMapping("/")
+//    public String index(){
+//        return "forward:/html/login.html";
+//
+//    }
+//
+//    @RequestMapping("/findHome")
+//    public String findHome(){
+//        return "forward:/html/findHome.html";
+//
+//    }
 }
