@@ -14,7 +14,7 @@ public class FindPage {
     public String page(@PathVariable String page_url){
 
         if (page_url.equals("swagger-ui.html"))
-            return "/classpath:/META-INF/resources/swagger-ui.html";
+            return "classpath:/META-INF/resources/swagger-ui.html";
 
         System.out.println(page_url);
         return "/html/"+page_url;
