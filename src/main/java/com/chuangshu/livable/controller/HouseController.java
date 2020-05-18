@@ -138,7 +138,7 @@ public class HouseController {
     })
     public ResultDTO insert(House house, Allocation allocation, Feature feature)throws Exception{
         House saveHouse = null;
-        house.setStatus(HouseStatusCode.HOUSE_UNCHECKED.getCode());
+        house.setStatus(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode());
         HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
         Integer userId = null;
         try {
@@ -161,7 +161,7 @@ public class HouseController {
             landlordHouseRelationService.save(landlordHouseRelation);
             houseRedisService.setHouseDTO(house,feature,allocation);
 //            //新增es索引
-//            searchService.index(house.getHouseId());
+            searchService.index(house.getHouseId());
         return ResultUtil.Success(saveHouse);
     }
 
