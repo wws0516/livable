@@ -248,7 +248,30 @@ $(document).ready(function () {
         // window.location.href='fangyuan.html';
         location.href='../html/fangyuan.html?'+'id=' + id;
     }
+    information.prototype.findHomeByCity=function(){
+        let mykey=new FormData();
+        mykey.append('city',$.cookie('lie').split(' ')[1]);
+        mykey.append('region',$.cookie('lie').split(' ')[2]);
+        new Interactive({
+            childPath:'/house/search',
+            method:'post',
+            detail:mykey,
+            successCallback:function (result) {
+                let str='';
+                for (let i of result){
+                    str+='<li class="list-group-item">'+i+'</li>';
+                }
+                $('.searchPromptBox>ul').html(str);
+                $('.searchPromptBox').removeClass('hidden')
+            },
+            errorCallback:function () {
+            },
+        }).init();
+    }
+
     let findHomeInf = new information();
+    findHomeInf.findHomeByCity();
+    console.log('2');
 
 
     $('button').click(function () {

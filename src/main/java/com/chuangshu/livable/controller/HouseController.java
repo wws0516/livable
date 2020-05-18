@@ -425,6 +425,7 @@ public class HouseController {
         house.setHouseId(houseId);
         house.setStatus(HouseStatusCode.HOUSE_CHECKED_SUCCESS.getCode());
         houseService.updateDTO(house,House.class);
+        searchService.index(houseId);
         return ResultUtil.Success();
     }
 

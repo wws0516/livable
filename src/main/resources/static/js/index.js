@@ -62,9 +62,9 @@ $(document).ready(function () {
     })
     $('#toFindHome').click(function () {
         $('#toFindHome').addClass('rubberBand');
-        $.cookie('lie',$('#choseCity'));
-        $.cookie('time',$('#time'));
-        window.location.href='./findHome.html';
+        $.cookie('lie',$('#choseCity').val());
+        $.cookie('time',$('#time').val());
+        window.location.href='../html/findHome.html';
     })
     $('#toFindHome').on('animationend',function () {
         $('#toFindHome').removeClass('rubberBand')
