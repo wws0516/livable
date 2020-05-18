@@ -464,25 +464,26 @@ public class SearchServiceImpl implements ISearchService {
         }
 
         BoolQueryBuilder boolQueryBuilder1 = QueryBuilders.boolQuery();
-        if (rentSearch.getFeature().getAnyTimeToSee()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.ANY_TIME_TO_SEE, rentSearch.getFeature().getAnyTimeToSee()));
-        if (rentSearch.getFeature().getCheckInAtOnce()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.CHECK_IN_AT_ONCE, rentSearch.getFeature().getCheckInAtOnce()));
-        if (rentSearch.getFeature().getFirstRent()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.FIRST_RENT, rentSearch.getFeature().getFirstRent()));
-        if (rentSearch.getFeature().getFullyFurnished()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.FULLY_FURNISHED, rentSearch.getFeature().getFullyFurnished()));
-        if (rentSearch.getFeature().getIndependentBalcony()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.INDEPENDENT_BALCONY, rentSearch.getFeature().getIndependentBalcony()));
-        if (rentSearch.getFeature().getIndependentBathroom()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.INDEPENDENT_BATHROOM, rentSearch.getFeature().getIndependentBathroom()));
-        if (rentSearch.getFeature().getNearbySubway()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.NEARBY_SUBWAY, rentSearch.getFeature().getNearbySubway()));
-        if (rentSearch.getFeature().getSelfDecorating()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.SELF_DECORATING, rentSearch.getFeature().getSelfDecorating()));
-        if (rentSearch.getFeature().getSmartSock()==1)
-            boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE+"."+Feature.SMART_SOCK, rentSearch.getFeature().getSmartSock()));
-
+        if (rentSearch.getFeature()!=null) {
+            if (rentSearch.getFeature().getAnyTimeToSee() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.ANY_TIME_TO_SEE, rentSearch.getFeature().getAnyTimeToSee()));
+            if (rentSearch.getFeature().getCheckInAtOnce() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.CHECK_IN_AT_ONCE, rentSearch.getFeature().getCheckInAtOnce()));
+            if (rentSearch.getFeature().getFirstRent() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.FIRST_RENT, rentSearch.getFeature().getFirstRent()));
+            if (rentSearch.getFeature().getFullyFurnished() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.FULLY_FURNISHED, rentSearch.getFeature().getFullyFurnished()));
+            if (rentSearch.getFeature().getIndependentBalcony() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.INDEPENDENT_BALCONY, rentSearch.getFeature().getIndependentBalcony()));
+            if (rentSearch.getFeature().getIndependentBathroom() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.INDEPENDENT_BATHROOM, rentSearch.getFeature().getIndependentBathroom()));
+            if (rentSearch.getFeature().getNearbySubway() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.NEARBY_SUBWAY, rentSearch.getFeature().getNearbySubway()));
+            if (rentSearch.getFeature().getSelfDecorating() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.SELF_DECORATING, rentSearch.getFeature().getSelfDecorating()));
+            if (rentSearch.getFeature().getSmartSock() == 1)
+                boolQueryBuilder1.must(QueryBuilders.termQuery(HouseIndexKey.FEATURE + "." + Feature.SMART_SOCK, rentSearch.getFeature().getSmartSock()));
+        }
         NestedQueryBuilder nestedQueryBuilder = QueryBuilders.nestedQuery(HouseIndexKey.FEATURE, boolQueryBuilder1, ScoreMode.Avg);
         boolQueryBuilder.must(nestedQueryBuilder);
 

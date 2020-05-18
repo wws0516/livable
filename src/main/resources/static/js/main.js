@@ -180,7 +180,9 @@ $(".center-block").find('a').eq(2).click(function () {
 
 if ($.cookie('User')){
     var User = JSON.parse($.cookie('User'))
-    $(".signed").children('div').children('a')[0].text = User.principal.name
+    if (!$(location)[0].pathname.match(/index/g)&&!$(location)[0].pathname.match(/homeSend/g)){
+        $(".signed").children('div').children('a')[0].text = User.principal.name
+    }
     $("#quit").click(function () {
         $.removeCookie('User')
         $(location).attr('href','../html/login.html')

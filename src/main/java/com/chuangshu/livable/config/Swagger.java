@@ -2,6 +2,7 @@ package com.chuangshu.livable.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -40,15 +41,6 @@ public class Swagger implements WebMvcConfigurer {
                 .description("描述")
                 .build();
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/swagger-ui.html").addResourceLocations("/classpath:/META-INF/resources/");
-        registry.addResourceHandler("/webjars/**").addResourceLocations("/classpath:/META-INF/resources/webjars");
-
-    }
-
 
 
 }

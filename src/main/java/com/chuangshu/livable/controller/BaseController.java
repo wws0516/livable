@@ -50,12 +50,7 @@ public class BaseController {
         return ResultUtil.Error(String.valueOf(HttpStatus.UNAUTHORIZED.value()), "您还未进行身份认证，请访问登陆页！");
     }
 
-//    @RequestMapping("/")
-//    public String index(){
-//        return "forward:/html/login.html";
-//
-//    }
-//
+
 //    @RequestMapping("/findHome")
 //    public String findHome(){
 //        return "forward:/html/findHome.html";

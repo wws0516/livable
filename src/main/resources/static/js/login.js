@@ -16,7 +16,7 @@ $(document).ready(function () {
         let img=new FormData();
         img.append('username',$("#Email").val());
         img.append('password',$("#Password").val());
-        img.append('emailCode',$("#EmailKey").val());
+        img.append('imageCode',$("#EmailKey").val());
         new Interactive({
             childPath:'/user/login',
             method:'post',
