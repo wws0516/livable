@@ -73,7 +73,7 @@ public class SearchServiceTests extends LivableApplicationTests {
     @Test
     public void testIndex() throws Exception {
 //        System.out.println(featureService);
-        House house = houseService.get(3);
+        House house = houseService.get(7);
 //        Address address = addressService.get(440106);
 //        addressService.lbsUpdate(addressService.getBaiduMapLocation("广州市", "天河区"),
 //                house.getTitle(),
@@ -95,35 +95,36 @@ public class SearchServiceTests extends LivableApplicationTests {
 //            e.printStackTrace();
 //        }
 
-        HouseIndexTemplate houseIndexTemplate = new HouseIndexTemplate();
-
-        //创建自定义映射规则
-        PropertyMap<House, HouseIndexTemplate> propertyMap = new PropertyMap<House, HouseIndexTemplate>() {
-            @Override
-            protected void configure() {
-                using(toFeature.getToFeature()).map(source.getFeatureId(),destination.getFeature());//使用自定义转换规则
-                skip(destination.getSuggests());
-            }
-        };
-
-        if (mapping<1) {
-            //添加映射器
-            modelMapper.addMappings(propertyMap);
-            mapping++;
-        }
-        modelMapper.validate();
-        houseIndexTemplate = modelMapper.map(house, HouseIndexTemplate.class);
-
-        try {
-            UpdateResponse response = this.esClient.prepareUpdate("livable", "house", String.valueOf(3))
-                    .setDoc(objectMapper.writeValueAsBytes(houseIndexTemplate), XContentType.JSON).get();
-            logger.debug("Update index with house: " + houseIndexTemplate.getHouseId());
-            if (response.status() == RestStatus.OK) {
-                return;
-            } else return;
-        } catch (JsonProcessingException e) {
-            logger.error("Error to update index house " + houseIndexTemplate.getHouseId(), e);
-        }
+//        HouseIndexTemplate houseIndexTemplate = new HouseIndexTemplate();
+//
+//        //创建自定义映射规则
+//        PropertyMap<House, HouseIndexTemplate> propertyMap = new PropertyMap<House, HouseIndexTemplate>() {
+//            @Override
+//            protected void configure() {
+//                using(toFeature.getToFeature()).map(source.getFeatureId(),destination.getFeature());//使用自定义转换规则
+//                skip(destination.getSuggests());
+//            }
+//        };
+//
+//        if (mapping<1) {
+//            //添加映射器
+//            modelMapper.addMappings(propertyMap);
+//            mapping++;
+//        }
+//        modelMapper.validate();
+//        houseIndexTemplate = modelMapper.map(house, HouseIndexTemplate.class);
+//
+//        try {
+//            IndexResponse response = this.esClient.prepareIndex("livable", "house", String.valueOf(7))
+//                    .setSource(objectMapper.writeValueAsBytes(houseIndexTemplate), XContentType.JSON).get();
+//            logger.debug("Update index with house: " + houseIndexTemplate.getHouseId());
+//            if (response.status() == RestStatus.CREATED) {
+//                return;
+//            } else return;
+//        } catch (JsonProcessingException e) {
+//            logger.error("Error to update index house " + houseIndexTemplate.getHouseId(), e);
+//        }
+        searchService.index(154);
 //        addressService.removeLbs(house.getHouseId());
 //        for (int i=3;i<163;i++) {
 //            searchService.remove(i);
@@ -131,6 +132,10 @@ public class SearchServiceTests extends LivableApplicationTests {
 //        }
 ////
 
+//        for (int i=154; i<162; i++) {
+//
+//            searchService.index(i);
+//        }
 //        System.out.println(houseIndexTemplate);
 //
 //        try {

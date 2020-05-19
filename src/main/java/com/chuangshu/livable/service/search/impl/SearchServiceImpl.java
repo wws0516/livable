@@ -172,7 +172,7 @@ public class SearchServiceImpl implements ISearchService {
             this.index(message.getHouseId(), message.getRetry()+1);
         }else {
             logger.debug("Index success with house" + houseId);
-            boolean lbsUpdate = addressService.lbsUpdate(baiduMapLocation, house.getTitle(), houseIndexTemplate.getRent(), house.getHouseId(), address, houseIndexTemplate.getAcreage());
+//            boolean lbsUpdate = addressService.lbsUpdate(baiduMapLocation, house.getTitle(), houseIndexTemplate.getRent(), house.getHouseId(), address, houseIndexTemplate.getAcreage());
         }
 
         return;

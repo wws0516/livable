@@ -160,8 +160,8 @@ public class HouseController {
             landlordHouseRelation.setPublishTime(new Date());
             landlordHouseRelationService.save(landlordHouseRelation);
             houseRedisService.setHouseDTO(house,feature,allocation);
-//            //新增es索引
-//            searchService.index(house.getHouseId());
+            //新增es索引
+            searchService.index(house.getHouseId());
         return ResultUtil.Success(saveHouse);
     }
 

@@ -271,6 +271,7 @@ public class AddressServiceImpl extends BaseServiceImpl<AddressMapper, Address> 
         String result = null;
         try {
             result = EntityUtils.toString(response.getEntity());
+            System.out.println(result);
         } catch (IOException e) {
             e.printStackTrace();
         }
