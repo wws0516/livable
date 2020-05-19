@@ -149,7 +149,7 @@ public class SearchServiceImpl implements ISearchService {
         AddressDTO region = addressService.findByNameAndLevel(house.getRegion(), Address.Level.REGION.getValue());
         String address = city.getName() + region.getName() + house.getAddress();
 
-        BaiduMapLocation baiduMapLocation = addressService.getBaiduMapLocation(city.getName(), address);
+//        BaiduMapLocation baiduMapLocation = addressService.getBaiduMapLocation(city.getName(), address);
 
         SearchRequestBuilder requestBuilder = this.esClient.prepareSearch(INDEX_NAME).setTypes(INDEX_TYPE)
                 .setQuery(QueryBuilders.termQuery("houseId", houseId));
