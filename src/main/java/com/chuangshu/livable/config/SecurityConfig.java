@@ -81,9 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .userDetailsService(userDetailsService)
                 .and()
                     .authorizeRequests()
-//              //
                     .antMatchers("/user/register", "/requireAuthentication", "/css/*", "/fonts/*", "/img/*", "/lib/*", "/js/*", "/svg/*", "/video/*", "/html/*", "/favicon.ico", "/imageCode", "/emailCode", "/swagger-ui.html", "/webjars/**", "/v2/**", "/swagger-resources/**").permitAll()
-                    .antMatchers("/house/insert", "/house/updateHouseByDto", "/house/deleteHouse", "/checkLandlordFailure", "checkLandlordSuccess").access("@rbacService.hasPermission(request, authentication)")
+//                    .antMatchers("/house/insert", "/house/updateHouseByDto", "/house/deleteHouse", "/checkLandlordFailure", "checkLandlordSuccess").access("@rbacService.hasPermission(request, authentication)")
                     .anyRequest()
                     .authenticated()
                 .and()

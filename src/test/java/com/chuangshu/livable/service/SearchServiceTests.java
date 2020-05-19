@@ -132,10 +132,10 @@ public class SearchServiceTests extends LivableApplicationTests {
 //        }
 ////
 
-//        for (int i=154; i<162; i++) {
-//
-//            searchService.index(i);
-//        }
+        for (int i=3; i<76; i++) {
+
+            searchService.index(i);
+        }
 //        System.out.println(houseIndexTemplate);
 //
 //        try {
