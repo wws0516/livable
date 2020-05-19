@@ -112,7 +112,7 @@ public class House {
     private Integer allocationId;
 
     /**
-     * 电梯有无
+     * 状态
      */
     private String status;
 

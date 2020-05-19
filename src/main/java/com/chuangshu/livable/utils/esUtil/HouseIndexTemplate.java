@@ -43,7 +43,7 @@ public class HouseIndexTemplate {
     /**
      * 租金
      */
-    private Integer rent;
+    private String rent;
 
     /**
      * 方式
@@ -63,7 +63,7 @@ public class HouseIndexTemplate {
     /**
      * 电梯有无
      */
-    private Integer elevator;
+    private String elevator;
 
     /**
      * 朝向
@@ -73,17 +73,17 @@ public class HouseIndexTemplate {
     /**
      * 车位有无
      */
-    private Integer carport;
+    private String carport;
 
     /**
      * 电费
      */
-    private Integer energyCharge;
+    private String energyCharge;
 
     /**
      * 水费
      */
-    private Integer waterCharge;
+    private String waterCharge;
 
     /**
      * 特色
@@ -93,7 +93,7 @@ public class HouseIndexTemplate {
     /**
      * 面积
      */
-    private Integer acreage;
+    private String acreage;
 
     /**
      * 布局
@@ -108,7 +108,7 @@ public class HouseIndexTemplate {
     /**
      * 状态
      */
-    private Integer status;
+    private String status;
 
     /**
      * 房产证
