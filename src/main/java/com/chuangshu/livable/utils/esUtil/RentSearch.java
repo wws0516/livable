@@ -17,7 +17,7 @@ public class RentSearch {
     private String rentWay;
     private String rentType;
     private Feature feature;
-    private String keywords;
+    private String keyWords;
     private String orderBy = "rent";
     private String orderDirection = "desc";
     private int start = 0;

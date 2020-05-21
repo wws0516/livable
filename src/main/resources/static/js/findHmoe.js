@@ -98,7 +98,8 @@ $(document).ready(function () {
         $('.tagList>div:last-child').append(inner);
 
         let tag=new FormData();
-        tag.append('city','广州市');
+        tag.append('city',$.cookie('lie').split(' ')[1]);
+        tag.append('region',$.cookie('lie').split(' ')[2]);
         tag.append('feature.independentBathroom','0');
         tag.append('feature.independentBalcony','0');
         tag.append('feature.smartSock','0');

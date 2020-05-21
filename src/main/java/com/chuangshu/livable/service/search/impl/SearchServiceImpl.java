@@ -286,7 +286,7 @@ public class SearchServiceImpl implements ISearchService {
         }
 
         boolQuery.must(
-                QueryBuilders.multiMatchQuery(rentSearch.getKeywords(),
+                QueryBuilders.multiMatchQuery(rentSearch.getKeyWords(),
                         "title",
                         "address",
                         "house_type",
@@ -488,9 +488,9 @@ public class SearchServiceImpl implements ISearchService {
         boolQueryBuilder.must(nestedQueryBuilder);
 
 
-        if (rentSearch.getKeywords()!=null && !rentSearch.getKeywords().isEmpty()) {
+        if (rentSearch.getKeyWords()!=null && !rentSearch.getKeyWords().isEmpty()) {
             boolQueryBuilder.must(
-                    QueryBuilders.multiMatchQuery(rentSearch.getKeywords(),
+                    QueryBuilders.multiMatchQuery(rentSearch.getKeyWords(),
                             HouseIndexKey.TITLE,
                             HouseIndexKey.INTRODUCTION
                     )
