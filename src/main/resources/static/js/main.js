@@ -147,11 +147,15 @@ Interactive.prototype={
                 async: true,
                 data: that.detail,
                 success: function (result) {
-                    console.log(result);
+
                     that.copeResult(result);
                 },
-                error: function () {
-                    PromptBox.displayPromptBox('联系不上服务器啦 - 3 - ');
+                error: function (result) {
+                    switch (result.responseJSON.code) {
+                        case '401':PromptBox.displayPromptBox('请先前往登录页进行登录 - 3 - '),document.location.href='../html/login.html';break;
+                        default:PromptBox.displayPromptBox('联系不上服务器啦 - 3 - ');break;
+                    }
+
                 }
             });break;
         }

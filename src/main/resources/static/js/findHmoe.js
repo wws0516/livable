@@ -143,7 +143,7 @@ $(document).ready(function () {
             detail:tag,
             successCallback:function (result) {
                 $('.homeDeatil').eq(0).html('<div class="col-lg-12 ">\n' +
-                    '                <div>已为您找到<span id="homeNumber">'+result.data.length+'</span>套房</div>\n' +
+                    '                <div>已为您找到<span id="homeNumber">'+(()=>{if (result.data){return result.data.length} return 0 })()+'</span>套房</div>\n' +
                     '                <div class="">\n' +
                     '                    <button class="sort chosedSort">综合排序</button>\n' +
                     '                    <button class="sort">评价最高</button>\n' +
@@ -232,7 +232,7 @@ $(document).ready(function () {
             case '可自行装修':return 'selfDecorating';
             case '首次出租':return 'firstRent';
             case '可立即入住':return 'fullyFurnished';
-            case '地铁十分钟':return 'independentBathroom';
+            case '地铁十分钟':return 'nearbySubway';
             case '随时看房':return 'anyTimeToSee';
             case '随时入住':return 'checkInAtOnce';
             case 'independentBathroom':return '独立卫浴';
@@ -241,7 +241,7 @@ $(document).ready(function () {
             case 'selfDecorating':return '可自行装修';
             case 'firstRent':return '首次出租';
             case 'fullyFurnished':return '拎包入住';
-            case 'independentBathroom':return '地铁十分钟';
+            case 'nearbySubway':return '地铁十分钟';
             case 'anyTimeToSee':return '随时看房';
             case 'checkInAtOnce':return '随时入住';
         }
@@ -262,7 +262,7 @@ $(document).ready(function () {
             detail:mykey,
             successCallback:function (result) {
                 $('.homeDeatil').eq(0).html('<div class="col-lg-12 ">\n' +
-                    '                <div>已为您找到<span id="homeNumber">'+result.data.length+'</span>套房</div>\n' +
+                    '                <div>已为您找到<span id="homeNumber">'+(()=>{if (result.data){return result.data.length} return 0 })()+'</span>套房</div>\n' +
                     '                <div class="">\n' +
                     '                    <button class="sort chosedSort">综合排序</button>\n' +
                     '                    <button class="sort">评价最高</button>\n' +

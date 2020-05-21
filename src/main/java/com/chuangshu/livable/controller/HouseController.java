@@ -239,16 +239,16 @@ public class HouseController {
 
     @DeleteMapping("/deleteHouse")
     @ApiOperation("删除房源信息")
-    @ApiImplicitParam(paramType = "query", name = "houseID", dataType = "Integer",required = true, value = "房源ID")
-    public ResultDTO deleteHouse(Integer houseID){
+    @ApiImplicitParam(paramType = "query", name = "houseId", dataType = "Integer",required = true, value = "房源ID")
+    public ResultDTO deleteHouse(Integer houseId){
         try {
-            houseService.deleteById(houseID);
+            houseService.deleteById(houseId);
             LandlordHouseRelation l = new LandlordHouseRelation();
-            l.setHouseId(houseID);
+            l.setHouseId(houseId);
             Integer relationId = landlordHouseRelationService.findByParams(l).get(0).getRelationId();
             landlordHouseRelationService.deleteById(relationId);
             //删除es索引
-            searchService.remove(houseID);
+            searchService.remove(houseId);
         } catch (Exception e) {
             ResultUtil.Error("500","删除房源失败："+e.getMessage());
         }
