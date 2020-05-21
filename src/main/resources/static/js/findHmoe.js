@@ -109,7 +109,7 @@ $(document).ready(function () {
         tag.append('feature.nearbySubway','0');
         tag.append('feature.anyTimeToSee','0');
         tag.append('feature.checkInAtOnce','0');
-        console.log(this.condition);
+
         for (let i in this.condition){
             if (this.condition[i]!='') {
                 switch (i) {
@@ -131,7 +131,8 @@ $(document).ready(function () {
                     case 'key':tag.append('keyWords',this.condition[i]);break;
                     case 'type':tag.append('rentWay',this.condition[i]);break;
                     case 'tag':for (let x of this.condition.tag){
-                            tag.set('feature.'+this.tagInterpret(x.replace(' ','')),'1');break;
+
+                            tag.set('feature.'+this.tagInterpret(x.replace(' ','')),'1');
                     }
                 }
             }
@@ -223,6 +224,7 @@ $(document).ready(function () {
         }).init();
     }
     information.prototype.tagInterpret=function(value){
+        console.log(value);
         switch (value) {
             case '独立卫浴':return 'independentBathroom';
             case '独立阳台':return 'independentBalcony';

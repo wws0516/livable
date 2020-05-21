@@ -21,7 +21,7 @@ public class RentSearch {
     private String orderBy = "rent";
     private String orderDirection = "desc";
     private int start = 0;
-    private int size = 5;
+    private int size = 20;
 
     public int getStart() {
         return start > 0 ? start : 0;

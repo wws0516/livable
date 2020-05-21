@@ -132,7 +132,10 @@ public class PersonalInformationController {
         userId = Integer.parseInt(request.getSession().getAttribute("userID").toString());
         PersonalInformation personalInformation = new PersonalInformation();
         personalInformation.setUserId(userId);
-        String headPortraitPath = personalInformationService.findByParams(personalInformation).get(0).getHeadPortrait();
+        String headPortraitPath = null;
+        if(personalInformationService.findByParams(personalInformation).size()!=0) {
+            headPortraitPath = personalInformationService.findByParams(personalInformation).get(0).getHeadPortrait();
+        }
         return ResultUtil.Success(headPortraitPath);
     }
 
