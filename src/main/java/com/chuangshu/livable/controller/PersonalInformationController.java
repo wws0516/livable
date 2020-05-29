@@ -166,7 +166,7 @@ public class PersonalInformationController {
         if(ids.size() == 0){
             return ResultUtil.Error("500","没有这个人的资料");
         }
-        IdInformation returnIdInformation = idInformationService.findByParams(idInformation).get(0);
+        IdInformation returnIdInformation = ids.get(0);
         return ResultUtil.Success(returnIdInformation);
     }
 }
