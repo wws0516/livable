@@ -100,6 +100,9 @@ public class LookingController {
         List<Looking> lookingList = lookingService.findByParams(looking);
         List<LookDTO> lookDTOS = new ArrayList<>();
         for(Looking l: lookingList){
+            if(houseService.get(l.getHouseId()) == null){
+                continue;
+            }
             lookDTOS.add(new LookDTO(l,userService.get(landlordHouseRelationService.findByParams(new LandlordHouseRelation(l.getHouseId())).get(0).getUserId()).getName()));
         }
         return ResultUtil.Success(lookDTOS);
